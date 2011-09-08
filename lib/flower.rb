@@ -14,12 +14,14 @@ class Flower
     require File.expand_path(File.join(File.dirname(__FILE__), "..", file))
   end
 
-  attr_accessor :messages_url, :post_url, :flow_url, :session, :users
+  attr_accessor :messages_url, :post_url, :flow_url, :session, :users, :pid, :nick
 
   def initialize
     self.messages_url = base_url + "/flows/#{Flower::Config.flow}/apps/chat/messages"
     self.post_url     = base_url + "/messages"
     self.flow_url     = base_url + "/flows/#{Flower::Config.flow}.json"
+    self.nick         = Flower::Config.bot_nick
+    self.pid          = Process.pid
     self.session      = Session.new()
     self.users        = {}
   end
@@ -80,7 +82,7 @@ class Flower
   end
 
   def bot_message(content)
-    content.respond_to?(:match) && content.match(/^#{Flower::Config.bot_nick}[\s|,|:]*(.*)/i)
+    content.respond_to?(:match) && content.match(/^#{nick}[\s|,|:]*(.*)/i)
   end
 
   def post(message, tags = nil)
