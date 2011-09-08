@@ -39,6 +39,7 @@ class Flower
   def boot!
     session.login
     get_users!
+    greet_users!
     monitor!
   end
 
@@ -58,6 +59,10 @@ class Flower
     data["users"].map{|u| u["user"] }.each do |user|
       self.users[user["id"]] = {:id => user["id"], :nick => user["nick"]}
     end
+  end
+
+  def greet_users!
+    say("I'm now online and responding to \\\"#{nick}\\\"! My pid is #{pid}.")
   end
 
   def get_messages
