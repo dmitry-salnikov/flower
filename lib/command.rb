@@ -18,6 +18,6 @@ class Flower::Command
 
   private
   def self.post_error(error, command, message, sender, flower)
-    flower.say("Command `#{command}` raised error: #{error}")
+    flower.say(":( `#{command}` raised error: #{error}")
   end
 end
