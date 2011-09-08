@@ -84,7 +84,8 @@ class Flower
   end
 
   def post(message, tags = nil)
-    session.post(post_url, :message => "\"#{message}\"", :tags => tags, :app => "chat", :event => "message", :channel => "/flows/main")
+    session.post(post_url, :message => "\"#{message}\"", :tags => tags, :app => "chat", :event => "message",
+      :channel => "/flows/#{Flower::Config.flow}", :private => false)
   end
 
   def parse_tags(options)
