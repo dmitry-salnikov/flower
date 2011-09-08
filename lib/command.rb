@@ -12,5 +12,12 @@ class Flower::Command
   def self.delegate_command(command, message, sender, flower)
     return false if Flower::COMMANDS[command].nil?
     Flower::COMMANDS[command].respond(command, message, sender, flower)
+  rescue => error
+    post_error(error, command, message, sender, flower)
+  end
+
+  private
+  def self.post_error(error, command, message, sender, flower)
+    flower.say("Command `#{command}` raised error: #{error}")
   end
 end
