@@ -5,3 +5,7 @@ gem "rake",      "~> 0.9.2"
 group :test do
   gem "rspec",   "~> 2.6.0"
 end
+
+platforms :ruby_18 do
+  gem "json",    "~> 1.5.4"
+end
