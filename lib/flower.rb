@@ -73,7 +73,7 @@ class Flower
         yield messages
         since = messages.last["sent"]
       end
-      sleep(5)
+      sleep(3)
     end
   end
   
