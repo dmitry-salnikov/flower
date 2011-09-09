@@ -40,6 +40,7 @@ class Volume < Flower::Command
   end
 
   def self.say_current_vol(flower)
-    flower.say("[#{"="*(current_volume/2)}#{"-"*((100-current_volume)/2)}]")
+    meter = "="*(current_volume/3)
+    flower.paste("[#{meter.ljust(33)}]")
   end
 end
