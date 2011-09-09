@@ -6,7 +6,9 @@ class Stats < Flower::Command
   def self.respond(command, message, sender, flower)
     case message
     when "online"
-      flower.say("Online right now: #{online_right_now}", :mention => sender[:id])
+      say_online
+    else
+      say_online
     end
   end
 
@@ -14,6 +16,11 @@ class Stats < Flower::Command
     "stats: 'online' - Online right now"
   end
 
+  def say_online
+    flower.say("Online right now: #{online_right_now}", :mention => sender[:id])
+  end
+
+  private
   # stats
   def self.online_right_now
     require 'open-uri'
