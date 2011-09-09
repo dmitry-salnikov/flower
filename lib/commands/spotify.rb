@@ -43,9 +43,9 @@ class Spotify < Flower::Command
     "
       tell application \"Spotify\" to quit
       tell application \"System Events\"
+        open location \"spotify:search:#{query}\"
+        delay 2
         tell process \"Spotify\"
-          open location \"spotify:search:#{query}\"
-          delay 2
           tell application \"Spotify\" to activate
           keystroke tab
           keystroke return
