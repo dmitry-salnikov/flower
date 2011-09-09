@@ -48,7 +48,8 @@ class Spotify < Flower::Command
           keystroke \"#{query}\"
           keystroke return
           delay 1
-          keystroke tab
+          click menu item 18 of menu 1 of menu bar item 4 of menu bar 1
+          key code 53
           keystroke tab
           keystroke tab
           keystroke return
