@@ -27,7 +27,7 @@ class Spotify < Flower::Command
   end
 
   def self.description
-    "Controll spotify with \\\"play next/prev/query'\\\", \\\"pause\\\", \\\"track\\\""
+    "Spotify: \\\"play next/prev/query\\\", \\\"pause\\\", \\\"track\\\""
   end
 
   private

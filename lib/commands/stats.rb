@@ -13,7 +13,7 @@ class Stats < Flower::Command
   end
 
   def self.description
-    "stats: 'online' - Online right now"
+    "Online right now"
   end
 
   def say_online
