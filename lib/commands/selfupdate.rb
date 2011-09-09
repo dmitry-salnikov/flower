@@ -14,6 +14,6 @@ class Selfupdate < Flower::Command
   end
   
   def self.description
-    "Do a 'git pull' and restart Flower"
+    "Fetch latest version and restart Flower"
   end
 end
