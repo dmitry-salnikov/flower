@@ -41,12 +41,15 @@ class Spotify < Flower::Command
 
   def self.search_applescript(query)
     "
-      tell application \"Spotify\" to quit
       tell application \"System Events\"
-        open location \"spotify:search:#{query}\"
-        delay 2
         tell process \"Spotify\"
           tell application \"Spotify\" to activate
+          click menu item 17 of menu 1 of menu bar item 4 of menu bar 1
+          keystroke \"#{query}\"
+          keystroke return
+          delay 1
+          keystroke tab
+          keystroke tab
           keystroke tab
           keystroke return
         end tell
