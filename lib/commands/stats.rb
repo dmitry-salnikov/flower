@@ -17,7 +17,7 @@ class Stats < Flower::Command
   end
 
   def say_online
-    flower.say("Online right now: #{online_right_now}", :mention => sender[:id])
+    flower.say("Online right now: #{online_right_now}")
   end
 
   private
