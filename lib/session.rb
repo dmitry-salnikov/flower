@@ -21,6 +21,7 @@ class Flower::Session
   def get_json(url, params = {})
     response = Typhoeus::Request.get(url, :params => params,
       :headers => {:Cookie => cookie})
+    return {} if response.body.empty?
     JSON.parse(response.body)
   end
 
