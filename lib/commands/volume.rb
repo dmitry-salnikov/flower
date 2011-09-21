@@ -7,7 +7,6 @@ class Volume < Flower::Command
     else
       if validate_message(up_or_down)
         adjust_volume(up_or_down)
-        say_current_vol(flower)
       else
         flower.say("Please use only + or -", :mention => sender[:id])
       end
