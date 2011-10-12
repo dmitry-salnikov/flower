@@ -7,7 +7,7 @@ class Lunch < Flower::Command
     "Lunch menues, try 'ringos'"
   end
 
-  def self.respond(message)
+  def self.respond(command, message, sender, flower)
     flower.paste(fetch_ringos, :mention => sender[:id])
   end
 
@@ -15,6 +15,6 @@ class Lunch < Flower::Command
 
   def self.fetch_ringos
     doc = Nokogiri.HTML(open("http://www.kvartersmenyn.se/start/city/1/23").read)
-    doc.at_css("span a[href='http://ringos.kvartersmenyn.se/']").ancestors("table").at_css("td:nth-child(2)").inner_html.gsub(/<div.*<\/div>/,"").strip
+    doc.at_css("span a[href='http://ringos.kvartersmenyn.se/']").ancestors("table").at_css("td:nth-child(2)").inner_html.gsub(/<div.*<\/div>/,"").gsub("<br>", "\n").strip
   end
 end
