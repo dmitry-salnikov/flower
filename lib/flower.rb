@@ -87,7 +87,7 @@ class Flower
   end
 
   def bot_message(content)
-    content.respond_to?(:match) && content.match(/^#{nick}[\s|,|:]*(.*)/i)
+    content.respond_to?(:match) && content.match(/^(?:bot|!)[\s|,|:]*(.*)/i)
   end
 
   def post(message, tags = nil)
