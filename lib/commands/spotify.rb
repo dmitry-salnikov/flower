@@ -30,7 +30,24 @@ class Spotify < Flower::Command
     "Spotify: \\\"play next/prev/query\\\", \\\"pause\\\", \\\"track\\\""
   end
 
+  def self.lower_spotify
+    100.downto(50) do |i|
+      set_volume i
+      sleep 0.001
+    end
+    yield
+    50.upto(100) do |i|
+      set_volume i
+      sleep "0.00#{i}".to_f
+    end
+  end
+
   private
+
+  def self.set_volume(volume)
+    Appscript::app("Spotify").sound_volume.set volume
+  end
+
   def self.get_current_track
     "Playing: #{spotify.current_track.artist.get} - #{spotify.current_track.name.get}"
   end
