@@ -12,34 +12,37 @@ class Flower::Session
   def login
     require 'em-http'
     post_data = {:user_session => {:email => email, :password => password}}
-    EM::HttpRequest.new(login_url).post(:head => {'Content-Type' => 'application/x-www-form-urlencoded'}, :body => post_data).callback do |http|
-      # TODO: handle code != 302
-      @cookie = http.response_header["SET_COOKIE"].join("; ")
-      handshake
+    http = EM::HttpRequest.new(login_url).post(:head => {'Content-Type' => 'application/x-www-form-urlencoded'}, :body => post_data)
+    http.callback do |http|
+      if http.response_header["STATUS"] == "302"
+        @cookie = http.response_header["SET_COOKIE"].join("; ")
+        handshake
+      else
+        raise "error on connect..."
+      end
     end
   end
 
   def handshake
-    EM::HttpRequest.new("https://mynewsdesk.flowdock.com/flows/#{Flower::Config.flow}.json").get(:head => {'cookie' => @cookie}).callback { |http|
+    http = EM::HttpRequest.new("https://mynewsdesk.flowdock.com/flows/#{Flower::Config.flow}.json").get(:head => {'cookie' => @cookie})
+    http.callback do |http|
       join
-    }
+    end
   end
 
   def join
-    EM::HttpRequest.new("https://mynewsdesk.flowdock.com/messages").post(
+    post_data = {:channel => "/meta", :event => "join", :message => "{\"channel\":\"/flows/#{Flower::Config.flow}\",\"client\":\"jnfEIHE23ff\"}"}
+    http = EM::HttpRequest.new("https://mynewsdesk.flowdock.com/messages").post(
       :keepalive => true,
       :head => {
         'cookie' => @cookie,
         'Content-Type' => 'application/x-www-form-urlencoded'
       },
-      :body => {
-        :channel => '/meta',
-        :event => 'join',
-        :message => "{\"channel\":\"/flows/#{Flower::Config.flow}\",\"client\":\"jnfEIHE23ff\"}"
-      }
-    ).callback { |http|
+      :body => post_data
+    )
+    http.callback do |http|
       subscribe
-    }
+    end
   end
 
   def subscribe
@@ -49,7 +52,6 @@ class Flower::Session
     parser.on_parse_complete = proc do |data|
       flower.respond_to data if data[:event] == "message" && data[:sent] > start_time
     end
-    puts "subscribe!"
     http = EM::HttpRequest.new("https://mynewsdesk.flowdock.com/messages").get(
       :query => {:ack => -1,:mode => 'stream2',:last_activity => Time.now.to_i,:client => "jnfEIHE23ff"},
       :keepalive => true,
@@ -60,29 +62,21 @@ class Flower::Session
       begin
         parser << chunk;
       rescue Yajl::ParseError
-        puts "yajl error"
       end
     end
     http.errback do
-      puts "error connection"
-      subscribe
+      subscribe # reconnecting
     end
   end
 
 
   def post(message, tags)
-    puts "posting!!!!!"
-    data = {}
-    data["message"] = "\"#{message}\""
-    data["app"] = "chat"
-    data["event"] = "message"
-    data["tags"] = (tags || []).join(" ")
-    data["channel"] = "/flows/#{Flower::Config.flow}"
+    post_data = {:message => "\"#{message}\"", :app => "chat", :event => "message", :tags => (tags || []).join(" "), :channel => "/flows/#{Flower::Config.flow}"}
     EM::HttpRequest.new("https://mynewsdesk.flowdock.com/messages").post(:head => {
         'cookie' => @cookie,
         'Content-Type' => 'application/x-www-form-urlencoded'
       },
-      :body => data).callback{ |http|
+      :body => post_data).callback{ |http|
         puts http.response
       }
   end
