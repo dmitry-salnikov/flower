@@ -19,17 +19,19 @@ class Flower
   attr_accessor :messages_url, :post_url, :flow_url, :session, :users, :pid, :nick
 
   def initialize
-    self.messages_url = base_url + "/flows/#{Flower::Config.flow}/apps/chat/messages"
-    self.post_url     = base_url + "/messages"
-    self.flow_url     = base_url + "/flows/#{Flower::Config.flow}.json"
+    # self.messages_url = base_url + "/flows/#{Flower::Config.flow}/apps/chat/messages"
+    # self.post_url     = base_url + "/messages"
+    # self.flow_url     = base_url + "/flows/#{Flower::Config.flow}.json"
     self.nick         = Flower::Config.bot_nick
     self.pid          = Process.pid
     self.session      = Session.new(self)
     self.users        = {}
   end
 
-  def say(message, options = {})
-    post(message, parse_tags(options))
+  def boot!
+    EM.run {
+    session.login
+    }
   end
 
   def paste(message, options = {})
@@ -38,13 +40,8 @@ class Flower
     post(message, parse_tags(options))
   end
 
-  def boot!
-    EM.run {
-    session.login
-    # get_users!
-    # greet_users!
-    # monitor!
-    }
+  def say(message, options = {})
+    post(message, parse_tags(options))
   end
 
   def respond_to(message_json)
@@ -60,32 +57,13 @@ class Flower
     end
   end
 
-
-  private
-  def base_url
-    "https://#{Flower::Config.company.downcase}.flowdock.com"
+  def greet_users
+    say("I'm now online and responding to \\\"#{nick}\\\"! My pid is #{pid}.")
   end
 
-  # def monitor!
-  #   get_messages do |messages|
-  #     respond_to(messages)
-  #   end
-  # end
-
-  # def greet_users!
-  #   say("I'm now online and responding to \\\"#{nick}\\\"! My pid is #{pid}.")
-  # end
-
-  # def get_messages
-  #   since = nil
-  #   while(true) do
-  #     messages = session.get_json(messages_url, :after_time => since, :count => (since ? 5 : 1))
-  #     if !messages.empty?
-  #       yield messages
-  #       since = messages.last["sent"]
-  #     end
-  #     sleep(3)
-  #   end
+  private
+  # def base_url
+  #   "https://#{Flower::Config.company.downcase}.flowdock.com"
   # end
 
   def bot_message(content)
