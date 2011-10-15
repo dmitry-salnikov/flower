@@ -50,25 +50,25 @@ class Flower
   def respond_to(message_json)
       if match = bot_message(message_json[:content])
         match = match.to_a[1].split
-        Flower::Command.delegate_command(match.shift || "", match.join(" "), users[message_json["user"].to_i], self)
+        Flower::Command.delegate_command(match.shift || "", match.join(" "), users[message_json[:user].to_i], self)
       end
   end
+
+  def get_users(users_json)
+    users_json.map{|u| u["user"] }.each do |user|
+      self.users[user["id"]] = {:id => user["id"], :nick => user["nick"]}
+    end
+  end
+
 
   private
   def base_url
     "https://#{Flower::Config.company.downcase}.flowdock.com"
   end
 
-  def monitor!
-    get_messages do |messages|
-      respond_to(messages)
-    end
-  end
-
-  # def get_users!
-  #   data = session.get_json(flow_url)
-  #   data["users"].map{|u| u["user"] }.each do |user|
-  #     self.users[user["id"]] = {:id => user["id"], :nick => user["nick"]}
+  # def monitor!
+  #   get_messages do |messages|
+  #     respond_to(messages)
   #   end
   # end
 
@@ -98,7 +98,7 @@ class Flower
 
   def parse_tags(options)
     if options[:mention]
-      ":highlight:#{options[:mention]}"
+      [":highlight:#{options[:mention]}"]
     end
   end
 end

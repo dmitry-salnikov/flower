@@ -26,6 +26,7 @@ class Flower::Session
   def handshake
     http = EM::HttpRequest.new("https://mynewsdesk.flowdock.com/flows/#{Flower::Config.flow}.json").get(:head => {'cookie' => @cookie})
     http.callback do |http|
+      flower.get_users(JSON.parse(http.response)["users"])
       join
     end
   end
@@ -72,12 +73,7 @@ class Flower::Session
 
   def post(message, tags)
     post_data = {:message => "\"#{message}\"", :app => "chat", :event => "message", :tags => (tags || []).join(" "), :channel => "/flows/#{Flower::Config.flow}"}
-    EM::HttpRequest.new("https://mynewsdesk.flowdock.com/messages").post(:head => {
-        'cookie' => @cookie,
-        'Content-Type' => 'application/x-www-form-urlencoded'
-      },
-      :body => post_data).callback{ |http|
-        puts http.response
-      }
+    EM::HttpRequest.new("https://mynewsdesk.flowdock.com/messages").post(:head => {'cookie' => @cookie,'Content-Type' => 'application/x-www-form-urlencoded'},
+      :body => post_data)
   end
 end
