@@ -42,6 +42,7 @@ class Flower::Session
       :body => post_data
     )
     http.callback do |http|
+      flower.greet_users
       subscribe
     end
   end
