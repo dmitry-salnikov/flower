@@ -3,7 +3,7 @@ class Selfupdate < Flower::Command
   def self.respond(command, message, sender, flower)
     if message == "reboot"
       flower.say("Rebooting...")
-      exec("rake run &")
+      exec("rake run")
     else
       system("git fetch")
       diff = `git log --decorate --left-right --graph --cherry-pick --oneline master...origin/master`
@@ -14,7 +14,7 @@ class Selfupdate < Flower::Command
         flower.say("Applying updates and rebooting:")
         flower.paste(diff)
         system("git pull --rebase")
-        exec("rake run &")
+        exec("rake run")
       end
     end
   end
