@@ -3,8 +3,8 @@ require 'em-http'
 class Flower::Session
   attr_accessor :login_url, :email, :password, :cookie, :flower
 
+  LOGIN_URL = "https://www.flowdock.com/session"
   def initialize(flower)
-    self.login_url = "https://www.flowdock.com/session"
     self.email     = Flower::Config.email
     self.password  = Flower::Config.password
     self.flower = flower
@@ -13,13 +13,16 @@ class Flower::Session
   def login
     require 'em-http'
     post_data = {:user_session => {:email => email, :password => password}}
-    http = EM::HttpRequest.new(login_url).post(:head => {'Content-Type' => 'application/x-www-form-urlencoded'}, :body => post_data)
+    http = EM::HttpRequest.new(LOGIN_URL).post(
+      :head => {'Content-Type' => 'application/x-www-form-urlencoded'},
+      :body => post_data
+    )
     http.callback do |http|
-      if http.response_header["STATUS"] == "302"
-        @cookie = http.response_header["SET_COOKIE"].join("; ")
+      if http.response_header.status == 302
+        @cookie = http.response_header.cookie
         handshake
       else
-        raise "error on connect..."
+        raise "Error on connect..."
       end
     end
   end
@@ -35,7 +38,6 @@ class Flower::Session
   def join
     post_data = {:channel => "/meta", :event => "join", :message => "{\"channel\":\"/flows/#{Flower::Config.flow}\",\"client\":\"jnfEIHE23ff\"}"}
     http = EM::HttpRequest.new("https://mynewsdesk.flowdock.com/messages").post(
-      :keepalive => true,
       :head => {
         'cookie' => @cookie,
         'Content-Type' => 'application/x-www-form-urlencoded'
