@@ -11,7 +11,9 @@ class Flower::Command
 
   def self.delegate_command(command, message, sender, flower)
     return false if Flower::COMMANDS[command].nil?
-    Flower::COMMANDS[command].respond(command, message, sender, flower)
+    Thread.new do
+      Flower::COMMANDS[command].respond(command, message, sender, flower)
+    end
   rescue => error
     post_error(error, command, message, sender, flower)
     puts error
