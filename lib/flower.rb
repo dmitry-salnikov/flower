@@ -1,8 +1,8 @@
 require "rubygems"
 require "bundler/setup"
-require 'typhoeus'
 require 'json'
 require 'eventmachine'
+require 'em-http'
 require 'yajl'
 
 class Flower

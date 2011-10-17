@@ -1,4 +1,5 @@
-require 'pry'
+require 'eventmachine'
+require 'em-http'
 class Flower::Session
   attr_accessor :login_url, :email, :password, :cookie, :flower
 
