@@ -14,6 +14,8 @@ class Flower::Command
     Flower::COMMANDS[command].respond(command, message, sender, flower)
   rescue => error
     post_error(error, command, message, sender, flower)
+    puts error
+    puts error.backtrace
   end
 
   private

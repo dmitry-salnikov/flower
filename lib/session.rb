@@ -1,32 +1,83 @@
+require 'eventmachine'
+require 'em-http'
 class Flower::Session
-  attr_accessor :login_url, :email, :password, :cookie
+  attr_accessor :login_url, :email, :password, :cookie, :flower
 
-  def initialize
-    self.login_url = "https://www.flowdock.com/session"
+  LOGIN_URL = "https://www.flowdock.com/session"
+  def initialize(flower)
     self.email     = Flower::Config.email
     self.password  = Flower::Config.password
+    self.flower = flower
   end
 
   def login
-    response = Typhoeus::Request.post(login_url,
-      :params => {:user_session => {:email => email, :password => password}})
-    if response.code == 302
-      self.cookie = response.headers_hash['Set-Cookie'].join("; ")
-    else
-      warn(" Could not log into Flow - Please set EMAIL and PASSWORD environment variables")
-      exit
+    require 'em-http'
+    post_data = {:user_session => {:email => email, :password => password}}
+    http = EM::HttpRequest.new(LOGIN_URL).post(
+      :head => {'Content-Type' => 'application/x-www-form-urlencoded'},
+      :body => post_data
+    )
+    http.callback do |http|
+      if http.response_header.status == 302
+        @cookie = http.response_header.cookie
+        handshake
+      else
+        raise "Error on connect..."
+      end
     end
   end
 
-  def get_json(url, params = {})
-    response = Typhoeus::Request.get(url, :params => params,
-      :headers => {:Cookie => cookie})
-    return {} if response.body.empty?
-    JSON.parse(response.body)
+  def handshake
+    http = EM::HttpRequest.new("https://mynewsdesk.flowdock.com/flows/#{Flower::Config.flow}.json").get(:head => {'cookie' => @cookie})
+    http.callback do |http|
+      flower.get_users(JSON.parse(http.response)["users"])
+      join
+    end
   end
 
-  def post(url, params)
-    Typhoeus::Request.post(url, :params => params, :headers => {:Cookie => cookie})
-    return true
+  def join
+    post_data = {:channel => "/meta", :event => "join", :message => "{\"channel\":\"/flows/#{Flower::Config.flow}\",\"client\":\"jnfEIHE23ff\"}"}
+    http = EM::HttpRequest.new("https://mynewsdesk.flowdock.com/messages").post(
+      :head => {
+        'cookie' => @cookie,
+        'Content-Type' => 'application/x-www-form-urlencoded'
+      },
+      :body => post_data
+    )
+    http.callback do |http|
+      flower.greet_users
+      subscribe
+    end
+  end
+
+  def subscribe
+    start_time = (Time.now.to_f*1000).to_i
+    parser = Yajl::Parser.new(:symbolize_keys => true)
+
+    parser.on_parse_complete = proc do |data|
+      flower.respond_to data if data[:event] == "message" && data[:sent] > start_time
+    end
+    http = EM::HttpRequest.new("https://mynewsdesk.flowdock.com/messages").get(
+      :query => {:ack => -1,:mode => 'stream2',:last_activity => Time.now.to_i,:client => "jnfEIHE23ff"},
+      :keepalive => true,
+      :head => {'cookie' => @cookie,'Content-Type' => 'application/x-www-form-urlencoded'}
+    )
+    
+    http.stream do |chunk|
+      begin
+        parser << chunk;
+      rescue Yajl::ParseError
+      end
+    end
+    http.errback do
+      subscribe # reconnecting
+    end
+  end
+
+
+  def post(message, tags)
+    post_data = {:message => "\"#{message}\"", :app => "chat", :event => "message", :tags => (tags || []).join(" "), :channel => "/flows/#{Flower::Config.flow}"}
+    EM::HttpRequest.new("https://mynewsdesk.flowdock.com/messages").post(:head => {'cookie' => @cookie,'Content-Type' => 'application/x-www-form-urlencoded'},
+      :body => post_data)
   end
 end

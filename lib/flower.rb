@@ -1,7 +1,9 @@
 require "rubygems"
 require "bundler/setup"
-require 'typhoeus'
 require 'json'
+require 'eventmachine'
+require 'em-http'
+require 'yajl'
 
 class Flower
   require File.expand_path(File.join(File.dirname(__FILE__), 'session'))
@@ -17,17 +19,16 @@ class Flower
   attr_accessor :messages_url, :post_url, :flow_url, :session, :users, :pid, :nick
 
   def initialize
-    self.messages_url = base_url + "/flows/#{Flower::Config.flow}/apps/chat/messages"
-    self.post_url     = base_url + "/messages"
-    self.flow_url     = base_url + "/flows/#{Flower::Config.flow}.json"
     self.nick         = Flower::Config.bot_nick
     self.pid          = Process.pid
-    self.session      = Session.new()
+    self.session      = Session.new(self)
     self.users        = {}
   end
 
-  def say(message, options = {})
-    post(message, parse_tags(options))
+  def boot!
+    EM.run {
+    session.login
+    }
   end
 
   def paste(message, options = {})
@@ -36,68 +37,40 @@ class Flower
     post(message, parse_tags(options))
   end
 
-  def boot!
-    session.login
-    get_users!
-    greet_users!
-    monitor!
+  def say(message, options = {})
+    post(message, parse_tags(options))
   end
 
-  private
-  def base_url
-    "https://#{Flower::Config.company.downcase}.flowdock.com"
+  def respond_to(message_json)
+      if match = bot_message(message_json[:content])
+        match = match.to_a[1].split
+        Flower::Command.delegate_command(match.shift || "", match.join(" "), users[message_json[:user].to_i], self)
+      end
   end
 
-  def monitor!
-    get_messages do |messages|
-      respond_to(messages)
-    end
-  end
-
-  def get_users!
-    data = session.get_json(flow_url)
-    data["users"].map{|u| u["user"] }.each do |user|
+  def get_users(users_json)
+    users_json.map{|u| u["user"] }.each do |user|
       self.users[user["id"]] = {:id => user["id"], :nick => user["nick"]}
     end
   end
 
-  def greet_users!
+  def greet_users
     say("I'm now online and responding to \\\"#{nick}\\\"! My pid is #{pid}.")
   end
 
-  def get_messages
-    since = nil
-    while(true) do
-      messages = session.get_json(messages_url, :after_time => since, :count => (since ? 5 : 1))
-      if !messages.empty?
-        yield messages
-        since = messages.last["sent"]
-      end
-      sleep(3)
-    end
-  end
-  
-  def respond_to(messages)
-    messages.each do |message_json|
-      if match = bot_message(message_json["content"])
-        match = match.to_a[1].split
-        Flower::Command.delegate_command(match.shift || "", match.join(" "), users[message_json["user"].to_i], self)
-      end
-    end
-  end
+  private
 
   def bot_message(content)
     content.respond_to?(:match) && content.match(/^(?:bot|!)[\s|,|:]*(.*)/i)
   end
 
   def post(message, tags = nil)
-    session.post(post_url, :message => "\"#{message}\"", :tags => tags, :app => "chat", :event => "message",
-      :channel => "/flows/#{Flower::Config.flow}", :private => false)
+    session.post(message, tags)
   end
 
   def parse_tags(options)
     if options[:mention]
-      ":highlight:#{options[:mention]}"
+      [":highlight:#{options[:mention]}"]
     end
   end
 end
