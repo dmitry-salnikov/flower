@@ -19,9 +19,6 @@ class Flower
   attr_accessor :messages_url, :post_url, :flow_url, :session, :users, :pid, :nick
 
   def initialize
-    # self.messages_url = base_url + "/flows/#{Flower::Config.flow}/apps/chat/messages"
-    # self.post_url     = base_url + "/messages"
-    # self.flow_url     = base_url + "/flows/#{Flower::Config.flow}.json"
     self.nick         = Flower::Config.bot_nick
     self.pid          = Process.pid
     self.session      = Session.new(self)
@@ -62,9 +59,6 @@ class Flower
   end
 
   private
-  # def base_url
-  #   "https://#{Flower::Config.company.downcase}.flowdock.com"
-  # end
 
   def bot_message(content)
     content.respond_to?(:match) && content.match(/^(?:bot|!)[\s|,|:]*(.*)/i)

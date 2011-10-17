@@ -41,7 +41,6 @@ describe Flower::Session do
       @session.should_receive(:join)
       Flower.any_instance.should_receive(:get_users).with(users)
       EM.run {
-        puts "in em.run"
         @session.handshake
         EM.stop
       }
