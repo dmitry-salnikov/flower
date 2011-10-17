@@ -1,13 +1,14 @@
 require 'eventmachine'
 require 'em-http'
 class Flower::Session
-  attr_accessor :login_url, :email, :password, :cookie, :flower
+  attr_accessor :login_url, :email, :password, :cookie, :flower, :client_id
 
   LOGIN_URL = "https://www.flowdock.com/session"
   def initialize(flower)
     self.email     = Flower::Config.email
     self.password  = Flower::Config.password
     self.flower = flower
+    self.client_id = rand(36**16).to_s(36)
   end
 
   def login
@@ -36,7 +37,7 @@ class Flower::Session
   end
 
   def join
-    post_data = {:channel => "/meta", :event => "join", :message => "{\"channel\":\"/flows/#{Flower::Config.flow}\",\"client\":\"jnfEIHE23ff\"}"}
+    post_data = {:channel => "/meta", :event => "join", :message => "{\"channel\":\"/flows/#{Flower::Config.flow}\",\"client\":\"#{client_id}\"}"}
     http = EM::HttpRequest.new("https://mynewsdesk.flowdock.com/messages").post(
       :head => {
         'cookie' => @cookie,
@@ -58,7 +59,7 @@ class Flower::Session
       flower.respond_to data if data[:event] == "message" && data[:sent] > start_time
     end
     http = EM::HttpRequest.new("https://mynewsdesk.flowdock.com/messages").get(
-      :query => {:ack => -1,:mode => 'stream2',:last_activity => Time.now.to_i,:client => "jnfEIHE23ff"},
+      :query => {:ack => -1,:mode => 'stream2',:last_activity => Time.now.to_i,:client => client_id},
       :keepalive => true,
       :head => {'cookie' => @cookie,'Content-Type' => 'application/x-www-form-urlencoded'}
     )
