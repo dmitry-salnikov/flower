@@ -56,7 +56,8 @@ class Flower::Session
     parser = Yajl::Parser.new(:symbolize_keys => true)
 
     parser.on_parse_complete = proc do |data|
-      flower.respond_to data if data[:event] == "message" && data[:sent] > start_time
+      puts data.inspect
+      flower.respond_to data if data[:event] == "message" && data[:sent] > start_time && data[:flow] == Flower::Config.flow
     end
     http = EM::HttpRequest.new("https://mynewsdesk.flowdock.com/messages").get(
       :query => {:ack => -1,:mode => 'stream2',:last_activity => Time.now.to_i,:client => client_id},
