@@ -48,9 +48,8 @@ describe Flower::Session do
   end
 
   describe "#join" do
-    it "should do a post request and call Flower#greet_users and Session#subscribe" do
+    it "should do a post request and call Session#subscribe" do
       stub_request(:post, "https://mynewsdesk.flowdock.com/messages")
-      Flower.any_instance.should_receive(:greet_users)
       @session.should_receive(:subscribe)
       EM.run {
         @session.join

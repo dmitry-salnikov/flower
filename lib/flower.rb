@@ -54,10 +54,6 @@ class Flower
     end
   end
 
-  def greet_users
-    say("I'm now online and responding to \\\"#{nick}\\\"! My pid is #{pid}.")
-  end
-
   private
 
   def bot_message(content)
