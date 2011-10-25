@@ -63,6 +63,10 @@ class Flower::Session
       :keepalive => true,
       :head => {'cookie' => @cookie,'Content-Type' => 'application/x-www-form-urlencoded'}
     )
+
+    http.callback do |http|
+      join
+    end
     
     http.stream do |chunk|
       begin
