@@ -7,6 +7,6 @@ class Sidsldl < Flower::Command
   end
 
   def self.listen(message, sender, flower)
-    flower.say("Skit i det #{sender[:nick]} så lever du längre!", :mention => sender[:id])
+    flower.say("#{sender[:nick]}, skit i det så lever du längre!", :mention => sender[:id])
   end
 end
