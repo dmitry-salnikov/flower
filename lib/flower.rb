@@ -11,6 +11,7 @@ class Flower
   require File.expand_path(File.join(File.dirname(__FILE__), 'config'))
 
   COMMANDS = {} # We are going to load available commands in here
+  LISTENERS = {} # We are going to load available monitors in here
 
   Dir.glob("lib/commands/**/*.rb").each do |file|
     require File.expand_path(File.join(File.dirname(__FILE__), "..", file))
@@ -45,6 +46,8 @@ class Flower
       if match = bot_message(message_json[:content])
         match = match.to_a[1].split
         Flower::Command.delegate_command(match.shift || "", match.join(" "), users[message_json[:user].to_i], self)
+      else
+        Flower::Command.trigger_listeners(message_json[:content], users[message_json[:user].to_i], self) unless from_self?(message_json)
       end
   end
 
@@ -55,6 +58,10 @@ class Flower
   end
 
   private
+
+  def from_self?(message_json)
+    users[message_json[:user].to_i][:nick] == nick
+  end
 
   def bot_message(content)
     content.respond_to?(:match) && content.match(/^(?:bot|!)[\s|,|:]*(.*)/i)

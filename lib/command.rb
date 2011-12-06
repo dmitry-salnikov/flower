@@ -9,6 +9,16 @@ class Flower::Command
     end
   end
 
+  def self.listen_to(*regexps)
+    regexps.each do |regexp|
+      if Flower::LISTENERS[regexp]
+        warn "Listener already defined: #{regexp}"
+      else
+        Flower::LISTENERS[regexp] = self
+      end
+    end
+  end
+
   def self.delegate_command(command, message, sender, flower)
     return false if Flower::COMMANDS[command].nil?
     Thread.new do
@@ -16,6 +26,20 @@ class Flower::Command
     end
   rescue => error
     post_error(error, command, message, sender, flower)
+    puts error
+    puts error.backtrace
+  end
+
+
+  def self.trigger_listeners(message, sender, flower)
+    return false if Flower::LISTENERS.empty?
+    Flower::LISTENERS.each do |regexp, command|
+      Thread.new do
+        command.listen(message, sender, flower) if message.match(regexp)
+      end
+    end
+  rescue => error
+    post_error(error, "", message, sender, flower)
     puts error
     puts error.backtrace
   end
