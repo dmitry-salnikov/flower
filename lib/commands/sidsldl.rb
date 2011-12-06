@@ -1,6 +1,6 @@
 # encoding: utf-8
 class Sidsldl < Flower::Command
-  listen_to /varför.*\?/i
+  listen_to /(david.*varför|varför.*david).*\?/i
   
   def self.description
     "Skit i det så lever du längre"
