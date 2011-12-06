@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 class Help < Flower::Command
-  respond_to "help", "hjälp"
+  respond_to "help", "hjälp", "?"
 
   def self.respond(command, message, sender, flower)
     flower.say("Available commands:")
