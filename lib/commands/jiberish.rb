@@ -1,14 +1,19 @@
 # encoding: utf-8
 
-class Buzz < Flower::Command
-  respond_to "floskel", "buzz", "jiberish", "bizniz"
+class Jiberish < Flower::Command
+  respond_to "bizniz"
+  listen_to /affärsmodell|.*plan|.*strategi|fokuserar|helheten|kunden|helhetsgrepp|samlad kompetens|gediget kunnande|personalen|kvalitet|kvaliteten|tjänster|kvalitetsmodell|kompetensplattform|tvärvetenskaplig|utmaningar|ledstjärna|professionalism|flexibelt|kundfokuserat|kvalitetsorienterad|kunskapsrik|organisation|branschledarskap|arbetsmetoder|kvalitetssäkring|affärsmässiga|kundnytta/i
 
   def self.description
-    "Generera lite business jiberish"
+    "Generera lite bizniz snack"
   end
 
   def self.respond(command, message, sender, flower)
     flower.paste(jiberish)
+  end
+
+  def self.listen(message, sender, flower)
+    flower.say(jiberish, :mention => sender[:id])
   end
 
   private
