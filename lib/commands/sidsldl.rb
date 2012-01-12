@@ -9,7 +9,7 @@ class Sidsldl < Flower::Command
 
   def self.listen(message, sender, flower)
     if message =~ /kbk/i
-      flower.say("#{sender[:nick]}, KÖR, BARA KÖR!", :mention => sender[:id])
+      flower.say("#{sender[:nick]}, KÖR BARA KÖR!", :mention => sender[:id])
     else
       flower.say("#{sender[:nick]}, skit i det så lever du längre!", :mention => sender[:id])
     end
