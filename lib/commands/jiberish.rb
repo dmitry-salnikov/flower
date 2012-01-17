@@ -2,7 +2,7 @@
 
 class Jiberish < Flower::Command
   respond_to "bizniz"
-  listen_to /affärsmodell|.*plan|.*strategi|fokuserar|helheten|kunden|helhetsgrepp|samlad kompetens|gediget kunnande|personalen|kvalitet|kvaliteten|tjänster|kvalitetsmodell|kompetensplattform|tvärvetenskaplig|utmaningar|ledstjärna|professionalism|flexibelt|kundfokuserat|kvalitetsorienterad|kunskapsrik|organisation|branschledarskap|arbetsmetoder|kvalitetssäkring|affärsmässiga|kundnytta/i
+  listen_to /affärsmodell|.*strategi|fokuserar|helheten|kunden|helhetsgrepp|samlad kompetens|gediget kunnande|personalen|kvalitet|kvaliteten|tjänster|kvalitetsmodell|kompetensplattform|tvärvetenskaplig|utmaningar|ledstjärna|professionalism|flexibelt|kundfokuserat|kvalitetsorienterad|kunskapsrik|organisation|branschledarskap|arbetsmetoder|kvalitetssäkring|affärsmässiga|kundnytta/i
 
   def self.description
     "Generera lite bizniz snack"
