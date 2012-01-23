@@ -5,6 +5,7 @@ gem 'nokogiri',     "~> 1.5.0"
 gem 'em-http-request'
 gem 'yajl-ruby'
 gem 'pry'
+gem 'typhoeus'
 
 group :test do
   gem "rspec",   "~> 2.6.0"
