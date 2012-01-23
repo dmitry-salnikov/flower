@@ -1,5 +1,5 @@
 class SoundFx < Flower::Command
-  respond_to "easy", "friday", "rimshot", "sad", "yeah"
+  respond_to "easy", "sax", "friday", "rimshot", "sad", "yeah"
 
   def self.description
     "Awesome audio fx!"
@@ -10,6 +10,10 @@ class SoundFx < Flower::Command
     when "easy"
       Spotify.lower_spotify do
         play_file "easy.mp3"
+      end
+    when "sax"
+      Spotify.lower_spotify do
+        play_file "epixsaxguy.m4a"
       end
     when "friday"
       if Time.now.wday == 5
