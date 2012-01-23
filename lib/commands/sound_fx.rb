@@ -13,7 +13,7 @@ class SoundFx < Flower::Command
       end
     when "sax"
       Spotify.lower_spotify do
-        play_file "epixsaxguy.m4a"
+        play_file "epicsaxguy.m4a"
       end
     when "friday"
       if Time.now.wday == 5
