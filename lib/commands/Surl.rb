@@ -1,3 +1,4 @@
+require 'httparty'
 class Surl < Flower::Command
   respond_to "shorten", "surl"
 
@@ -6,12 +7,16 @@ class Surl < Flower::Command
   end
 
   def self.respond(command, message, sender, flower)
-    if surl(message)['status']
-      flower.say(surl['url']['short'], :mention => sender[:id])
-    else
-      flower.say("It didn't work.\n" + error_messages, :mention => sender[:id])
+    begin
+      if surl(message)['status']
+        flower.say(surl['url']['short'], :mention => sender[:id])
+      else
+        flower.say("It didn't work.\n" + error_messages, :mention => sender[:id])
+      end
+      @surl = nil
+    rescue => error
+      puts "#{error.inspect}:\n#{error.backtrace.join("\n")}"
     end
-    @surl = nil
   end
 
   private

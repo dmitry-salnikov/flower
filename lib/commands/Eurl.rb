@@ -1,17 +1,22 @@
+require 'httparty'
 class Eurl < Flower::Command
-  respond_to "expand", "esurl", "eurl"
+  respond_to "expand", "eurl"
 
   def self.description
     "Expand a URL shortened with mnd.to"
   end
 
   def self.respond(command, message, sender, flower)
-    if surl(message)['status']
-      flower.say(surl['url'].inspect, :mention => sender[:id])
-    else
-      flower.say("Didn't work: #{error_messages}", :mention => sender[:id])
+    begin
+      if surl(message)['status']
+        flower.say("#{surl['url']['original']} (redirects: #{surl['url']['redirects']}, lookups: #{surl['url']['lookups']})", :mention => sender[:id])
+      else
+        flower.say("Didn't work: #{error_messages}", :mention => sender[:id])
+      end
+      @surl = nil
+    rescue => error
+      puts "#{error.inspect}:\n#{error.backtrace.join("\n")}"
     end
-    @surl = nil
   end
 
   private
