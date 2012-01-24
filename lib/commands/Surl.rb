@@ -3,7 +3,7 @@ class Surl < Flower::Command
   respond_to "shorten", "surl"
 
   def self.description
-    "Shorten a URL with mnd.to"
+    "Shorten a URL with mnd.to, pass a second param for custom name"
   end
 
   def self.respond(command, message, sender, flower)
@@ -29,10 +29,16 @@ class Surl < Flower::Command
   end
 
   def self.make_request(message)
+    original, short = message.split(' ').map { |str| str.strip }
+
+    body            = {}
+    body[:key]      = api_key
+    body[:original] = original
+    body[:short]    = short unless short.empty?
+
     HTTParty.post('http://mnd.to/',
       :headers => { 'Accept' => 'application/json' },
-      :body    => { :original => message,
-                    :key => api_key }
+      :body    => body
     ).parsed_response
   end
 
