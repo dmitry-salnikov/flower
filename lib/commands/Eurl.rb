@@ -1,6 +1,6 @@
 require 'httparty'
 class Eurl < Flower::Command
-  respond_to "expand", "eurl"
+  respond_to "expand", "eurl", "esurl"
 
   def self.description
     "Expand a URL shortened with mnd.to"
@@ -20,12 +20,19 @@ class Eurl < Flower::Command
   end
 
   private
-  def self.api_key
+  def self.key
     '7d54c7f0ee68f12391bc9ca7f8d4dc3c1fe2ee812e5c2edfcf908f9a812ccdee'
   end
 
   def self.surl(message = nil)
-    @surl ||= HTTParty.get('http://mnd.to/api/v1/' + message.split('/').last, :query => { :api_key => api_key }).parsed_response
+    @surl ||= make_request(message)
+  end
+
+  def self.make_request(message)
+    HTTParty.get('http://mnd.to/' + message.split('/').last,
+      :headers => { 'Accept' => 'application/json' },
+      :query   => { :key => key }
+    ).parsed_response
   end
 
   def self.error_messages
