@@ -34,7 +34,7 @@ class Surl < Flower::Command
     body            = {}
     body[:key]      = api_key
     body[:original] = original
-    body[:short]    = short unless short.empty?
+    body[:short]    = short unless short.nil? || short.empty?
 
     HTTParty.post('http://mnd.to/',
       :headers => { 'Accept' => 'application/json' },
