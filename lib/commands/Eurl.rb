@@ -11,6 +11,7 @@ class Eurl < Flower::Command
     else
       flower.say("Didn't work: #{error_messages}", :mention => sender[:id])
     end
+    @surl = nil
   end
 
   private
@@ -18,11 +19,11 @@ class Eurl < Flower::Command
     '7d54c7f0ee68f12391bc9ca7f8d4dc3c1fe2ee812e5c2edfcf908f9a812ccdee'
   end
 
-  def surl(message = nil)
+  def self.surl(message = nil)
     @surl ||= HTTParty.get('http://mnd.to/api/v1/' + message.split('/').last, :query => { :api_key => api_key }).parsed_response
   end
 
-  def error_messages
+  def self.error_messages
     surl["errors"].keys.map { |key| "#{key}: " + surl["errors"][key].join(", ") }.join("\n")
   end
 end
