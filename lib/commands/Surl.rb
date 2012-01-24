@@ -25,7 +25,15 @@ class Surl < Flower::Command
   end
 
   def self.surl(message = nil)
-    @surl ||= HTTParty.post('http://mnd.to/api/v1/', :query => { :url => message, :api_key => api_key }).parsed_response
+    @surl ||= make_request(message)
+  end
+
+  def self.make_request(message)
+    HTTParty.post('http://mnd.to/',
+      :headers => { 'Accept' => 'application/json' },
+      :body    => { :original => message,
+                    :key => api_key }
+    ).parsed_response
   end
 
   def self.error_messages
