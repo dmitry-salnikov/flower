@@ -6,6 +6,7 @@ gem 'em-http-request'
 gem 'yajl-ruby'
 gem 'pry'
 gem 'typhoeus'
+gem 'httparty'
 
 group :test do
   gem "rspec",   "~> 2.6.0"
