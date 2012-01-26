@@ -9,6 +9,7 @@ class Flower
   require File.expand_path(File.join(File.dirname(__FILE__), 'session'))
   require File.expand_path(File.join(File.dirname(__FILE__), 'command'))
   require File.expand_path(File.join(File.dirname(__FILE__), 'config'))
+  require File.expand_path(File.join(File.dirname(__FILE__), 'local_server'))
 
   COMMANDS = {} # We are going to load available commands in here
   LISTENERS = {} # We are going to load available monitors in here
@@ -28,7 +29,8 @@ class Flower
 
   def boot!
     EM.run {
-    session.login
+      session.login
+      EventMachine::start_server("localhost", 6000, LocalServer) { |s| s.set_flower(self) }
     }
   end
 
