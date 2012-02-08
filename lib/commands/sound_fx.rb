@@ -1,3 +1,4 @@
+# encoding: UTF-8
 class SoundFx < Flower::Command
   respond_to "easy", "sax", "friday", "rimshot", "sad", "yeah", "hähä"
 
