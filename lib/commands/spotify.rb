@@ -6,7 +6,7 @@ class Spotify < Flower::Command
     case command
     when "pause"
       spotify.pause
-      flower.say("Stoped playing")
+      flower.say("Stopped playing")
     when "track"
       flower.say(get_current_track)
     when "play"
