@@ -2,7 +2,9 @@ source :rubygems
 gem "rake",         "~> 0.9.2"
 gem "rb-appscript", "~> 0.6.1"
 gem 'nokogiri',     "~> 1.5.0"
-gem 'em-http-request'
+
+gem 'em-eventsource'
+
 gem 'yajl-ruby'
 gem 'pry'
 gem 'typhoeus'
