@@ -6,7 +6,8 @@ require 'em-http'
 require 'yajl'
 
 class Flower
-  require File.expand_path(File.join(File.dirname(__FILE__), 'session'))
+  require File.expand_path(File.join(File.dirname(__FILE__), 'stream'))
+  require File.expand_path(File.join(File.dirname(__FILE__), 'rest'))
   require File.expand_path(File.join(File.dirname(__FILE__), 'command'))
   require File.expand_path(File.join(File.dirname(__FILE__), 'config'))
   require File.expand_path(File.join(File.dirname(__FILE__), 'local_server'))
@@ -18,25 +19,27 @@ class Flower
     require File.expand_path(File.join(File.dirname(__FILE__), "..", file))
   end
 
-  attr_accessor :messages_url, :post_url, :flow_url, :session, :users, :pid, :nick
+  attr_accessor :messages_url, :post_url, :flow_url, :stream, :rest, :users, :pid, :nick
 
   def initialize
-    self.nick         = Flower::Config.bot_nick
-    self.pid          = Process.pid
-    self.session      = Session.new(self)
-    self.users        = {}
+    self.nick     = Flower::Config.bot_nick
+    self.pid      = Process.pid
+    self.stream   = Stream.new(self)
+    self.rest     = Rest.new
+    self.users    = {}
   end
 
   def boot!
     EM.run {
-      session.login
+      get_users rest.get_users
+      stream.start
       EventMachine::start_server("localhost", 6000, LocalServer) { |s| s.set_flower(self) }
     }
   end
 
   def paste(message, options = {})
     message = message.join("\n") if message.respond_to?(:join)
-    message = message.split("\n").map{ |str| (" " * 4) + str }.join("\\n")
+    message = message.split("\n").map{ |str| (" " * 4) + str }.join("\n")
     post(message, parse_tags(options))
   end
 
@@ -45,16 +48,16 @@ class Flower
   end
 
   def respond_to(message_json)
-      if match = bot_message(message_json[:content])
-        match = match.to_a[1].split
-        Flower::Command.delegate_command(match.shift || "", match.join(" "), users[message_json[:user].to_i], self)
-      else
-        Flower::Command.trigger_listeners(message_json[:content], users[message_json[:user].to_i], self) unless from_self?(message_json)
-      end
+    if match = bot_message(message_json[:content])
+      match = match.to_a[1].split
+      Flower::Command.delegate_command(match.shift || "", match.join(" "), users[message_json[:user].to_i], self)
+    else
+      Flower::Command.trigger_listeners(message_json[:content], users[message_json[:user].to_i], self) unless from_self?(message_json)
+    end
   end
 
   def get_users(users_json)
-    users_json.map{|u| u["user"] }.each do |user|
+    users_json.each do |user|
       self.users[user["id"]] = {:id => user["id"], :nick => user["nick"]}
     end
   end
@@ -70,7 +73,7 @@ class Flower
   end
 
   def post(message, tags = nil)
-    session.post(message, tags)
+    rest.post_message(message, tags)
   end
 
   def parse_tags(options)
