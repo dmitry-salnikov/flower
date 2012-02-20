@@ -46,11 +46,11 @@ class SoundFx < Flower::Command
       end
     when "airwolf"
       Spotify.lower_spotify do
-        play_file "airwolf.mp3"
+        play_file "airwolf.m4a"
       end
     when "ateam"
       Spotify.lower_spotify do
-        play_file "a_team.mp3"
+        play_file "a_team.m4a"
       end
     end
   end
