@@ -2,7 +2,7 @@
 class Sidsldl < Flower::Command
   listen_to /(david.*varför|varför.*david).*\?/i
   listen_to /kbk/i
-  
+
   def self.description
     "Skit i det så lever du längre"
   end
