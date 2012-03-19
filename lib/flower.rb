@@ -44,6 +44,7 @@ class Flower
   end
 
   def say(message, options = {})
+    message = message.join("\n") if message.respond_to?(:join)
     post(message, parse_tags(options))
   end
 
