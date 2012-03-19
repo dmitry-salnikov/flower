@@ -2,6 +2,7 @@ GEM
   remote: http://rubygems.org/
   specs:
     addressable (2.2.6)
+    builder (3.0.0)
     coderay (0.9.8)
     cookiejar (0.3.0)
     crack (0.3.1)
@@ -18,17 +19,29 @@ GEM
     em-socksify (0.1.0)
       eventmachine
     eventmachine (1.0.0.beta.4)
+    happymapper (0.4.0)
+      libxml-ruby (~> 2.0)
     http_parser.rb (0.5.3)
     httparty (0.8.1)
       multi_json
       multi_xml
     json (1.5.4)
+    libxml-ruby (2.2.2)
     method_source (0.6.5)
       ruby_parser (>= 2.0.5)
     mime-types (1.17.2)
     multi_json (1.0.4)
     multi_xml (0.4.1)
     nokogiri (1.5.0)
+    pivotal-tracker (0.5.1)
+      builder
+      builder
+      happymapper (>= 0.3.2)
+      happymapper (>= 0.3.2)
+      nokogiri (>= 1.4.3)
+      nokogiri (~> 1.4)
+      rest-client (~> 1.6.0)
+      rest-client (~> 1.6.0)
     pry (0.9.6.2)
       coderay (~> 0.9.8)
       method_source (~> 0.6.5)
@@ -36,6 +49,8 @@ GEM
       slop (~> 2.1.0)
     rake (0.9.2)
     rb-appscript (0.6.1)
+    rest-client (1.6.7)
+      mime-types (>= 1.16)
     rspec (2.6.0)
       rspec-core (~> 2.6.0)
       rspec-expectations (~> 2.6.0)
@@ -63,7 +78,9 @@ DEPENDENCIES
   em-eventsource
   httparty
   json (~> 1.5.4)
+  libxml-ruby (~> 2.2.2)
   nokogiri (~> 1.5.0)
+  pivotal-tracker
   pry
   rake (~> 0.9.2)
   rb-appscript (~> 0.6.1)

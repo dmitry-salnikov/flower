@@ -9,6 +9,8 @@ gem 'yajl-ruby'
 gem 'pry'
 gem 'typhoeus'
 gem 'httparty'
+gem 'libxml-ruby',  '~> 2.2.2'
+gem 'pivotal-tracker'
 
 group :test do
   gem "rspec",   "~> 2.6.0"
