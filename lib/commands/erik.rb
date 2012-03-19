@@ -23,5 +23,3 @@ class Erik < Flower::Command
   end
 end
 
-# 
-
