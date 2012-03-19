@@ -1,6 +1,6 @@
 # encoding: UTF-8
 class SoundFx < Flower::Command
-  respond_to "easy", "sax", "friday", "rimshot", "sad", "yeah", "hähä", "airwolf", "ateam", "applause", "giggle", "bomb", "suprise", "haha", "hoho", "snore", "muhaha"
+  respond_to "easy", "sax", "friday", "rimshot", "sad", "yeah", "hähä", "airwolf", "ateam", "applause", "giggle", "bomb", "suprise", "haha", "hoho", "snore", "muhaha", "godwillsit"
 
   def self.description
     "Awesome audio fx!"
@@ -83,6 +83,10 @@ class SoundFx < Flower::Command
     when "muhaha"
       Spotify.lower_spotify do
         play_file "muhaha.mp3"
+      end
+    when "godwillsit"
+      Spotify.lower_spotify do
+        play_file "godwillsit.m4a"
       end
     end
   end
