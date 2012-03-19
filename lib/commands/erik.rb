@@ -17,7 +17,8 @@ class Erik < Flower::Command
       'githubba gemsarna!',
       'tryck upp den rakt upp i mastern!',
       'vi kan ta ett möte om det senare.',
-      'jag kommer in vid kl 10, vi kan väl ta det därefter?'
+      'jag kommer in vid kl 10, vi kan väl ta det därefter?',
+      'god wills it!'
     ]
   end
 end
