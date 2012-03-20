@@ -52,9 +52,8 @@ class Flower
     if match = bot_message(message_json[:content])
       match = match.to_a[1].split
       Flower::Command.delegate_command(match.shift || "", match.join(" "), users[message_json[:user].to_i], self)
-    else
-      Flower::Command.trigger_listeners(message_json[:content], users[message_json[:user].to_i], self) unless from_self?(message_json)
     end
+    Flower::Command.trigger_listeners(message_json[:content], users[message_json[:user].to_i], self) unless message_json[:internal] || from_self?(message_json)
   end
 
   def get_users(users_json)
