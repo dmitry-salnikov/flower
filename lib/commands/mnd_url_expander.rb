@@ -15,14 +15,12 @@ class MndUrlExpander < Flower::Command
       end
       @surl = nil
     rescue => error
+      @surl = nil
       puts "#{error.inspect}:\n#{error.backtrace.join("\n")}"
     end
   end
 
   private
-  def self.key
-    '7d54c7f0ee68f12391bc9ca7f8d4dc3c1fe2ee812e5c2edfcf908f9a812ccdee'
-  end
 
   def self.surl(message = nil)
     @surl ||= make_request(message)
@@ -31,7 +29,7 @@ class MndUrlExpander < Flower::Command
   def self.make_request(message)
     HTTParty.get('http://mnd.to/' + message.split('/').last,
       :headers => { 'Accept' => 'application/json' },
-      :query   => { :key => key }
+      :query   => { :key => Flower::Config.mnd_to_key }
     ).parsed_response
   end
 

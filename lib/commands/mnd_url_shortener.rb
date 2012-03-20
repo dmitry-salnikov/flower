@@ -15,14 +15,12 @@ class MndUrlShortener < Flower::Command
       end
       @surl = nil
     rescue => error
+      @surl = nil
       puts "#{error.inspect}:\n#{error.backtrace.join("\n")}"
     end
   end
 
   private
-  def self.api_key
-    '7d54c7f0ee68f12391bc9ca7f8d4dc3c1fe2ee812e5c2edfcf908f9a812ccdee'
-  end
 
   def self.surl(message = nil)
     @surl ||= make_request(message)
@@ -32,7 +30,7 @@ class MndUrlShortener < Flower::Command
     original, short = message.split(' ').map { |str| str.strip }
 
     body            = {}
-    body[:key]      = api_key
+    body[:key]      = Flower::Config.mnd_to_key
     body[:original] = original
     body[:short]    = short if !short.nil? && short.length > 0
 
