@@ -90,7 +90,7 @@ class SoundFx < Flower::Command
       end
     when "sting"
       Spotify.lower_spotify do
-        play_file "string.m4a"
+        play_file "sting.m4a"
       end
     end
   end
