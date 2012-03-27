@@ -4,7 +4,7 @@ class Pivotal < Flower::Command
   require 'pivotal-tracker'
 
   respond_to "p"
-  PivotalTracker::Client.token('dev+flower@mynewsdesk.com', 'flowerbot')
+  PivotalTracker::Client.token(Flower::Config.pivotal_username, Flower::Config.pivotal_password)
 
   def self.description
     "!p projectname user|unscheduled|unstarted|started|finished|delivered|accepted|rejected \n Default user:all, state:unstarted"
