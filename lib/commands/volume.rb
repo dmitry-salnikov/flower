@@ -23,7 +23,7 @@ class Volume < Flower::Command
   end
 
   def self.adjust_volume(up_or_down)
-    amount = up_or_down.length * 10
+    amount = up_or_down.length * 5
     new_volume = if up_or_down[0] == "+"
       current_volume + amount
     else
