@@ -8,7 +8,7 @@ class Haddock < Flower::Command
   end
 
   def self.respond(command, message, sender, flower)
-    flower.paste(dictionary.lines.to_a.shuffle.first.gsub(/\n/,''))
+    flower.say(dictionary.lines.to_a.shuffle.first.gsub(/\n/,''))
   end
 
   private
