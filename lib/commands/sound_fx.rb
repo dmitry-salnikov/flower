@@ -1,6 +1,6 @@
 # encoding: UTF-8
 class SoundFx < Flower::Command
-  respond_to "easy", "sax", "friday", "rimshot", "sad", "yeah", "hähä", "airwolf", "ateam", "applause", "giggle", "bomb", "suprise", "haha", "hoho", "snore", "muhaha", "godwillsit", "sting", "*", "death"
+  respond_to "easy", "sax", "friday", "rimshot", "sad", "yeah", "hähä", "airwolf", "ateam", "applause", "giggle", "bomb", "suprise", "haha", "hoho", "snore", "muhaha", "godwillsit", "sting", "*","**", "***", "****", "death"
 
   def self.description
     "Awesome audio fx!"
@@ -92,13 +92,13 @@ class SoundFx < Flower::Command
       Spotify.lower_spotify do
         play_file "sting.wav"
       end
-    when /\*/
-      count = command.scan(/\*/).size.times do |i|
-        Spotify.lower_spotify do
-          if i <= 3
+    when /\**/
+      Spotify.lower_spotify do
+        count = command.scan(/\*/).size.times do |i|
+          if i <= 2
             play_file "lightning_bolt.wav"
           else
-            play_file "death.wav" and break
+            play_file "death.wav"
           end
         end
       end
