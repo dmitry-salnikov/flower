@@ -93,7 +93,7 @@ class SoundFx < Flower::Command
         play_file "sting.wav"
       end
     when /\*/
-      count = command.scan(/*/).size.times do |i|
+      count = command.scan(/\*/).size.times do |i|
         Spotify.lower_spotify do
           if i <= 3
             play_file "lightning_bolt.wav"
