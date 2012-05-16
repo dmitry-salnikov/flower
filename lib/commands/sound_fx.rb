@@ -92,6 +92,10 @@ class SoundFx < Flower::Command
       Spotify.lower_spotify do
         play_file "sting.wav"
       end
+    when "death"
+      Spotify.lower_spotify do
+        play_file "death.wav"
+      end
     when /\**/
       Spotify.lower_spotify do
         count = command.scan(/\*/).size.times do |i|
@@ -101,10 +105,6 @@ class SoundFx < Flower::Command
             play_file "death.wav"
           end
         end
-      end
-    when "death"
-      Spotify.lower_spotify do
-        play_file "death.wav"
       end
     end
   end
