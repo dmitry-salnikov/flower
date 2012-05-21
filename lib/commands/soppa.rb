@@ -8,7 +8,7 @@ class Soppa < Flower::Command
     end
 
     def listen(message, sender, flower)
-      flower.paste(fetch_ringos, :mention => sender[:id])
+      flower.paste(menu, :mention => sender[:id])
     end
 
     private
