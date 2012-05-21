@@ -1,6 +1,6 @@
 require 'open-uri'
 class Soppa < Flower::Command
-  listen_to 'soppa'
+  respond_to 'soppa'
 
   class << self
     def description
