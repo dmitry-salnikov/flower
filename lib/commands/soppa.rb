@@ -4,7 +4,7 @@ class Soppa < Flower::Command
 
   class << self
     def description
-      'Veckans soppor'
+      'Dagens soppa'
     end
 
     def listen(message, sender, flower)
@@ -18,11 +18,7 @@ class Soppa < Flower::Command
 
     def menu
       menu = Nokogiri::HTML.parse(html).css('div.post').first.css('p').map(&:text)
-
-      # First element whines about some sandwich
-      menu.shift
-
-      menu.join("\n")
+      menu[Time.now.strftime('%u').to_i]
     end
   end
 end
