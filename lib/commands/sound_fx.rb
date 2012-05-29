@@ -1,7 +1,7 @@
 # encoding: UTF-8
 require_relative 'sound_command'
 class SoundFx < SoundCommand
-  respond_to "easy", "rimshot", "sad", "yeah", "hähä", "airwolf", "ateam", "applause", "giggle", "bomb", "suprise", "haha", "hoho", "snore", "muhaha", "godwillsit", "sting", "*","**", "***", "****", "death", "khan"
+  respond_to "easy", "rimshot", "sad", "yeah", "hähä", "airwolf", "ateam", "applause", "giggle", "bomb", "suprise", "haha", "hoho", "snore", "muhaha", "godwillsit", "sting", "khan"
 
   def self.description
     "Awesome audio fx!"
@@ -43,20 +43,8 @@ class SoundFx < SoundCommand
       play_file "godwillsit.m4a"
     when "sting"
       play_file "sting.wav"
-    when "death"
-      play_file "death.wav"
     when "khan"
       play_file "khan.wav"
-    when /\**/
-      Spotify.lower_spotify do
-        count = command.scan(/\*/).size.times do |i|
-          if i <= 2
-            play_file "lightning_bolt.wav", false
-          else
-            play_file "death.wav", false
-          end
-        end
-      end
     end
   end
 end
