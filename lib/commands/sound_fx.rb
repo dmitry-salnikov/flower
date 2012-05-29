@@ -1,7 +1,7 @@
 # encoding: UTF-8
 require_relative 'sound_command'
 class SoundFx < SoundCommand
-  respond_to "easy", "friday", "rimshot", "sad", "yeah", "hähä", "airwolf", "ateam", "applause", "giggle", "bomb", "suprise", "haha", "hoho", "snore", "muhaha", "godwillsit", "sting", "*","**", "***", "****", "death", "khan"
+  respond_to "easy", "rimshot", "sad", "yeah", "hähä", "airwolf", "ateam", "applause", "giggle", "bomb", "suprise", "haha", "hoho", "snore", "muhaha", "godwillsit", "sting", "*","**", "***", "****", "death", "khan"
 
   def self.description
     "Awesome audio fx!"
@@ -11,12 +11,6 @@ class SoundFx < SoundCommand
     case command
     when "easy"
       play_file "easy.mp3"
-    when "friday"
-      if Time.now.wday == 5
-        play_file("friday.mp3")
-      else
-        flower.say("Today != rebeccablack", :mention => sender[:id])
-      end
     when "rimshot"
       play_file "rimshot.mp3"
     when "sad"
