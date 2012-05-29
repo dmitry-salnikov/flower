@@ -1,5 +1,5 @@
 class Spotify < Flower::Command
-  respond_to "play", "pause", "track"
+  respond_to "play", "pause", "track", "stam"
   require 'appscript'
 
   def self.respond(command, message, sender, flower)
@@ -7,6 +7,9 @@ class Spotify < Flower::Command
     when "pause"
       spotify.pause
       flower.say("Stopped playing")
+    when "stam"
+      spotify.pause
+      flower.say("Stam in da house")  
     when "track"
       flower.say(get_current_track)
     when "play"
