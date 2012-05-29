@@ -1,5 +1,6 @@
 # encoding: UTF-8
-class SoundFx < Flower::Command
+require_relative 'sound_command'
+class SoundFx < SoundCommand
   respond_to "easy", "sax", "friday", "rimshot", "sad", "yeah", "hähä", "airwolf", "ateam", "applause", "giggle", "bomb", "suprise", "haha", "hoho", "snore", "muhaha", "godwillsit", "sting", "*","**", "***", "****", "death", "khan"
 
   def self.description
@@ -9,113 +10,65 @@ class SoundFx < Flower::Command
   def self.respond(command, message, sender, flower)
     case command
     when "easy"
-      Spotify.lower_spotify do
-        play_file "easy.mp3"
-      end
+      play_file "easy.mp3"
     when "sax"
-      Spotify.lower_spotify do
-        if rand(5) == 1
-          play_file "retrosaxguy.m4a"
-        else
-          play_file "epicsaxguy.m4a"
-        end
+      if rand(5) == 1
+        play_file "retrosaxguy.m4a"
+      else
+        play_file "epicsaxguy.m4a"
       end
     when "friday"
       if Time.now.wday == 5
-        Spotify.lower_spotify do
-          play_file("friday.mp3")
-        end
+        play_file("friday.mp3")
       else
         flower.say("Today != rebeccablack", :mention => sender[:id])
       end
     when "rimshot"
-      Spotify.lower_spotify do
-        play_file "rimshot.mp3"
-      end
+      play_file "rimshot.mp3"
     when "sad"
-      Spotify.lower_spotify do
-        play_file "sadtrombone.mp3"
-      end
+      play_file "sadtrombone.mp3"
     when "yeah"
-      Spotify.lower_spotify do
-        play_file "yeah.mp3"
-      end
+      play_file "yeah.mp3"
     when "hähä"
-      Spotify.lower_spotify do
-        play_file "hehe.mp3"
-      end
+      play_file "hehe.mp3"
     when "airwolf"
-      Spotify.lower_spotify do
-        play_file "airwolf.m4a"
-      end
+      play_file "airwolf.m4a"
     when "ateam"
-      Spotify.lower_spotify do
-        play_file "a_team.m4a"
-      end
+      play_file "a_team.m4a"
     when "applause"
-      Spotify.lower_spotify do
-        play_file "applause.mp3"
-      end
+      play_file "applause.mp3"
     when "giggle"
-      Spotify.lower_spotify do
-        play_file "giggle.mp3"
-      end
+      play_file "giggle.mp3"
     when "bomb"
-      Spotify.lower_spotify do
-        play_file "bomb.mp3"
-      end
+      play_file "bomb.mp3"
     when "suprise"
-      Spotify.lower_spotify do
-        play_file "suprise.m4r"
-      end
+      play_file "suprise.m4r"
     when "hoho"
-      Spotify.lower_spotify do
-        play_file "hoho.mp3"
-      end
+      play_file "hoho.mp3"
     when "haha"
-      Spotify.lower_spotify do
-        play_file "haha.wav"
-      end
+      play_file "haha.wav"
     when "snore"
-      Spotify.lower_spotify do
-        play_file "snore.wav"
-      end
+      play_file "snore.wav"
     when "muhaha"
-      Spotify.lower_spotify do
-        play_file "muhaha.mp3"
-      end
+      play_file "muhaha.mp3"
     when "godwillsit"
-      Spotify.lower_spotify do
-        play_file "godwillsit.m4a"
-      end
+      play_file "godwillsit.m4a"
     when "sting"
-      Spotify.lower_spotify do
-        play_file "sting.wav"
-      end
+      play_file "sting.wav"
     when "death"
-      Spotify.lower_spotify do
-        play_file "death.wav"
-      end
+      play_file "death.wav"
     when "khan"
-      Spotify.lower_spotify do
-        play_file "khan.wav"
-      end
+      play_file "khan.wav"
     when /\**/
       Spotify.lower_spotify do
         count = command.scan(/\*/).size.times do |i|
           if i <= 2
-            play_file "lightning_bolt.wav"
+            play_file "lightning_bolt.wav", false
           else
-            play_file "death.wav"
+            play_file "death.wav", false
           end
         end
       end
     end
-  end
-
-  private
-
-  def self.play_file(file_name)
-    system "afplay", File.expand_path(File.join(__FILE__, "..", "..", "..", "extras", file_name))
   end
 end
