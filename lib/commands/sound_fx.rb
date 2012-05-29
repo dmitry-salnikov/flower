@@ -1,7 +1,7 @@
 # encoding: UTF-8
 require_relative 'sound_command'
 class SoundFx < SoundCommand
-  respond_to "easy", "rimshot", "sad", "yeah", "hähä", "applause", "giggle", "bomb", "suprise", "haha", "hoho", "snore", "muhaha", "godwillsit", "sting", "khan"
+  respond_to "easy", "rimshot", "sad", "yeah", "applause", "bomb", "suprise", "snore", "godwillsit", "sting", "khan"
 
   def self.description
     "Awesome audio fx!"
@@ -17,24 +17,14 @@ class SoundFx < SoundCommand
       play_file "sadtrombone.mp3"
     when "yeah"
       play_file "yeah.mp3"
-    when "hähä"
-      play_file "hehe.mp3"
     when "applause"
       play_file "applause.mp3"
-    when "giggle"
-      play_file "giggle.mp3"
     when "bomb"
       play_file "bomb.mp3"
     when "suprise"
       play_file "suprise.m4r"
-    when "hoho"
-      play_file "hoho.mp3"
-    when "haha"
-      play_file "haha.wav"
     when "snore"
       play_file "snore.wav"
-    when "muhaha"
-      play_file "muhaha.mp3"
     when "godwillsit"
       play_file "godwillsit.m4a"
     when "sting"
