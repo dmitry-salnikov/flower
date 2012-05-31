@@ -6,18 +6,14 @@ class Stats < Flower::Command
   def self.respond(command, message, sender, flower)
     case message
     when "online"
-      say_online
+      flower.say("Online right now: #{online_right_now}")
     else
-      say_online
+      flower.say("Online right now: #{online_right_now}")
     end
   end
 
   def self.description
     "Online right now"
-  end
-
-  def say_online
-    flower.say("Online right now: #{online_right_now}")
   end
 
   private
