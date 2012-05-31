@@ -22,12 +22,14 @@ class Flower::Command
   def self.delegate_command(command, message, sender, flower)
     return false if Flower::COMMANDS[command].nil?
     Thread.new do
-      Flower::COMMANDS[command].respond(command, message, sender, flower)
+      begin
+        Flower::COMMANDS[command].respond(command, message, sender, flower)
+      rescue => error
+        post_error(error, command, message, sender, flower)
+        puts error
+        puts error.backtrace
+      end
     end
-  rescue => error
-    post_error(error, command, message, sender, flower)
-    puts error
-    puts error.backtrace
   end
 
 
@@ -35,13 +37,15 @@ class Flower::Command
     return false if Flower::LISTENERS.empty?
     Flower::LISTENERS.each do |regexp, command|
       Thread.new do
-        command.listen(message, sender, flower) if message.match(regexp)
+        begin
+          command.listen(message, sender, flower) if message.match(regexp)
+        rescue => error
+          post_error(error, "", message, sender, flower)
+          puts error
+          puts error.backtrace
+        end
       end
     end
-  rescue => error
-    post_error(error, "", message, sender, flower)
-    puts error
-    puts error.backtrace
   end
 
   private
