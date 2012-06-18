@@ -1,8 +1,6 @@
+require 'google-search'
 class Pic < Flower::Command
   respond_to "pic", "picture", "image", "rpic"
-  require 'open-uri'
-  require 'json'
-  require 'cgi'
 
   IMAGE_CACHE = {}
 
@@ -13,10 +11,10 @@ class Pic < Flower::Command
   def self.respond(command, message, sender, flower)
     begin
       if command == "rpic"
-        image = search_bing(message, true)
+        image = search_google(message, true)
         flower.say(image)
       else
-        image = IMAGE_CACHE.has_key?(message) ? IMAGE_CACHE[message] : search_bing(message)
+        image = IMAGE_CACHE.has_key?(message) ? IMAGE_CACHE[message] : search_google(message)
         flower.say(image)
       end
     rescue NoMethodError
@@ -24,15 +22,12 @@ class Pic < Flower::Command
     end
   end
 
-  def self.search_bing(query, random = false)
-    limit = random ? 50 : 1
-    url = "http://api.search.live.net/json.aspx?AppId=#{Flower::Config.live_id}&Query=#{CGI.escape "\"#{query}\""}&Sources=Image&Version=2.0&Adult=Moderate&Image.Count=#{limit}"
-    json = JSON.parse(open(url).read)
+  def self.search_google(query, random = false)
+    results = Google::Search::Image.new(:query => query).to_a
     if random
-      image_url = json["SearchResponse"]["Image"]["Results"].shuffle[0]["MediaUrl"]
+      results.shuffle[0].uri
     else
-      image_url = json["SearchResponse"]["Image"]["Results"][0]["MediaUrl"]
+      results[0].uri
     end
-    image_url.match(/(jpg|png|gif)$/) ? image_url : image_url + "#.jpg"
   end
 end
