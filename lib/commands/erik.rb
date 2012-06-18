@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 class Erik < Flower::Command
-  listen_to /erik.*(deploy|deploya|kaos|deadline|möte)|(deploy|deploya|kaos|deadline|möte).*erik/i
+  listen_to /erik.*(deploy|deploya|kaos|deadline|möte|ass|fuck)|(deploy|deploya|kaos|deadline|möte).*erik/i
 
   def self.description
     "Erik punchlines"
@@ -18,7 +18,8 @@ class Erik < Flower::Command
       'tryck upp den rakt upp i mastern!',
       'vi kan ta ett möte om det senare.',
       'jag kommer in vid kl 10, vi kan väl ta det därefter?',
-      'god wills it!'
+      'god wills it!',
+      'det är nåt fel på Google Excel!'
     ]
   end
 end
