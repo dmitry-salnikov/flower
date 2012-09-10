@@ -3,7 +3,7 @@ class Flower::Console
     return message
   end
 
-  def self.paste(message)
+  def self.paste(message, mention = nil)
     return message.join("\n")
   end
 
