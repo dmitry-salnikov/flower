@@ -18,7 +18,7 @@ class SL < Flower::Command
     end
 
     def soder
-      trs = Nokogiri::HTML.parse(html).css('div.trafficList tr.item')
+      trs = Nokogiri::HTML.parse(html).css('div.trafficList tr')
 
       trs.map do |tr|
         tr.css("td").map do |td|
