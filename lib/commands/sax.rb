@@ -8,7 +8,7 @@ class Sax < SoundCommand
   end
 
   def self.respond(command, message, sender, flower)
-    if rand(5) == 1
+    if rand(100) == 1
       store_stats(sender, :retro)
       play_file "retrosaxguy.m4a"
     else
