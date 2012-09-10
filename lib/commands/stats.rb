@@ -28,8 +28,8 @@ class Stats < Flower::Command
   private
 
   def self.command_stats_for(nick)
-    stats = Flower::Stats.find("commands/#{nick.downcase}", 1.hours.ago, 1.hour.from_now).total
-    stats.map {|type, value| "#{type}: #{value}"} << "totalt: #{stats.reject{|v| v == "!"}.values.inject(:+) || 0}"
+    stats = Flower::Stats.find("commands/#{nick.downcase}", 1.hours.ago, 1.hour.from_now).total.reject{|v| v == "!"}
+    stats.map {|type, value| "#{type}: #{value}"} << "totalt: #{stats.values.inject(:+) || 0}"
   end
 
   def self.sax_stats_for(nick)
