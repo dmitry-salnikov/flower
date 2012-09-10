@@ -37,7 +37,7 @@ class SoundFx < SoundCommand
       play_file "sting.wav"
     when "khan"
       play_file "khan.wav"
-    when "tarelugn"
+    when "tarelugnt"
       play_file "tadetlugnt.wav"
     when "tadetlugnt"
       play_file "tadetlugnt.wav"
