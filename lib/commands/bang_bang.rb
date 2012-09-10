@@ -7,7 +7,7 @@ class BangBang < Flower::Command
   end
 
   def self.respond(command, message, sender, flower)
-    flower.respond_to({content: @@previous[:message], internal: true, user: @@previous[:sender][:id]})
+    flower.respond_to({content: @@previous[:message], internal: true, user: sender[:id]})
   end
 
 
