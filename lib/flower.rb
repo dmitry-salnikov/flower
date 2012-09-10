@@ -70,6 +70,10 @@ class Flower
   end
 
   def bot_message(content)
+    self.class.bot_message(content)
+  end
+
+  def self.bot_message(content)
     content.respond_to?(:match) && content.match(/^(?:bot|!)[\s|,|:]*(.*)/i)
   end
 

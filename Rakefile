@@ -9,6 +9,23 @@ task :run do
   @flower.boot!
 end
 
+task :console do
+  require_relative 'lib/flower'
+  require_relative 'lib/console'
+  require 'irb'
+  require 'irb/completion'
+
+  def message message
+    results = []
+    results << Flower::Console.command(message)
+    results << Flower::Console.listen(message)
+    results.flatten.compact
+  end
+
+  ARGV.clear
+  IRB.start
+end
+
 Signal.trap(0) do
   @flower.say("I'm leaving (and/or crashing)... Goodbye!")
 end
