@@ -8,6 +8,10 @@ class Stats < Flower::Command
     case message_array.first
     when "online"
       flower.say("Online right now: #{online_right_now}")
+    when "commands"
+      nick = message_array[1] || sender[:nick]
+      flower.say "Commands stats for #{nick}"
+      flower.paste command_stats_for(nick)
     when "sax"
       nick = message_array[1] || sender[:nick]
       flower.say "Sax stats for #{nick}"
@@ -22,6 +26,11 @@ class Stats < Flower::Command
   end
 
   private
+
+  def self.command_stats_for(nick)
+    stats = Flower::Stats.find("commands/#{nick.downcase}", 1.hours.ago, 1.hour.from_now).total
+    stats.map {|type, value| "#{type}: #{value}"} << "totalt: #{stats.reject{|v| v == "!"}.values.inject(:+) || 0}"
+  end
 
   def self.sax_stats_for(nick)
     stats = Flower::Stats.find("sax/#{nick.downcase}", 1.hours.ago, 1.hour.from_now).total

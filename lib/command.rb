@@ -23,6 +23,7 @@ class Flower::Command
     return false if Flower::COMMANDS[command].nil?
     Thread.new do
       begin
+        Flower::Stats.store_command_stat(command, sender[:nick])
         Flower::COMMANDS[command].respond(command, message, sender, flower)
       rescue => error
         post_error(error, command, message, sender, flower)
