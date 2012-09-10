@@ -11,14 +11,14 @@ class Flower::Console
     if match = Flower.bot_message(message)
       match = match[1].split(" ")
       command = match.shift
-      Flower::COMMANDS[command].respond(match.shift, match.join(" "), {id: 9}, Flower::Console) if Flower::COMMANDS.has_key?(command)
+      Flower::COMMANDS[command].respond(command, match.join(" "), {id: 0, nick: "flower"}, Flower::Console) if Flower::COMMANDS.has_key?(command)
     end
   end
 
   def self.listen message
     results = []
     Flower::LISTENERS.each do |regexp, command|
-      results << command.listen(message, {id: 0}, Flower::Console) if message.match(regexp)
+      results << command.listen(message, {id: 0, nick: "flower"}, Flower::Console) if message.match(regexp)
     end
     results.reject{|r| r.is_a? Hash }
   end
