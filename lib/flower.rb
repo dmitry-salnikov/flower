@@ -11,6 +11,7 @@ class Flower
   require File.expand_path(File.join(File.dirname(__FILE__), 'command'))
   require File.expand_path(File.join(File.dirname(__FILE__), 'config'))
   require File.expand_path(File.join(File.dirname(__FILE__), 'local_server'))
+  require File.expand_path(File.join(File.dirname(__FILE__), 'stats'))
 
   COMMANDS = {} # We are going to load available commands in here
   LISTENERS = {} # We are going to load available monitors in here

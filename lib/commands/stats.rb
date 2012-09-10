@@ -2,11 +2,16 @@
 class Stats < Flower::Command
   respond_to "stats"
   CHARTBEAT_URL = "http://api.chartbeat.com"
-  
+
   def self.respond(command, message, sender, flower)
-    case message
+    message_array = message.split(" ")
+    case message_array.first
     when "online"
       flower.say("Online right now: #{online_right_now}")
+    when "sax"
+      nick = message_array[1] || sender[:nick]
+      flower.say "Sax stats for #{nick}"
+      flower.paste sax_stats_for(nick)
     else
       flower.say("Online right now: #{online_right_now}")
     end
@@ -17,7 +22,12 @@ class Stats < Flower::Command
   end
 
   private
-  # stats
+
+  def self.sax_stats_for(nick)
+    stats = Flower::Stats.find("sax/#{nick.downcase}", 1.hours.ago, 1.hour.from_now).total
+    stats.map {|type, value| "#{type}: #{value}"} << "totalt: #{stats.values.inject(:+) || 0}"
+  end
+
   def self.online_right_now
     require 'open-uri'
     doc = open "#{CHARTBEAT_URL}/quickstats?host=#{Flower::Config.chartbeat['domain']}&apikey=#{Flower::Config.chartbeat['key']}"
