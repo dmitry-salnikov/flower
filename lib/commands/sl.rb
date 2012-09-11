@@ -5,30 +5,30 @@ class SL < Flower::Command
 
   class << self
     def description
-      'SL from Stockholm Södra'
+      'SL from Stockholm Södra, use buses/trains as message'
     end
 
     def respond(command, message, sender, flower)
-      #puts "#{command} #{message} #{sender}"
-      flower.paste(bus, :mention => sender[:id])
+        transport = "Buses"
+        station = 9530
+        response = nil
+        if message == "trains"
+          transport = "Trains"
+        end
+        response = get_station(station)
+        items = get_result(response["DPS"][transport].first[1])
+        flower.paste(items, :mention => sender[:id])
     end
 
     private
     def get_station(station)
-      items = JSON.parse(Typhoeus::Request.get("http://sjostadsbussen.se/departures/#{station}.json").body)
-      items.map!{|item| item["Destination"] + " - " + item["DisplayTime"]}
+      url = "https://api.trafiklab.se/sl/realtid/GetDpsDepartures.json?key=#{Flower::Config.api_sl}&siteId=#{station}"
+      items = JSON.parse(Typhoeus::Request.get(url).body)
     end
 
-    def bus
-      get_station(9530)
-    end
-
-    def train
-      get_station(9530)
-    end
-
-    def metro
-      get_station(9297)
+    def get_result(items)
+      #items.map!{|item| item["Destination"] + " - " + item["DisplayTime"]}
+      items.map!{|item| item["Destination"] + " - " + item["DisplayTime"] }
     end
   end
 end
