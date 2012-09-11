@@ -1,4 +1,4 @@
-class Spotify < Flower::Command
+class SpotifyCommand < Flower::Command
   respond_to "play", "pause", "track", "stam"
   require 'appscript'
 
