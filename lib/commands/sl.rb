@@ -27,7 +27,6 @@ class SL < Flower::Command
     end
 
     def get_result(items)
-      #items.map!{|item| item["Destination"] + " - " + item["DisplayTime"]}
       items.map!{|item| item["Destination"] + " - " + item["DisplayTime"] }
     end
   end
