@@ -1,6 +1,6 @@
 # encoding: UTF-8
 require_relative 'sound_command'
-class Boom < SoundCommand
+class Duke < SoundCommand
   respond_to "duke"
 
   FILES = Dir.glob("extras/duke/*.mp3").map{|f| f.gsub("extras/","")}
