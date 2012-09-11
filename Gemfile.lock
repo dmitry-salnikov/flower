@@ -24,6 +24,7 @@ GEM
     ffi (1.1.5)
     google-search (1.0.3)
       json
+    hashie (1.2.0)
     http_parser.rb (0.5.3)
     httparty (0.9.0)
       multi_json (~> 1.0)
@@ -56,6 +57,10 @@ GEM
     rspec-expectations (2.6.0)
       diff-lcs (~> 1.1.2)
     rspec-mocks (2.6.0)
+    scout_api (1.0.5)
+      hashie
+      httparty
+      nokogiri
     slop (3.3.3)
     time_ext (0.2.9)
       activesupport (>= 2.3.2)
@@ -83,6 +88,7 @@ DEPENDENCIES
   rb-appscript (~> 0.6.1)
   redistat
   rspec (~> 2.6.0)
+  scout_api
   typhoeus
   webmock
   yajl-ruby
