@@ -1,7 +1,7 @@
 # encoding: UTF-8
 require_relative 'sound_command'
 class SoundFx < SoundCommand
-  respond_to "easy", "rimshot", "sad", "yeah", "applause", "bomb", "suprise", "snore", "godwillsit", "sting", "pengar", "rik", "fel", "khan", "tarelugn", "tadetlugnt", "keke", "judas", "priest"
+  respond_to "easy", "rimshot", "sad", "yeah", "applause", "bomb", "suprise", "snore", "godwillsit", "sting", "pengar", "rik", "fel", "khan", "tarelugn", "tadetlugnt", "keke", "judas", "priest", "fascinating"
 
   def self.description
     "Awesome audio fx!"
@@ -45,6 +45,8 @@ class SoundFx < SoundCommand
       play_file %w(pengar fel rik).sample.tap { |keke| keke << ".mp3" }
     when /judas|priest/
       play_file "judas/judas#{rand(25)+1}.mp3"
+    when "fascinating"
+      play_file "fascinating.mp3"
     end
   end
 end
