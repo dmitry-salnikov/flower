@@ -10,13 +10,6 @@ class LaggUt < SoundCommand
   end
 
   def self.respond(command, message, sender, flower)
-    store_stats(sender, :laggut)
     play_file FILES.sample
-  end
-
-  private
-
-  def self.store_stats(sender, type)
-    Flower::Stats.store("laggut/#{sender[:nick].downcase}", {type => 1})
   end
 end
