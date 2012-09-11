@@ -1,5 +1,5 @@
 # encoding: utf-8
-require 'open-uri'
+require 'typhoeus'
 class SL < Flower::Command
   respond_to 'sl'
 
@@ -9,22 +9,26 @@ class SL < Flower::Command
     end
 
     def respond(command, message, sender, flower)
-      flower.paste(soder, :mention => sender[:id])
+      #puts "#{command} #{message} #{sender}"
+      flower.paste(bus, :mention => sender[:id])
     end
 
     private
-    def html
-      open('http://realtid.sl.se/?id=177&epslanguage=sv&WbSgnMdl=1365-U8O2ZHJhIHN0YXRpb24gKHDDpSBSb3Nlbmx1bmRzZykgKFN0b2NraG9sbSk%3d-_--_-_-_').read
+    def get_station(station)
+      items = JSON.parse(Typhoeus::Request.get("http://sjostadsbussen.se/departures/#{station}.json").body)
+      items.map!{|item| item["Destination"] + " - " + item["DisplayTime"]}
     end
 
-    def soder
-      trs = Nokogiri::HTML.parse(html).css('div.trafficList tr')
+    def bus
+      get_station(9530)
+    end
 
-      trs.map do |tr|
-        tr.css("td").map do |td|
-          td.text.gsub(/\t|\n|\r/,"")
-        end.join(" ")
-      end
+    def train
+      get_station(9530)
+    end
+
+    def metro
+      get_station(9297)
     end
   end
 end
