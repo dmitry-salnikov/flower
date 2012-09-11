@@ -9,7 +9,7 @@ class Spotify < Flower::Command
       flower.say("Stopped playing")
     when "stam"
       spotify.pause
-      flower.say("Stam in da house")  
+      flower.say("Stam in da house")
     when "track"
       flower.say(get_current_track)
     when "play"
@@ -22,8 +22,6 @@ class Spotify < Flower::Command
         spotify.previous_track
         sleep 0.2
         spotify.previous_track
-      else
-        system("osascript -e '#{search_applescript(message)}'")
       end
       flower.say(get_current_track)
     end
@@ -57,25 +55,5 @@ class Spotify < Flower::Command
 
   def self.spotify
     Appscript::app("Spotify")
-  end
-
-  def self.search_applescript(query)
-    "
-      tell application \"System Events\"
-        tell process \"Spotify\"
-          tell application \"Spotify\" to activate
-          click menu item 17 of menu 1 of menu bar item 4 of menu bar 1
-          keystroke \"#{query}\"
-          keystroke return
-          delay 1
-          click menu item 18 of menu 1 of menu bar item 4 of menu bar 1
-          key code 53
-          keystroke tab
-          keystroke tab
-          keystroke return
-        end tell
-        set visible of process \"Spotify\" to false
-      end tell
-    "
   end
 end
