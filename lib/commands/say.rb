@@ -1,6 +1,7 @@
+# encoding: utf-8
 class Say < Flower::Command
-  respond_to "say", "whisper", "sing"
-  
+  respond_to "say", "whisper", "sing", "säg"
+
   def self.respond(command, message, sender, flower)
     case command
     when "whisper"
@@ -14,6 +15,10 @@ class Say < Flower::Command
     when "say"
       Spotify.lower_spotify do
         system "say", message
+      end
+    when "säg"
+      Spotify.lower_spotify do
+        system "say", "-vAlva", message
       end
     end
   end
