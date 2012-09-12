@@ -66,7 +66,11 @@ class SpotifyCommand < Flower::Command
   end
 
   def self.play_song(query)
-    track = search_for(query).first
+    if query.match(/^spotify:/)
+      track = Hallon::Track.new(query).load
+    else
+      track = search_for(query).first
+    end
     spotify.pause
     Thread.new do
       player.play!(track)
