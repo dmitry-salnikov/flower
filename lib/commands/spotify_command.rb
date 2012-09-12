@@ -1,29 +1,41 @@
 class SpotifyCommand < Flower::Command
-  respond_to "play", "pause", "track", "stam"
+  respond_to "play", "pause", "track", "stam", "search"
   require 'appscript'
+  require 'hallon'
+  require 'hallon-openal'
 
   def self.respond(command, message, sender, flower)
     case command
     when "pause"
       spotify.pause
+      player.pause
       flower.say("Stopped playing")
     when "stam"
       spotify.pause
       flower.say("Stam in da house")
     when "track"
       flower.say(get_current_track)
+    when "search"
+      response = search(message)
+      flower.paste(response)
     when "play"
       case message.split(" ").first
       when nil
         spotify.play
       when "next"
+        player.pause
+        spotify.play
         spotify.next_track
+        flower.say(get_current_track)
       when "prev"
         spotify.previous_track
         sleep 0.2
         spotify.previous_track
+        flower.say(get_current_track)
+      else
+        song = play_song(message)
+        flower.say "Playing: #{song}"
       end
-      flower.say(get_current_track)
     end
   end
 
@@ -53,7 +65,42 @@ class SpotifyCommand < Flower::Command
     "Playing: #{spotify.current_track.artist.get} - #{spotify.current_track.name.get}"
   end
 
-  def self.spotify
-    Appscript::app("Spotify")
+  def self.play_song(query)
+    track = search_for(query).first
+    spotify.pause
+    Thread.new do
+      player.play!(track)
+      spotify.play
+    end
+    "#{track.artist.name} - #{track.name}"
   end
+
+  def self.search(query)
+    result = search_for(query)
+    response = ["Found #{result.size} tracks:"]
+    response << result[0, 5].map{ |track| "#{track.artist.name} - #{track.name} (#{track.to_link.to_uri})" }
+  end
+
+  def self.search_for(query)
+    Hallon::Search.new(query).load.tracks
+  end
+
+  def self.player
+    @player ||= Hallon::Player.new(Hallon::OpenAL)
+  end
+
+  def self.spotify
+    @spotify ||= Appscript::app("Spotify")
+  end
+
+  def self.init_session
+    @hallon_session ||= hallon_session!
+  end
+
+  def self.hallon_session!
+    session = Hallon::Session.initialize(IO.read('./spotify_appkey.key'))
+    session.login(Flower::Config.spotify_username, Flower::Config.spotify_password)
+  end
+
+  init_session
 end
