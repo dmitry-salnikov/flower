@@ -17,8 +17,9 @@ class Say < Flower::Command
         system "say", message
       end
     when "säg"
+      voices = %w(Oskar Alva)
       Spotify.lower_spotify do
-        system "say", "-vAlva", message
+        system "say", "-v#{voices.sample}", message
       end
     end
   end
