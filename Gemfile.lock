@@ -24,6 +24,11 @@ GEM
     ffi (1.1.5)
     google-search (1.0.3)
       json
+    hallon (0.18.1)
+      ref (~> 1.0)
+      spotify (~> 12.3.0)
+    hallon-openal (1.0.0)
+      hallon (~> 0.13)
     hashie (1.2.0)
     http_parser.rb (0.5.3)
     httparty (0.9.0)
@@ -31,6 +36,7 @@ GEM
       multi_xml
     i18n (0.6.1)
     json (1.5.4)
+    libspotify (12.1.51.1)
     libxml-ruby (2.2.2)
     method_source (0.8)
     mime-types (1.19)
@@ -49,6 +55,7 @@ GEM
       json (>= 1.4.0)
       redis (>= 2.1.0)
       time_ext (>= 0.2.9)
+    ref (1.0.0)
     rspec (2.6.0)
       rspec-core (~> 2.6.0)
       rspec-expectations (~> 2.6.0)
@@ -62,6 +69,9 @@ GEM
       httparty
       nokogiri
     slop (3.3.3)
+    spotify (12.3.0)
+      ffi (~> 1.0, >= 1.0.11)
+      libspotify (~> 12.1.51)
     time_ext (0.2.9)
       activesupport (>= 2.3.2)
       i18n (>= 0.4.2)
@@ -79,6 +89,8 @@ PLATFORMS
 DEPENDENCIES
   em-eventsource
   google-search
+  hallon
+  hallon-openal
   httparty
   json (~> 1.5.4)
   libxml-ruby (~> 2.2.2)
