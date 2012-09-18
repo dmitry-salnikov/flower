@@ -51,7 +51,6 @@ class Flower
   end
 
   def respond_to(message_json)
-    return if message_json[:internal] || from_self?(message_json)
     Thread.new do
       self.message = nil
       message_json[:content].split("|").each do |content|
@@ -64,7 +63,7 @@ class Flower
           command = match.shift || ""
           Flower::Command.delegate_command(command.downcase, match.join(" "), users[message_json[:user].to_i], self)
         end
-        Flower::Command.trigger_listeners(content, users[message_json[:user].to_i], self)
+        Flower::Command.trigger_listeners(content, users[message_json[:user].to_i], self) unless message_json[:internal] || from_self?(message_json)
       end
       post(self.message, self.tags)
     end
