@@ -55,7 +55,10 @@ class Flower
     Thread.new do
       self.message = nil
       message_json[:content].split("|").each do |content|
-        content = "#{content} #{self.message}" if self.message
+        if self.message
+          content = "#{content} #{self.message}"
+          self.message = nil
+        end
         if match = bot_message(content)
           match = match.to_a[1].split
           command = match.shift || ""
