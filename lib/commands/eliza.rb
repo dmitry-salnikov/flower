@@ -1,14 +1,16 @@
 require_relative 'eliza/client'
 
 class Eliza < Flower::Command
-  respond_to "eliza"
+  REGEXP = /^bot([\s,]|$)/i
+  listen_to REGEXP
 
   def self.description
     "Analyze this!"
   end
 
-  def self.respond(command, message, sender, flower)
-    flower.say eliza.processInput(message)
+  def self.listen(message, sender, flower)
+    m = message.sub(REGEXP, "").strip
+    flower.say eliza.processInput(m)
   end
 
   private

@@ -75,7 +75,7 @@ class Flower
   end
 
   def self.bot_message(content)
-    content.respond_to?(:match) && content.match(/^(?:bot|!)[\s|,|:]*(.*)/i)
+    content.respond_to?(:match) && content.match(/^(?:!)[\s|,|:]*(.*)/i)
   end
 
   def post(message, tags = nil)
