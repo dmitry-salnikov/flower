@@ -41,7 +41,8 @@ class Flower
   def paste(message, options = {})
     message = message.join("\n") if message.respond_to?(:join)
     message = message.split("\n").map{ |str| (" " * 4) + str }.join("\n")
-    post(message, parse_tags(options))
+    self.message = message.respond_to?(:join) ? message.join("\n") : message
+    self.tags = parse_tags(options)
   end
 
   def say(message, options = {})
