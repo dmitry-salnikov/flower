@@ -21,30 +21,26 @@ class Flower::Command
 
   def self.delegate_command(command, message, sender, flower)
     return false if Flower::COMMANDS[command].nil?
-    Thread.new do
-      begin
-        Flower::Stats.store_command_stat(command, sender[:nick])
-        Flower::COMMANDS[command].respond(command, message, sender, flower)
-      rescue => error
-        post_error(error, command, message, sender, flower)
-        puts error
-        puts error.backtrace
-      end
+    begin
+      Flower::Stats.store_command_stat(command, sender[:nick])
+      Flower::COMMANDS[command].respond(command, message, sender, flower)
+    rescue => error
+      post_error(error, command, message, sender, flower)
+      puts error
+      puts error.backtrace
     end
   end
 
 
   def self.trigger_listeners(message, sender, flower)
     return false if Flower::LISTENERS.empty?
-    Flower::LISTENERS.each do |regexp, command|
-      Thread.new do
-        begin
-          command.listen(message, sender, flower) if message.match(regexp)
-        rescue => error
-          post_error(error, "", message, sender, flower)
-          puts error
-          puts error.backtrace
-        end
+    Flower::LISTENERS.map do |regexp, command|
+      begin
+        command.listen(message, sender, flower) if message.match(regexp)
+      rescue => error
+        post_error(error, "", message, sender, flower)
+        puts error
+        puts error.backtrace
       end
     end
   end
