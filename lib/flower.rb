@@ -20,7 +20,7 @@ class Flower
     require File.expand_path(File.join(File.dirname(__FILE__), "..", file))
   end
 
-  attr_accessor :messages_url, :post_url, :flow_url, :stream, :rest, :users, :pid, :nick
+  attr_accessor :messages_url, :post_url, :flow_url, :stream, :rest, :users, :pid, :nick, :message, :tags
 
   def initialize
     self.nick     = Flower::Config.bot_nick
@@ -45,17 +45,25 @@ class Flower
   end
 
   def say(message, options = {})
-    message = message.join("\n") if message.respond_to?(:join)
-    post(message, parse_tags(options))
+    self.message = message.respond_to?(:join) ? message.join("\n") : message
+    self.tags = parse_tags(options)
   end
 
   def respond_to(message_json)
-    if match = bot_message(message_json[:content])
-      match = match.to_a[1].split
-      command = match.shift || ""
-      Flower::Command.delegate_command(command.downcase, match.join(" "), users[message_json[:user].to_i], self)
+    return if message_json[:internal] || from_self?(message_json)
+    Thread.new do
+      self.message = nil
+      message_json[:content].split("|").each do |content|
+        content = "#{content} #{self.message}" if self.message
+        if match = bot_message(content)
+          match = match.to_a[1].split
+          command = match.shift || ""
+          Flower::Command.delegate_command(command.downcase, match.join(" "), users[message_json[:user].to_i], self)
+        end
+        Flower::Command.trigger_listeners(content, users[message_json[:user].to_i], self)
+      end
+      post(self.message, self.tags)
     end
-    Flower::Command.trigger_listeners(message_json[:content], users[message_json[:user].to_i], self) unless message_json[:internal] || from_self?(message_json)
   end
 
   def get_users(users_json)
