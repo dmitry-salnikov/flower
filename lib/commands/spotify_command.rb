@@ -104,6 +104,8 @@ class SpotifyCommand < Flower::Command
   def self.hallon_session!
     session = Hallon::Session.initialize(IO.read('./spotify_appkey.key'))
     session.login(Flower::Config.spotify_username, Flower::Config.spotify_password)
+  rescue
+    nil
   end
 
   init_session
