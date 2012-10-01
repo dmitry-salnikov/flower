@@ -146,10 +146,12 @@ class SpotifyCommand < Flower::Command
   end
 
   def self.hallon_session!
-    session = Hallon::Session.initialize(IO.read('./spotify_appkey.key'))
-    session.login(Flower::Config.spotify_username, Flower::Config.spotify_password)
-  rescue
-    nil
+    if appkey = IO.read('./spotify_appkey.key') rescue nil
+      session = Hallon::Session.initialize(appkey)
+      session.login(Flower::Config.spotify_username, Flower::Config.spotify_password)
+    else
+      puts("Warning: No spotify_appkey.key found. Get yours here: https://developer.spotify.com/technologies/libspotify/#application-keys")
+    end
   end
 
   init_session
