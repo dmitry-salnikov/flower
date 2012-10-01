@@ -12,7 +12,9 @@ class Rnds < Flower::Command
     # Pick a randiom class that inherits from SoundCommand and run it
     klass = SoundCommand.subclasses
     r = rand(klass.size)
-    klass.at(r).respond(nil, nil, nil, nil)
+    rk = klass.at(r)
+    rk.respond(command, message, sender, flower)
+    #flower.say rk
   end
 
   private
