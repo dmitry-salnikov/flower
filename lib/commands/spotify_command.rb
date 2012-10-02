@@ -68,7 +68,7 @@ class SpotifyCommand < Flower::Command
     if track = QUEUE.pop
       play_track(track)
     else
-      hallon_track = nil
+      self.hallon_track = nil
       spotify.play
       spotify.next_track
     end
@@ -98,7 +98,7 @@ class SpotifyCommand < Flower::Command
 
   def self.play_track(track)
     spotify.pause
-    hallon_track = track
+    self.hallon_track = track
     Thread.new do
       player.play!(track)
       play_next
