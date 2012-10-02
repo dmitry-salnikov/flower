@@ -14,7 +14,7 @@ class Leaderboard < Flower::Command
 
   def self.respond(command, message, sender, flower)
     stats_string = stats.sort_by{ |key, value| value }.reverse.map do |nick, stats|
-      puts "#{nick}: #{stats}"
+      "#{nick}: #{stats}"
     end
     flower.paste(stats_string)
   end
