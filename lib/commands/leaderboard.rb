@@ -8,6 +8,10 @@ class Leaderboard < Flower::Command
     attr_accessor :stats, :num_messages_logged
   end
 
+  def self.description
+    "Show chat leaderboard"
+  end
+
   def self.respond(command, message, sender, flower)
     stats_string = stats.sort_by{ |key, value| value }.reverse.map do |nick, stats|
       puts "#{nick}: #{stats}"
