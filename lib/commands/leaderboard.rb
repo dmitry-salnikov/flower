@@ -31,7 +31,7 @@ class Leaderboard < Flower::Command
     stats[nick] += 1
     self.num_messages_logged += 1
     if num_messages_logged % 100 == 0
-      File.write(FILE_NAME, stats.to_yaml)
+      #File.write(FILE_NAME, stats.to_yaml)
     end
   end
 
@@ -40,7 +40,7 @@ class Leaderboard < Flower::Command
     if parsed = YAML.load_file(FILE_NAME) rescue nil
       self.stats = parsed
     else
-      File.write(FILE_NAME, {}.to_yaml)
+      #File.write(FILE_NAME, {}.to_yaml)
       self.stats = {}
     end
   end
