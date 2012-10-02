@@ -36,7 +36,12 @@ class Leaderboard < Flower::Command
 
   def self.init_chat_stats
     self.num_messages_logged = 0
-    self.stats = YAML.load_file(FILE_NAME) rescue {}
+    if parsed = YAML.load_file(FILE_NAME) rescue nil
+      self.stats = parsed
+    else
+      File.write(FILE_NAME, {}.to_yaml)
+      self.stats = {}
+    end
   end
 
   init_chat_stats
