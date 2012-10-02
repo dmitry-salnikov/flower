@@ -6,10 +6,14 @@ class Sell < SoundCommand
   FILES = Dir.glob("extras/sell/*.mp3").map{|f| f.gsub("extras/","")}
 
   def self.description
-    "ABC - Always Be Closing!"
+    "ABC - Always Be Closing! Boiler Room! Alec Baldwin and Ben Affleck at their best!"
   end
 
   def self.respond(command, message, sender, flower)
-    play_file FILES.sample
+    if FILES.include? "sell/#{message}.mp3"
+      play_file "sell/#{message}.mp3"
+    else
+      play_file FILES.sample
+    end
   end
 end
