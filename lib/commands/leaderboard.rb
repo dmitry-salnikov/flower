@@ -13,9 +13,10 @@ class Leaderboard < Flower::Command
   end
 
   def self.respond(command, message, sender, flower)
-    stats_string = stats.sort_by{ |key, value| value }.reverse.map do |nick, stats|
-      "#{nick}: #{stats}"
-    end
+    stats_string = []
+    stats.sort_by{ |key, value| value }.reverse.each_with_index do |(nick, stats), index|
+      stats_string << "(#{index + 1}) #{nick}: #{stats}"
+     end
     flower.paste(stats_string)
   end
 
