@@ -30,7 +30,7 @@ class Leaderboard < Flower::Command
     stats[nick] ||= 0
     stats[nick] += 1
     self.num_messages_logged += 1
-    if num_messages_logged % 100 == 0
+    if num_messages_logged % 10 == 0
       File.write(FILE_NAME, stats.to_yaml)
     end
   end
