@@ -30,12 +30,12 @@ class SpotifyCommand < Flower::Command
         if QUEUE.empty?
           flower.say("Queue is empty.")
         else
-          flower.paste(["Next in queue (#{QUEUE.size})", QUEUE[0, 5].map{ |track| "#{track.artist.name} - #{track.name}" }])
+          flower.paste(["Next in queue (#{QUEUE.size})", QUEUE[0, 8].map(&:to_s)])
         end
       else
-        track = find_track(message)
+        track = get_track(message, sender[:nick])
         QUEUE << track
-        flower.say "Added to queue (#{QUEUE.size}): #{track.artist.name} - #{track.name}"
+        flower.say "Added to queue (#{QUEUE.size}): #{track}"
       end
     when "play"
       case message.split(" ").first
@@ -48,7 +48,7 @@ class SpotifyCommand < Flower::Command
         sleep 0.2
         spotify.previous_track
       else
-        track = find_track(message)
+        track = get_track(message, sender[:nick])
         play_track(track)
       end
       flower.say(get_current_track)
@@ -100,7 +100,7 @@ class SpotifyCommand < Flower::Command
     spotify.pause
     self.hallon_track = track
     Thread.new do
-      player.play!(track)
+      player.play!(track.pointer)
       play_next
     end
   end
@@ -108,25 +108,28 @@ class SpotifyCommand < Flower::Command
   def self.get_current_track
     "Playing: ".tap do |message|
       if hallon_track
-        message << "#{hallon_track.artist.name} - #{hallon_track.name}"
+        message << hallon_track.to_s
       else
-        message << "#{spotify.current_track.artist.get} - #{spotify.current_track.name.get}"
+        message << "#{spotify.current_track.name.get} - #{spotify.current_track.artist.get}"
       end
     end
   end
 
-  def self.find_track(query)
+  def self.get_track(query, requester = nil)
     if query.match(/^spotify:/)
-      Hallon::Track.new(query).load
+      match = Hallon::Track.new(query).load
     else
-      search(query).first
+      match = search(query).first
+    end
+    if match
+      Track.new(match, requester)
     end
   end
 
   def self.search_tracks(query)
     result = search(query)
     response = ["Found #{result.size} tracks:"]
-    response << result[0, 8].map{ |track| "#{track.artist.name} - #{track.name} (#{track.to_link.to_uri})" }
+    response << result[0, 8].map{ |track| "#{track.name} - #{track.artist.name} (#{track.to_link.to_uri})" }
   end
 
   def self.search(query)
@@ -155,4 +158,14 @@ class SpotifyCommand < Flower::Command
   end
 
   init_session
+
+  class Track < Struct.new(:name, :artist, :pointer, :requester)
+    def initialize(track, requester)
+      super(track.name, track.artist.name, track, requester)
+    end
+
+    def to_s
+      "#{name} - #{artist} (#{requester})"
+    end
+  end
 end
