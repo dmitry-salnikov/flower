@@ -30,7 +30,7 @@ class SpotifyCommand < Flower::Command
         if QUEUE.empty?
           flower.say("Queue is empty.")
         else
-          flower.paste(["Next in queue (#{QUEUE.size})", QUEUE[0, 8].map(&:to_s)])
+          flower.paste([get_current_track, "Next in queue (#{QUEUE.size})", QUEUE[0, 8].map(&:to_s)])
         end
       else
         track = get_track(message, sender[:nick])
