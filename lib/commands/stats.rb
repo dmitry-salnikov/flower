@@ -10,7 +10,7 @@ class Stats < Flower::Command
       flower.paste ["Online right now: #{online_right_now}"]
     when "commands"
       nick = message_array[1] || sender[:nick]
-      flower.paste ["Stats for #{nick}"] << command_stats_for(nick)
+      flower.paste ["Top 10 for #{nick}"] << command_stats_for(nick)
     when "sax"
       nick = message_array[1] || sender[:nick]
       flower.paste ["Sax stats for #{nick}"] << sax_stats_for(nick)
@@ -27,7 +27,8 @@ class Stats < Flower::Command
 
   def self.command_stats_for(nick)
     stats = Flower::Stats.find("commands/#{nick.downcase}", 365.days.ago, 365.days.from_now).total.reject{|v| v == "!"}
-    stats.map {|type, value| "#{type}: #{value}"} << "totalt: #{stats.values.inject(:+) || 0}"
+    response = stats.sort{|a,b| b.last <=> a.last}.map {|type, value| "#{type}: #{value}"}.take(10)
+    response << "totalt: #{stats.values.inject(:+) || 0}"
   end
 
   def self.sax_stats_for(nick)
