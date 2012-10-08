@@ -36,7 +36,7 @@ class Stats < Flower::Command
 
   def self.leaderboard_stats
     stats = Flower::Stats.leaderboard
-    response = stats.map { |nick, value| "#{nick}: #{value}" }
+    response = stats.map { |nick, value, diff| "#{arrow(diff)} #{nick}: #{value}" }
   end
 
   def self.online_right_now
@@ -44,5 +44,15 @@ class Stats < Flower::Command
     doc = open "#{CHARTBEAT_URL}/quickstats?host=#{Flower::Config.chartbeat['domain']}&apikey=#{Flower::Config.chartbeat['key']}"
     json = JSON.parse doc.read
     json["people"]
+  end
+
+  def self.arrow(diff)
+    if diff > 0
+      diff > 5 ? "↑" : "↗"
+    elsif diff < 0
+      diff < -5 ? "↓" : "↘"
+    else
+      "→"
+    end
   end
 end

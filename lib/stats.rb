@@ -17,12 +17,22 @@ class Flower::Stats
   end
 
   def self.leaderboard
-    sorted(find("leaderboard", 365.days.ago, 1.hour.from_now).total)
+    current  = sorted(find("leaderboard", 365.days.ago, 1.hour.from_now).total).to_a
+    previous = sorted(find("leaderboard", 365.days.ago, 1.day.ago).total).to_a
+
+    current.map do |nick, value|
+      [nick, value, calculate_diff(current, previous, [nick, value])]
+    end
   end
 
   private
 
   def self.sorted(stats)
     stats.sort{ |a,b| b.last <=> a.last }
+  end
+
+  def self.calculate_diff(current, previous, obj)
+    previous_obj = previous.find{ |key, value| obj.first == key }
+    (current.index(obj) - previous.index(previous_obj)) * -1
   end
 end
