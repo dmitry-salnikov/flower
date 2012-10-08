@@ -152,6 +152,9 @@ class SpotifyCommand < Flower::Command
     if appkey = IO.read('./spotify_appkey.key') rescue nil
       session = Hallon::Session.initialize(appkey)
       session.login(Flower::Config.spotify_username, Flower::Config.spotify_password)
+      scrobbler = Hallon::Scrobbler.new(:lastfm)
+      scrobbler.credentials = [Flower::Config.lastfm_username, Flower::Config.lastfm_password]
+      scrobbler.enabled = true
     else
       puts("Warning: No spotify_appkey.key found. Get yours here: https://developer.spotify.com/technologies/libspotify/#application-keys")
     end
