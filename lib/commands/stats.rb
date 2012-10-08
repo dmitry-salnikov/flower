@@ -1,18 +1,24 @@
 # encoding: utf-8
 class Stats < Flower::Command
-  respond_to "stats"
+  respond_to "stats", "leaderboard"
   CHARTBEAT_URL = "http://api.chartbeat.com"
 
   def self.respond(command, message, sender, flower)
-    message_array = message.split(" ")
-    case message_array.first
-    when "online"
-      flower.paste ["Online right now: #{online_right_now}"]
-    when "commands"
-      nick = message_array[1] || sender[:nick]
-      flower.paste ["Top 10 for #{nick}"] << command_stats_for(nick)
+    if command == "leaderboard"
+      flower.paste(leaderboard_stats)
     else
-      flower.say("Online right now: #{online_right_now}")
+      message_array = message.split(" ")
+      case message_array.first
+      when "online"
+        flower.paste ["Online right now: #{online_right_now}"]
+      when "commands"
+        nick = message_array[1] || sender[:nick]
+        flower.paste ["Top 10 for #{nick}"] << command_stats_for(nick)
+      when "leaderboard"
+        flower.paste(leaderboard_stats)
+      else
+        flower.say("Online right now: #{online_right_now}")
+      end
     end
   end
 
@@ -26,6 +32,11 @@ class Stats < Flower::Command
     stats = Flower::Stats.command_stats_for(nick)
     response = stats.sort{|a,b| b.last <=> a.last}.map {|type, value| "#{type}: #{value}"}.take(10)
     response << "totalt: #{stats.values.inject(:+) || 0}"
+  end
+
+  def self.leaderboard_stats
+    stats = Flower::Stats.leaderboard
+    response = stats.sort{|a,b| b.last <=> a.last}.map {|nick, value| "#{nick}: #{value}"}
   end
 
   def self.online_right_now
