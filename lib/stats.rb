@@ -12,10 +12,17 @@ class Flower::Stats
   end
 
   def self.command_stats_for(nick)
-    find("commands/#{nick.downcase}", 365.days.ago, 1.hour.from_now).total.reject{|v| v.blank? }
+    stats = find("commands/#{nick.downcase}", 365.days.ago, 1.hour.from_now).total.reject{|v| v.blank? }
+    sorted(stats)
   end
 
   def self.leaderboard
-    find("leaderboard", 365.days.ago, 1.hour.from_now).total
+    sorted(find("leaderboard", 365.days.ago, 1.hour.from_now).total)
+  end
+
+  private
+
+  def self.sorted(stats)
+    stats.sort{ |a,b| b.last <=> a.last }
   end
 end

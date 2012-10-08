@@ -30,13 +30,13 @@ class Stats < Flower::Command
 
   def self.command_stats_for(nick)
     stats = Flower::Stats.command_stats_for(nick)
-    response = stats.sort{|a,b| b.last <=> a.last}.map {|type, value| "#{type}: #{value}"}.take(10)
+    response = stats.map { |type, value| "#{type}: #{value}" }.take(10)
     response << "totalt: #{stats.values.inject(:+) || 0}"
   end
 
   def self.leaderboard_stats
     stats = Flower::Stats.leaderboard
-    response = stats.sort{|a,b| b.last <=> a.last}.map {|nick, value| "#{nick}: #{value}"}
+    response = stats.map { |nick, value| "#{nick}: #{value}" }
   end
 
   def self.online_right_now
