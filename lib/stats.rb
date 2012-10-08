@@ -8,6 +8,6 @@ class Flower::Stats
   end
 
   def self.command_stats_for(nick)
-    find("commands/#{nick.downcase}", 365.days.ago, 365.days.from_now).total.reject{|v| v == "!"}
+    find("commands/#{nick.downcase}", 365.days.ago, 1.hour.from_now).total.reject{|v| v.blank? }
   end
 end
