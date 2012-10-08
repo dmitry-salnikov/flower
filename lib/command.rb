@@ -22,7 +22,6 @@ class Flower::Command
   def self.delegate_command(command, message, sender, flower)
     return false if Flower::COMMANDS[command].nil?
     begin
-      Flower::Stats.store_command_stat(command, sender[:nick])
       Flower::COMMANDS[command].respond(command, message, sender, flower)
     rescue => error
       post_error(error, command, message, sender, flower)
@@ -31,6 +30,9 @@ class Flower::Command
     end
   end
 
+  def self.register_stats(command, sender)
+    Flower::Stats.store_command_stat(command, sender[:nick])
+  end
 
   def self.trigger_listeners(message, sender, flower)
     return false if Flower::LISTENERS.empty?

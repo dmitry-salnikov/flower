@@ -53,6 +53,7 @@ class Flower
   def respond_to(message_json)
     Thread.new do
       self.message = nil
+      sender = users[message_json[:user].to_i]
       message_json[:content].split("|").each do |content|
         if self.message
           content = "#{content} #{self.message}"
@@ -60,10 +61,13 @@ class Flower
         end
         if match = bot_message(content)
           match = match.to_a[1].split
-          command = match.shift || ""
-          Flower::Command.delegate_command(command.downcase, match.join(" "), users[message_json[:user].to_i], self)
+          command = (match.shift || "").downcase
+          Flower::Command.delegate_command(command, match.join(" "), sender, self)
         end
-        Flower::Command.trigger_listeners(content, users[message_json[:user].to_i], self) unless message_json[:internal] || from_self?(message_json)
+        unless message_json[:internal] || from_self?(sender)
+          Flower::Command.trigger_listeners(content, sender, self)
+          Flower::Command.register_stats(command, sender)
+        end
       end
       post(self.message, self.tags)
     end
@@ -77,8 +81,8 @@ class Flower
 
   private
 
-  def from_self?(message_json)
-    users[message_json[:user].to_i][:nick] == nick
+  def from_self?(sender)
+    sender[:nick] == nick
   end
 
   def bot_message(content)
