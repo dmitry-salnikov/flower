@@ -4,6 +4,10 @@ class Flower::Stats
   include Redistat::Model
 
   def self.store_command_stat(command, nick)
-    Flower::Stats.store("commands/#{nick.downcase}", {command => 1})
+    store("commands/#{nick.downcase}", {command => 1})
+  end
+
+  def self.command_stats_for(nick)
+    find("commands/#{nick.downcase}", 365.days.ago, 365.days.from_now).total.reject{|v| v == "!"}
   end
 end
