@@ -33,9 +33,10 @@ class SpotifyCommand < Flower::Command
           flower.paste([get_current_track, "Next in queue (#{QUEUE.size})", QUEUE[0, 8].map(&:to_s)])
         end
       else
-        track = get_track(message, sender[:nick])
-        QUEUE << track
-        flower.say "Added to queue (#{QUEUE.size}): #{track}"
+        if track = get_track(message, sender[:nick])
+          QUEUE << track
+          flower.say "Added to queue (#{QUEUE.size}): #{track}"
+        end
       end
     when "play"
       case message.split(" ").first
@@ -48,8 +49,9 @@ class SpotifyCommand < Flower::Command
         sleep 0.2
         spotify.previous_track
       else
-        track = get_track(message, sender[:nick])
-        play_track(track)
+        if track = get_track(message, sender[:nick])
+          play_track(track)
+        end
       end
       flower.say(get_current_track)
     end
