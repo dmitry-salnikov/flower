@@ -168,7 +168,7 @@ class SpotifyCommand < Flower::Command
     end
 
     def to_s
-      "#{name} - #{artist} (#{requester})"
+      CGI.escape "#{name} - #{artist} (#{requester})"
     end
   end
 end
