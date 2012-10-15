@@ -25,9 +25,10 @@ class Pic < Flower::Command
   def self.search_google(query, random = false)
     results = Google::Search::Image.new(:query => query).to_a
     if random
-      results.shuffle[0].uri
+      url = results.sample.uri
     else
-      results[0].uri
+      url = results[0].uri
     end
+    URI.encode url
   end
 end
