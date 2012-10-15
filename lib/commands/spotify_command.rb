@@ -1,13 +1,16 @@
 class SpotifyCommand < Flower::Command
-  respond_to "play", "pause", "track", "stam", "search", "queue"
+  respond_to "play", "pause", "track", "stam", "search", "queue", "playlist"
   require 'appscript'
   require 'hallon'
   require 'hallon-openal'
 
   QUEUE = []
+  PLAYLIST = []
 
   class << self
     attr_accessor :hallon_track
+    attr_accessor :playlist_position
+    attr_accessor :hallon_playlist
   end
 
   def self.respond(command, message, sender, flower)
@@ -24,6 +27,20 @@ class SpotifyCommand < Flower::Command
     when "search"
       response = search_tracks(message)
       flower.paste(response)
+    when "playlist"
+      case message.split(" ").first
+      when nil
+        if hallon_playlist
+          flower.paste ["Current playlist", hallon_playlist.name]
+        else
+          flower.say "No playlist"
+        end
+      else
+        if playlist = set_playlist(message, sender[:nick])
+          self.hallon_playlist = playlist
+          flower.paste ["Current playlist", hallon_playlist.name]
+        end
+      end
     when "queue"
       case message.split(" ").first
       when nil
@@ -67,7 +84,7 @@ class SpotifyCommand < Flower::Command
 
   def self.play_next
     player.pause
-    if track = QUEUE.shift
+    if track = (QUEUE.shift || get_next_playlist_track)
       play_track(track)
     else
       self.hallon_track = nil
@@ -125,6 +142,27 @@ class SpotifyCommand < Flower::Command
     end
     if match
       Track.new(match, requester)
+    end
+  end
+
+  def self.set_playlist(query, requester)
+    if query.match(/^spotify:.*:playlist:/)
+      if playlist = Hallon::Playlist.new(query).load
+        PLAYLIST.clear
+        self.playlist_position = -1
+        playlist.tracks.to_a.each do |track|
+          track.load
+          PLAYLIST << Track.new(track, requester)
+        end
+        playlist
+      end
+    end
+  end
+
+  def self.get_next_playlist_track
+    unless PLAYLIST.empty?
+      self.playlist_position += 1
+      PLAYLIST[playlist_position] || PLAYLIST[0]
     end
   end
 
