@@ -9,7 +9,7 @@ class Godmorgom < Flower::Command
 
   def self.respond(command, message, sender, flower)
     flower.paste(lyric)
-    SpotifyCommand.play_track("Fred Åkerström - Jag Ger Dig Min Morgon")
+    SpotifyCommand.play_track(SpotifyCommand.get_track("Fred Åkerström - Jag Ger Dig Min Morgon"))
   end
 
   def self.lyric
