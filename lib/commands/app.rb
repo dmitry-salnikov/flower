@@ -23,6 +23,6 @@ class App < Flower::Command
     reset
     tag = `cd #{Flower::Config.git_repo_path} && git tag|grep production|tail -n 1`.strip
     undeployed = `cd #{Flower::Config.git_repo_path} && git log --oneline #{tag}..HEAD`.split("\n")
-    undeployed << "https://github.com/mynewsdesk/mynewsdesk/compare/#{tag}...master"
+    undeployed + ["","https://github.com/mynewsdesk/mynewsdesk/compare/#{tag}...master"]
   end
 end
