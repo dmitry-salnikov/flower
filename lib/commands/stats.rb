@@ -31,7 +31,7 @@ class Stats < Flower::Command
   def self.command_stats_for(nick)
     stats = Flower::Stats.command_stats_for(nick)
     response = stats.map { |type, value| "#{type}: #{value}" }.take(10)
-    response << "totalt: #{stats.values.inject(:+) || 0}"
+    response << "totalt: #{stats.map{|s| s[1] }.inject(:+) || 0}"
   end
 
   def self.leaderboard_stats
