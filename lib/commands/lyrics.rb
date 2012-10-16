@@ -19,7 +19,7 @@ class Lyrics < Flower::Command
     document = Nokogiri.HTML(open(URL.gsub("<q>", URI.escape(query))))
     lyrics_href = document.at_css(".data_list td:nth(3) a").attribute("href").value
     document = Nokogiri.HTML(open(lyrics_href))
-    document.at_css("div#lyrics").inner_html.gsub("<br>", "").split("\n")
+    document.at_css("div#lyrics").inner_html.gsub("<br><br>", "\n").gsub("<br>", "").split("\n")
   rescue
     false
   end
