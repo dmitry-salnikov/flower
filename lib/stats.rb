@@ -18,7 +18,7 @@ class Flower::Stats
 
   def self.leaderboard
     current  = sorted(find("leaderboard", 365.days.ago, 1.hour.from_now).total).to_a
-    previous = sorted(find("leaderboard", 365.days.ago, 1.day.ago).total).to_a
+    previous = sorted(find("leaderboard", 365.days.ago, 1.week.ago).total).to_a
 
     current.map do |nick, value|
       [nick, value, calculate_diff(current, previous, [nick, value])]
