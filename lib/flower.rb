@@ -54,6 +54,7 @@ class Flower
     Thread.new do
       self.message = nil
       sender = users[message_json[:user].to_i]
+      Thread.exit if !sender # Temp solution to not break the mnd CLI tool
       message_json[:content].split("|").each do |content|
         if self.message
           content = "#{content} #{self.message}"
