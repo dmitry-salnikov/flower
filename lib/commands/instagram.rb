@@ -9,7 +9,12 @@ class InstagramCommand < Flower::Command
   respond_to "insta", "instagram"
 
   def self.respond(command, message, sender, flower)
-    flower.say(image_path(message)) if message.present?
+    if message.present?
+      search = message.split(" ").first
+      flower.say(image_path(search))
+    else
+      flower.say("(Enter search term)")
+    end
   end
 
   def self.image_path(query)
