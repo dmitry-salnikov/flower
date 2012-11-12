@@ -10,15 +10,15 @@ class Laughter < SoundCommand
   def self.respond(command, message, sender, flower)
     case command
     when "hähä"
-      play_file "hehe.mp3"
+      play_file "laughter/hehe.mp3"
     when "giggle"
-      play_file "giggle.mp3"
+      play_file "laughter/giggle.mp3"
     when "hoho"
-      play_file "hoho.mp3"
+      play_file "laughter/hoho.mp3"
     when "haha"
-      play_file "haha.wav"
+      play_file "laughter/haha.wav"
     else
-      play_file "muhaha.mp3"
+      play_file "laughter/muhaha.mp3"
     end
   end
 end
