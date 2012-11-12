@@ -162,7 +162,8 @@ class SpotifyCommand < Flower::Command
   def self.get_next_playlist_track
     unless PLAYLIST.empty?
       self.playlist_position += 1
-      PLAYLIST[playlist_position] || PLAYLIST[0]
+      self.playlist_position = 0 if playlist_position == PLAYLIST.size
+      PLAYLIST[playlist_position]
     end
   end
 
