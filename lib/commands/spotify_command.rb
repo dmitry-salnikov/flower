@@ -204,7 +204,7 @@ class SpotifyCommand < Flower::Command
   end
 
   def self.hallon_session!
-    if appkey = IO.read('./spotify_appkey.key') rescue nil
+    if appkey = IO.read(Flower::Config.spotify_appkey) rescue nil
       session = Hallon::Session.initialize(appkey)
       session.login(Flower::Config.spotify_username, Flower::Config.spotify_password)
       scrobbler = Hallon::Scrobbler.new(:lastfm)
