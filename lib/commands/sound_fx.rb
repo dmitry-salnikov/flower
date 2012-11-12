@@ -1,7 +1,7 @@
 # encoding: UTF-8
 require_relative 'sound_command'
 class SoundFx < SoundCommand
-  respond_to "easy", "rimshot", "sad", "yeah", "applause", "bomb", "suprise", "snore", "godwillsit", "sting", "pengar", "rik", "fel", "khan", "khan?", "tarelugn", "tadetlugnt", "keke", "judas", "priest", "fascinating"
+  respond_to "easy", "rimshot", "sad", "yeah", "applause", "bomb", "suprise", "snore", "godwillsit", "sting", "pengar", "rik", "fel", "khan", "khan?", "tarelugnt", "tadetlugnt", "keke", "judas", "priest", "fascinating"
 
   def self.description
     "Awesome audio fx!"
