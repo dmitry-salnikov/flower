@@ -30,7 +30,7 @@ class Flower::Stream
     return @parser unless @parser.nil?
     @parser = Yajl::Parser.new(:symbolize_keys => true)
     @parser.on_parse_complete = proc do |data|
-      flower.respond_to data if data[:event] == 'message' && data[:flow] == "#{Flower::Config.company}:#{Flower::Config.flow}"
+      flower.respond_to data if data[:event] =~ /message|comment/ && data[:flow] == "#{Flower::Config.company}:#{Flower::Config.flow}"
     end
     @parser
   end
