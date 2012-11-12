@@ -34,7 +34,7 @@ class Flower
     EM.run {
       get_users rest.get_users
       stream.start
-      EventMachine::start_server("localhost", 6000, LocalServer) { |s| s.set_flower(self) }
+      EventMachine::start_server("localhost", Flower::Config.em_port, LocalServer) { |s| s.set_flower(self) }
     }
   end
 
