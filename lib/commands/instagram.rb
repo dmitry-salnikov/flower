@@ -10,7 +10,7 @@ class InstagramCommand < Flower::Command
 
   def self.respond(command, message, sender, flower)
     if message.present?
-      search = message.split(" ").first
+      search = URI.escape(message.split(" ").first)
       flower.say(image_path(search))
     else
       flower.say("(Enter search term)")
