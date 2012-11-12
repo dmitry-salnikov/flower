@@ -10,9 +10,9 @@ class TvSeries < SoundCommand
   def self.respond(command, message, sender, flower)
     case command
     when "airwolf"
-      play_file "airwolf.m4a"
+      play_file "tv_series/airwolf.m4a"
     when "ateam"
-      play_file "a_team.m4a"
+      play_file "tv_series/a_team.m4a"
     end
   end
 end

@@ -9,7 +9,7 @@ class Friday < SoundCommand
 
   def self.respond(command, message, sender, flower)
     if Time.now.wday == 5
-      play_file("friday.mp3")
+      play_file("friday/friday.mp3")
     else
       flower.say("Today is not a Rebecca Black day", :mention => sender[:id])
     end
