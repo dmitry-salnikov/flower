@@ -11,6 +11,7 @@ class SpotifyCommand < Flower::Command
     attr_accessor :hallon_track
     attr_accessor :playlist_position
     attr_accessor :hallon_playlist
+    attr_accessor :playlist_shuffle
   end
 
   def self.respond(command, message, sender, flower)
@@ -35,6 +36,11 @@ class SpotifyCommand < Flower::Command
         else
           flower.say "No playlist"
         end
+      when "shuffle"
+        if mode = message.split(" ").last
+          set_playlist_shuffle(mode)
+        end
+        flower.say("Playlist shuffle is #{playlist_shuffle} (set to \"on\" or \"off\")")
       else
         if playlist = set_playlist(message, sender[:nick])
           self.hallon_playlist = playlist
@@ -161,10 +167,19 @@ class SpotifyCommand < Flower::Command
 
   def self.get_next_playlist_track
     unless PLAYLIST.empty?
-      self.playlist_position += 1
-      self.playlist_position = 0 if playlist_position == PLAYLIST.size
-      PLAYLIST[playlist_position]
+      if playlist_shuffle == "on"
+        PLAYLIST.sample
+      else
+        self.playlist_position += 1
+        self.playlist_position = 0 if playlist_position == PLAYLIST.size
+        PLAYLIST[playlist_position]
+      end
     end
+  end
+
+  def self.set_playlist_shuffle(mode)
+    return true unless mode == "on" || mode == "off"
+    self.playlist_shuffle = mode
   end
 
   def self.search_tracks(query)
@@ -187,6 +202,7 @@ class SpotifyCommand < Flower::Command
 
   def self.init_session
     @@hallon_session ||= hallon_session!
+    self.playlist_shuffle = "off"
   end
 
   def self.hallon_session!
