@@ -232,7 +232,7 @@ class SpotifyCommand < Flower::Command
       if type == "album"
         album = Hallon::Album.new(spotify_uri)
         list = album.browse.load
-        name = album.name
+        name = "#{album.name} - #{album.artist.name}"
       else
         list = Hallon::Playlist.new(spotify_uri).load
         name = list.name
