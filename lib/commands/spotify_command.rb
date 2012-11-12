@@ -1,5 +1,5 @@
 class SpotifyCommand < Flower::Command
-  respond_to "play", "pause", "track", "stam", "search", "queue", "playlist"
+  respond_to "play", "pause", "track", "stam", "search", "queue", "playlist", "album"
   require 'appscript'
   require 'hallon'
   require 'hallon-openal'
@@ -28,7 +28,7 @@ class SpotifyCommand < Flower::Command
     when "search"
       response = search_tracks(message)
       flower.paste(response)
-    when "playlist"
+    when /playlist|album/
       case message.split(" ").first
       when nil
         if hallon_playlist
@@ -152,16 +152,14 @@ class SpotifyCommand < Flower::Command
   end
 
   def self.set_playlist(query, requester)
-    if query.match(/^spotify:.*:playlist:/)
-      if playlist = Hallon::Playlist.new(query).load
-        PLAYLIST.clear
-        self.playlist_position = -1
-        playlist.tracks.to_a.each do |track|
-          track.load
-          PLAYLIST << Track.new(track, requester)
-        end
-        playlist
+    if type = query.match(/^spotify:.*(:playlist|album):/)
+      list = List.new(type[1], query, requester)
+      PLAYLIST.clear
+      self.playlist_position = -1
+      list.tracks.each do |track|
+        PLAYLIST << track
       end
+      list
     end
   end
 
@@ -226,6 +224,20 @@ class SpotifyCommand < Flower::Command
 
     def to_s
       CGI.escape "#{name} - #{artist} (#{requester})"
+    end
+  end
+
+  class List < Struct.new(:name, :tracks)
+    def initialize(type, spotify_uri, requester)
+      if type == "album"
+        album = Hallon::Album.new(spotify_uri)
+        list = album.browse.load
+        name = album.name
+      else
+        list = Hallon::Playlist.new(spotify_uri).load
+        name = list.name
+      end
+      super(name, list.tracks.map { |track| Track.new(track, requester) })
     end
   end
 end
