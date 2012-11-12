@@ -4,9 +4,14 @@ class Flower::Command
       if Flower::COMMANDS[command]
         warn "Command already defined: #{command}"
       else
-        Flower::COMMANDS[command] = self
+        Flower::COMMANDS[command] = self if allowed_command?(command)
       end
     end
+  end
+
+  def self.allowed_command?(command)
+    return true if Flower::Config.parental_control.nil?
+    Flower::Config.parental_control.include?(command)
   end
 
   def self.listen_to(*regexps)
