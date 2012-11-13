@@ -25,10 +25,8 @@ class Lyrics < Flower::Command
   end
 
   def self.get_current_song
-    if SpotifyCommand.hallon_track
-      "#{SpotifyCommand.hallon_track.artist} #{SpotifyCommand.hallon_track.name}"
-    elsif SpotifyCommand.spotify.current_track
-      "#{SpotifyCommand.spotify.current_track.artist.get} #{SpotifyCommand.spotify.current_track.name.get}"
+    if SpotifyCommand.current_track
+      "#{SpotifyCommand.current_track.artist} #{SpotifyCommand.current_track.name}"
     end
   end
 end
