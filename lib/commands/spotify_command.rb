@@ -9,20 +9,18 @@ class SpotifyCommand < Flower::Command
   PLAYLIST = []
 
   class << self
-    attr_accessor :hallon_track
+    attr_accessor :current_track
+    attr_accessor :current_playlist
     attr_accessor :playlist_position
-    attr_accessor :hallon_playlist
     attr_accessor :playlist_shuffle
   end
 
   def self.respond(command, message, sender, flower)
     case command
     when "pause"
-      spotify.pause
       player.pause
       flower.say("Stopped playing")
     when "stam"
-      spotify.pause
       flower.say("Stam in da house")
     when "track"
       flower.say(get_current_track)
@@ -32,8 +30,8 @@ class SpotifyCommand < Flower::Command
     when /playlist|album/
       case message.split(" ").first
       when nil
-        if hallon_playlist
-          flower.paste ["Current playlist", hallon_playlist.name]
+        if current_playlist
+          flower.paste ["Current playlist", current_playlist.name]
         else
           flower.say "No playlist"
         end
@@ -44,8 +42,8 @@ class SpotifyCommand < Flower::Command
         flower.say("Playlist shuffle is #{playlist_shuffle} (set to \"on\" or \"off\")")
       else
         if playlist = set_playlist(message, sender[:nick])
-          self.hallon_playlist = playlist
-          flower.paste ["Current playlist", hallon_playlist.name]
+          self.current_playlist = playlist
+          flower.paste ["Current playlist", current_playlist.name]
         end
       end
     when "queue"
@@ -65,13 +63,9 @@ class SpotifyCommand < Flower::Command
     when "play"
       case message.split(" ").first
       when nil
-        play_current
+        player.play
       when "next"
         play_next
-      when "prev"
-        spotify.previous_track
-        sleep 0.2
-        spotify.previous_track
       else
         if track = get_track(message, sender[:nick])
           play_track(track)
@@ -81,27 +75,15 @@ class SpotifyCommand < Flower::Command
     end
   end
 
-  def self.play_current
-    if hallon_track
-      player.play
-    else
-      spotify.play
-    end
-  end
-
   def self.play_next
     player.pause
     if track = (QUEUE.shift || get_next_playlist_track)
       play_track(track)
-    else
-      self.hallon_track = nil
-      spotify.play
-      spotify.next_track
     end
   end
 
   def self.description
-    "Spotify: \\\"play next/prev\\\", \\\"pause\\\", \\\"track\\\", \\\"search\\\", \\\"queue\\\""
+    "Spotify: \\\"play\\\", \\\"pause\\\", \\\"track\\\", \\\"search\\\", \\\"queue\\\", \\\"playlist\\\", \\\"album\\\""
   end
 
   def self.lower_spotify
@@ -118,13 +100,8 @@ class SpotifyCommand < Flower::Command
 
   private
 
-  def self.set_volume(volume)
-    Appscript::app("Spotify").sound_volume.set volume
-  end
-
   def self.play_track(track)
-    spotify.pause
-    self.hallon_track = track
+    self.current_track = track
     Thread.new do
       post_to_dashboard
       player.play!(track.pointer)
@@ -133,13 +110,7 @@ class SpotifyCommand < Flower::Command
   end
 
   def self.get_current_track
-    "Playing: ".tap do |message|
-      if hallon_track
-        message << hallon_track.to_s
-      else
-        message << "#{spotify.current_track.name.get} - #{spotify.current_track.artist.get}"
-      end
-    end
+    "Playing: #{current_track}"
   end
 
   def self.get_track(query, requester = nil)
@@ -196,10 +167,6 @@ class SpotifyCommand < Flower::Command
     @@player ||= Hallon::Player.new(Hallon::OpenAL)
   end
 
-  def self.spotify
-    @@spotify ||= Appscript::app("Spotify")
-  end
-
   def self.init_session
     @@hallon_session ||= hallon_session!
     self.playlist_shuffle = "off"
@@ -220,16 +187,19 @@ class SpotifyCommand < Flower::Command
   def self.post_to_dashboard
     HTTParty.post(Flower::Config.dashboard_widgets_url + "lastfm", body: {
       auth_token: Flower::Config.dashboard_auth_token,
-      name:       hallon_track.name,
-      artist:     hallon_track.artist
-    }.to_json)
+      name:       current_track.name,
+      artist:     current_track.artist
+    }.to_json) rescue nil
   end
 
   init_session
 
   class Track < Struct.new(:name, :artist, :pointer, :requester)
     def initialize(track, requester)
-      super(track.name, track.artist.name, track, requester)
+      super(track.name,
+        track.artist.name,
+        track,
+        requester)
     end
 
     def to_s
