@@ -207,7 +207,7 @@ class SpotifyCommand < Flower::Command
         list = Hallon::Playlist.new(spotify_uri).load
         name = list.name
       end
-      super(name, list.tracks.map { |track| Track.new(track, requester) })
+      super(name, list.tracks.map { |track| Track.new(track.load, requester) })
     end
   end
 end
