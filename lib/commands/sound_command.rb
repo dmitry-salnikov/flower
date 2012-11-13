@@ -7,14 +7,8 @@ class SoundCommand < Flower::Command
 
   private
 
-  def self.play_file(file_name, lower_spotify = true)
-    if lower_spotify
-      SpotifyCommand.lower_spotify do
-        system_play_file(file_name) unless silenced?
-      end
-    else
-      system_play_file(file_name) unless silenced?
-    end
+  def self.play_file(file_name)
+    system_play_file(file_name) unless silenced?
   end
 
   def self.system_play_file(file_name)

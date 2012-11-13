@@ -12,13 +12,11 @@ class LightningBolt < SoundCommand
     when "death"
       play_file "lightning_bolt/death.wav"
     when /\**/
-      SpotifyCommand.lower_spotify do
-        count = command.scan(/\*/).size.times do |i|
-          if i <= 2
-            play_file "lightning_bolt/lightning_bolt.wav", false
-          else
-            play_file "lightning_bolt/death.wav", false
-          end
+      count = command.scan(/\*/).size.times do |i|
+        if i <= 2
+          play_file "lightning_bolt/lightning_bolt.wav", false
+        else
+          play_file "lightning_bolt/death.wav", false
         end
       end
     end

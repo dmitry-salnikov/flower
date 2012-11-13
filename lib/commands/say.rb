@@ -5,22 +5,14 @@ class Say < Flower::Command
   def self.respond(command, message, sender, flower)
     case command
     when "whisper"
-      SpotifyCommand.lower_spotify do
-        system "say", "-vwhisper", message
-      end
+      system "say", "-vwhisper", message
     when "sing"
-      SpotifyCommand.lower_spotify do
-        system "say", "-vcello", message
-      end
+      system "say", "-vcello", message
     when "say"
-      SpotifyCommand.lower_spotify do
-        system "say", message
-      end
+      system "say", message
     when "säg"
       voices = %w(Oskar Alva)
-      SpotifyCommand.lower_spotify do
-        system "say", "-v#{voices.sample}", message
-      end
+      system "say", "-v#{voices.sample}", message
     end
   end
 

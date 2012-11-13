@@ -86,18 +86,6 @@ class SpotifyCommand < Flower::Command
     "Spotify: \\\"play\\\", \\\"pause\\\", \\\"track\\\", \\\"search\\\", \\\"queue\\\", \\\"playlist\\\", \\\"album\\\""
   end
 
-  def self.lower_spotify
-    100.downto(50) do |i|
-      set_volume i
-      sleep 0.001
-    end
-    yield
-    50.upto(100) do |i|
-      set_volume i
-      sleep "0.00#{i}".to_f
-    end
-  end
-
   private
 
   def self.play_track(track)
