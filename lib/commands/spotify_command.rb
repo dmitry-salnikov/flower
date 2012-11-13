@@ -3,6 +3,7 @@ class SpotifyCommand < Flower::Command
   require 'appscript'
   require 'hallon'
   require 'hallon-openal'
+  require 'httparty'
 
   QUEUE = []
   PLAYLIST = []
@@ -125,6 +126,7 @@ class SpotifyCommand < Flower::Command
     spotify.pause
     self.hallon_track = track
     Thread.new do
+      post_to_dashboard
       player.play!(track.pointer)
       play_next
     end
@@ -213,6 +215,14 @@ class SpotifyCommand < Flower::Command
     else
       puts("Warning: No spotify_appkey.key found. Get yours here: https://developer.spotify.com/technologies/libspotify/#application-keys")
     end
+  end
+
+  def self.post_to_dashboard
+    HTTParty.post(Flower::Config.dashboard_widgets_url + "lastfm", body: {
+      auth_token: Flower::Config.dashboard_auth_token,
+      name:       hallon_track.name,
+      artist:     hallon_track.artist
+    }.to_json)
   end
 
   init_session
