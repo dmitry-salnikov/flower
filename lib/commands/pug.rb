@@ -1,4 +1,4 @@
-class Pub < Flower::Command
+class Pug < Flower::Command
   respond_to "pug"
   require 'typhoeus'
 
