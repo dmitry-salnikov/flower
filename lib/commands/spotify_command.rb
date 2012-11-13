@@ -188,16 +188,18 @@ class SpotifyCommand < Flower::Command
     HTTParty.post(Flower::Config.dashboard_widgets_url + "lastfm", body: {
       auth_token: Flower::Config.dashboard_auth_token,
       name:       current_track.name,
-      artist:     current_track.artist
+      artist:     current_track.artist,
+      image:      "data:image/jpg;base64," + Base64.encode64(current_track.album.cover.load.data)
     }.to_json) rescue nil
   end
 
   init_session
 
-  class Track < Struct.new(:name, :artist, :pointer, :requester)
+  class Track < Struct.new(:name, :artist, :album, :pointer, :requester)
     def initialize(track, requester)
       super(track.name,
         track.artist.name,
+        track.album,
         track,
         requester)
     end
