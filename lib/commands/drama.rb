@@ -2,6 +2,7 @@
 require_relative 'sound_command'
 class Drama < SoundCommand
   respond_to "drama", "dundundun", "killbill", "chipmunk"
+  listen_to /(siten|sajten).*nere/i
 
   def self.description
     "Dun dun DUN!"
@@ -18,6 +19,10 @@ class Drama < SoundCommand
     when "chipmunk"
       dundundun(flower, chipmunk: true)
     end
+  end
+
+  def self.listen(message, sender, flower)
+    killbill
   end
 
   private
