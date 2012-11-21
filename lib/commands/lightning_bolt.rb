@@ -14,9 +14,9 @@ class LightningBolt < SoundCommand
     when /\**/
       count = command.scan(/\*/).size.times do |i|
         if i <= 2
-          play_file "lightning_bolt/lightning_bolt.wav", false
+          play_file "lightning_bolt/lightning_bolt.wav"
         else
-          play_file "lightning_bolt/death.wav", false
+          play_file "lightning_bolt/death.wav"
         end
       end
     end
