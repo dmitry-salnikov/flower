@@ -9,6 +9,12 @@ class Wat < Flower::Command
     http://static.fjcdn.com/pictures/Wat_5e732b_4019847.jpg
     http://i3.kym-cdn.com/photos/images/newsfeed/000/173/576/Wat8.jpg
     http://i3.kym-cdn.com/photos/images/newsfeed/000/173/589/RsLid.jpg
+    http://images.cryhavok.org/d/13825-2/Wat.jpg
+    http://4.bp.blogspot.com/_y71reyDy9lg/TB82-82DzeI/AAAAAAAABLM/AE72Bvwh5tE/s1600/WAT.jpg
+    http://cdn.shopify.com/s/files/1/0070/7032/files/darth_wat_grande.jpg
+    http://i.imgur.com/aGZxe.jpg
+    http://img1.joyreactor.com/pics/post/funny-pictures-auto-panda-muscles-389021.jpeg
+    http://25.media.tumblr.com/tumblr_mbqhqcQOlN1rhdfk0o1_500.jpg
   ]
 
   def self.description
