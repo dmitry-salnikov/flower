@@ -5,7 +5,7 @@ class MissedHighfive < Flower::Command
   URL = "http://missedhighfive.tumblr.com/random"
 
   def self.description
-    "Post a random missed hight five gif"
+    "Post a random missed highfive gif"
   end
 
   def self.respond(command, message, sender, flower)
