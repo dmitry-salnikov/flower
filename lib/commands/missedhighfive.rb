@@ -9,7 +9,13 @@ class MissedHighfive < Flower::Command
   end
 
   def self.respond(command, message, sender, flower)
-    flower.say(image)
+    mhf = case command.split(' ').first
+          when 'epic'
+            "http://www.xiaohaiblog.com/wp-content/uploads/2012/10/original.gif"
+          else
+            image
+          end
+    flower.say(mhf)
   end
 
   def self.image
