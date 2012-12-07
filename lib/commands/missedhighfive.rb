@@ -15,6 +15,7 @@ class MissedHighfive < Flower::Command
           else
             image
           end
+
     flower.say(mhf)
   end
 
