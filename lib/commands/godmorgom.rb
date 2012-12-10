@@ -4,12 +4,12 @@ class Godmorgom < Flower::Command
   respond_to "godmorgom", "godmorgomm"
 
   def self.description
-    'Play "Jag Ger Dig Min Morgon" with lyrics'
+    'Play "Jag Ger Dig Min morgom" with lyrics'
   end
 
   def self.respond(command, message, sender, flower)
     flower.paste(lyric)
-    SpotifyCommand.play_track(SpotifyCommand.get_track("Fred Åkerström - Jag Ger Dig Min Morgon"))
+    SpotifyCommand.play_track(SpotifyCommand.get_track("Fred Åkerström - Jag Ger Dig Min morgom"))
   end
 
   def self.lyric
@@ -20,7 +20,7 @@ class Godmorgom < Flower::Command
 
     Om du var vaken skulle jag ge dig
     allt det där jag aldrig ger dig.
-    Men du, jag ger dig min morgon,
+    Men du, jag ger dig min morgom,
     jag ger dig min dag.
 
     Vår gardin den böljar svagt där solen strömmar.
@@ -30,7 +30,7 @@ class Godmorgom < Flower::Command
 
     Om du var vaken skulle jag ge dig
     allt det där jag aldrig ger dig.
-    Men du, jag ger dig min morgon,
+    Men du, jag ger dig min morgom,
     jag ger dig min dag.
 
     Utanför vårt fönster hör vi markens sånger.
@@ -39,7 +39,7 @@ class Godmorgom < Flower::Command
 
     Om du var vaken skulle jag ge dig
     allt det där jag aldrig ger dig.
-    Men du, jag ger dig min morgon,
+    Men du, jag ger dig min morgom,
     jag ger dig min dag.
 
     Likt en sländas spröda vinge ögat skälver.
@@ -48,10 +48,10 @@ class Godmorgom < Flower::Command
 
     Om du var vaken skulle jag ge dig
     allt det där jag aldrig ger dig.
-    Men du, jag ger dig min morgon,
+    Men du, jag ger dig min morgom,
     jag ger dig min dag.
 
-    Men du, jag ger dig min morgon,
+    Men du, jag ger dig min morgom,
     jag ger dig min dag.
 eos
   end
