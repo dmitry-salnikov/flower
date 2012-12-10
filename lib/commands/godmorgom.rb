@@ -1,7 +1,7 @@
 # encoding: UTF-8
 
 class Godmorgom < Flower::Command
-  respond_to "godmorgom"
+  respond_to "godmorgom", "godmorgomm"
 
   def self.description
     'Play "Jag Ger Dig Min Morgon" with lyrics'
