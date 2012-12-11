@@ -40,6 +40,10 @@ class SpotifyCommand < Flower::Command
           set_playlist_shuffle(mode)
         end
         flower.say("Playlist shuffle is #{playlist_shuffle} (set to \"on\" or \"off\")")
+      when 'default'
+        playlist = set_playlist(Flower::Config.default_playlist, Flower::Config.bot_nick)
+        self.current_playlist = playlist
+        flower.paste ["Current playlist", current_playlist.name]
       else
         if playlist = set_playlist(message, sender[:nick])
           self.current_playlist = playlist
