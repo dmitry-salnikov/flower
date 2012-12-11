@@ -161,6 +161,7 @@ class SpotifyCommand < Flower::Command
 
   def self.init_session
     @@hallon_session ||= hallon_session!
+    search("foo") # Do a random search to properly 'init' the Spotify session, and enable the !playlist command.
     self.playlist_shuffle = "off"
   end
 
