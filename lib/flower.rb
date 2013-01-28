@@ -55,7 +55,7 @@ class Flower
       self.message = nil
       sender = users[message_json[:user].to_i]
       Thread.exit if !sender # Don't break when the mnd CLI tool is posting to chat
-      extract_content(message_json[:content]).split("|").each do |content|
+      extract_content(message_json).split("|").each do |content|
         if self.message
           content = "#{content} #{self.message}"
           self.message = nil
@@ -105,6 +105,14 @@ class Flower
   end
 
   def extract_content(message)
-    message.is_a?(Hash) ? message[:text] : message
+    # Actual message can be in:
+    # - key :content
+    # - nested key :content/:text
+    # - nested key :content/:updated_content
+    if content = message[:content]
+      content.is_a?(Hash) ? (content[:text] || content[:updated_content]) : content
+    else
+      ""
+    end
   end
 end
