@@ -4,7 +4,7 @@ class SoundFx < SoundCommand
   respond_to "easy", "rimshot", "sad", "yeah", "applause", "bomb",
     "suprise", "snore", "godwillsit", "sting", "pengar", "rik", "fel",
     "khan", "khan?", "tarelugnt", "tadetlugnt", "keke", "judas", "priest",
-    "fascinating", "party", "tihi"
+    "fascinating", "party", "tihi", "merikuh"
 
   def self.description
     "Awesome audio fx!"
@@ -56,6 +56,8 @@ class SoundFx < SoundCommand
       play_file "judas/judas#{rand(25)+1}.mp3"
     when "fascinating"
       play_file "soundfx/fascinating.mp3"
+    when "merikuh"
+      play_file "soundfx/merikuh.mp3"
     end
   end
 end
