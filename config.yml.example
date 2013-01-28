@@ -13,3 +13,4 @@
   instagram_id: xxx
   instagram_secret: xxx
   default_playlist: 'spotify:user:mynewsdeskdev:playlist:4IOPV1OUlASAeD9C3o08jv'
+  spotify_appkey: spotify_appkey.key
