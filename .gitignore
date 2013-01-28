@@ -1,3 +1,4 @@
 config.yml
 spotify_appkey.key
 tmp/*
+.DS_Store
