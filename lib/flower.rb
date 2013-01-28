@@ -109,8 +109,17 @@ class Flower
     # - key :content
     # - nested key :content/:text
     # - nested key :content/:updated_content
+    # - nested key :content/:updated_content/:text
     if content = message[:content]
-      content.is_a?(Hash) ? (content[:text] || content[:updated_content]) : content
+      if content.is_a?(Hash)
+        if content[:updated_content].is_a?(Hash)
+          content[:updated_content][:text]
+        else
+          content[:text] || content[:updated_content]
+        end
+      else
+        content
+      end
     else
       ""
     end
