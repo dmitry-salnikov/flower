@@ -72,7 +72,7 @@ class SpotifyCommand < Flower::Command
         play_next
       else
         if track = get_track(message, sender[:nick])
-          play_track(track)
+          play_track(track, flower)
         end
       end
       flower.say(get_current_track)
@@ -92,11 +92,15 @@ class SpotifyCommand < Flower::Command
 
   private
 
-  def self.play_track(track)
+  def self.play_track(track, flower = nil)
     self.current_track = track
     Thread.new do
       post_to_dashboard
-      player.play!(track.pointer)
+      begin
+        player.play!(track.pointer)
+      rescue Hallon::Error => e
+        flower.say("#{flower.nick} has error :(   #{e.message}")
+      end
       play_next
     end
   end
