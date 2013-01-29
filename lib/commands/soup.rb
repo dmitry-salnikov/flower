@@ -1,7 +1,7 @@
 require 'typhoeus'
 require 'nokogiri'
 class Soup < Flower::Command
-  respond_to "soup"
+  respond_to "soup", "soppa"
   URL = "http://iloapp.olandskan.se/blog/dagens?category=0"
 
   def self.description
