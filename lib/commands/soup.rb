@@ -12,7 +12,7 @@ class Soup < Flower::Command
   end
 
   def self.respond(command, message, sender, flower)
-    if message == "today" || message == "dagens"
+    if message == "todays" || message == "dagens"
       flower.paste(todays_menu)
     else
       flower.paste(menu)
