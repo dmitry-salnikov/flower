@@ -67,7 +67,7 @@ class Flower
         end
         unless message_json[:internal] || from_self?(sender)
           Flower::Command.trigger_listeners(content, sender, self)
-          Flower::Command.register_stats(command, sender)
+          Flower::Command.register_stats(command, sender, self)
         end
       end
       post(self.message, self.tags)

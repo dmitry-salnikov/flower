@@ -35,8 +35,8 @@ class Flower::Command
     end
   end
 
-  def self.register_stats(command, sender)
-    Flower::Stats.store_leaderboard_stat(sender[:nick])
+  def self.register_stats(command, sender, flower)
+    Flower::Stats.store_leaderboard_stat(sender[:nick], flower)
     Flower::Stats.store_command_stat(command, sender[:nick])
   end
 
