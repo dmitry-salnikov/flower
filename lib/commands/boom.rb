@@ -2,7 +2,6 @@
 require_relative 'sound_command'
 class Boom < SoundCommand
   respond_to "boom"
-  listen_to /boom/i
 
   FILES = Dir.glob("extras/boom/*.wav").map{|f| f.gsub("extras/","")}
 
