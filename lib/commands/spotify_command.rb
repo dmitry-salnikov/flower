@@ -99,7 +99,7 @@ class SpotifyCommand < Flower::Command
       begin
         player.play!(track.pointer)
       rescue Hallon::Error => e
-        flower.say("#{flower.nick} has error :(   #{e.message}")
+        flower.say("Flower has error :(   #{e.message}")
       end
       play_next
     end
