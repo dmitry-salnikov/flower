@@ -8,6 +8,10 @@ class Mix < SoundCommand
   end
 
   def self.respond(command, message, sender, flower)
-    play_file "mix/mix_1.mp3"
+    if FILES.include? "mix/#{message}.mp3"
+      play_file "mix/#{message}.mp3"
+    else
+      play_file "mix/mix.mp3"
+    end
   end
 end
