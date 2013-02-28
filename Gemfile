@@ -1,4 +1,4 @@
-source :rubygems
+source 'https://rubygems.com'
 gem "rake",         "~> 0.9.2"
 gem "rb-appscript", "~> 0.6.1"
 gem 'nokogiri',     "~> 1.5.0"
