@@ -1,3 +1,4 @@
+ENV['SKIP_SPOTIFY'] = "1"
 require './lib/flower'
 require './web/app'
 
