@@ -14,3 +14,8 @@
   instagram_secret: xxx
   default_playlist: 'spotify:user:mynewsdeskdev:playlist:4IOPV1OUlASAeD9C3o08jv'
   spotify_appkey: spotify_appkey.key
+  tumblr_consumer_key: "xxxx"
+  tumblr_consumer_secret: "xxxx"
+  tumblr_oauth_token: 'xxxx'
+  tumblr_oauth_token_secret: 'xxxx'
+  tumblr_url: "tumblr.tumblr.com"

@@ -22,6 +22,8 @@ gem 'hallon-openal'
 
 gem 'instagram'
 
+gem 'tumblr_client'
+
 group :test do
   gem "rspec",   "~> 2.6.0"
   gem "webmock"
