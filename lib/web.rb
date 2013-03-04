@@ -1,6 +1,9 @@
 require 'sinatra'
-require  './lib/flower'
+
+configure do
+  set :public_folder, Proc.new { File.join(root, "static") }
+end
 
 get '/' do
-  "Hello World!"
+  erb :index
 end
