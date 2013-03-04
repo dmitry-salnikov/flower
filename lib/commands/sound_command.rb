@@ -2,7 +2,7 @@
 class SoundCommand < Flower::Command
 
   def self.subclasses
-      ObjectSpace.each_object(Class).select { |klass| klass < self }
+    @subclasses ||= ObjectSpace.each_object(Class).select { |klass| klass < self }
   end
 
   private
