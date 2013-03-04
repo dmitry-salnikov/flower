@@ -12,13 +12,11 @@ post '/sound' do
   command = params[:command].gsub(/^!/, '')
   message = params.fetch(:message, "")
 
-  respond(command, message) if command_exists?(command)
+  respond(command, message) if sound_commands.include?(command)
   redirect '/'
 end
 
-def command_exists?(command)
-  Flower::COMMANDS.has_key?(command)
-end
+private
 
 def respond(command, message)
   Flower::COMMANDS[command].respond(command, message, sender, flower)
@@ -30,6 +28,10 @@ end
 
 def sender
   {id: 0, nick: "flower"}
+end
+
+def sound_commands
+  @sound_commands ||= Flower::COMMANDS.select {|cmd, klass| SoundCommand.subclasses.include? klass}.keys.sort
 end
 
 class Flower::Web

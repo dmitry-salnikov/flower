@@ -61,7 +61,9 @@
         <div class="row">
           <div class="span4">
             <h2>They took our jobs!</h2>
-            <input type="submit" class="btn" name="command" value="!job" />
+            <% sound_commands.each do |cmd| %>
+              <input type="submit" class="btn" name="command" value="!<%= cmd %>" />
+            <% end %>
           </div>
           <div class="span4">
             <h2>Drama</h2>
