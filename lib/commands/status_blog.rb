@@ -18,7 +18,7 @@ class StatusBlog < Flower::Command
       if ["ok", "problem", "maintenance"].include? type
         post(type, status, flower)
       else
-        flower.say "begin message with a status type (ok, problem, maintenance) #{type.inspect}"
+        flower.say "begin message with a status type (ok, problem, maintenance)"
       end
     else
       post = client.posts(URL, limit: 1)['posts'].first
