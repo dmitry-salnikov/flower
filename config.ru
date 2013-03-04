@@ -1,5 +1,4 @@
-$LOAD_PATH << File.join(File.dirname(__FILE__), 'lib')
-require 'flower'
-require 'web'
+require './lib/flower'
+require './web/app'
 
 run Sinatra::Application
