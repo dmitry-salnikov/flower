@@ -11,24 +11,24 @@ class StatusBlog < Flower::Command
 
   respond_to "status", "tumblr"
 
-  def self.respond(command, message, sender, flower)
-    if message.present?
-      type, status = message.split(" ", 2)
+  def self.respond(message)
+    if message.argument.present?
+      type, status = message.argument.split(" ", 2)
       type.downcase!
       if ["ok", "problem", "maintenance"].include? type
-        post(type, status, flower)
+        post(type, status, message)
       else
-        flower.say "begin message with a status type (ok, problem, maintenance)"
+        message.say "begin message with a status type (ok, problem, maintenance)"
       end
     else
       post = client.posts(URL, limit: 1)['posts'].first
-      flower.paste(["##{post['tags'].first} #{post['body'].gsub(/<\/?[^>]*>/, "")}"])
+      message.paste(["##{post['tags'].first} #{post['body'].gsub(/<\/?[^>]*>/, "")}"])
     end
   end
 
-  def self.post(type, status, flower)
+  def self.post(type, status, message)
     response = client.text(URL, body: status, tags: [type])
-    flower.say "#{type} posted: #{status} - http://#{URL}/post/#{response['id']}"
+    message.say "#{type} posted: #{status} - http://#{URL}/post/#{response['id']}"
   end
 
   def self.client

@@ -7,8 +7,8 @@ class Laughter < SoundCommand
     "laughter"
   end
 
-  def self.respond(command, message, sender, flower)
-    case command
+  def self.respond(message)
+    case message.command
     when "hähä"
       play_file "laughter/hehe.mp3"
     when "giggle"

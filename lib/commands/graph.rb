@@ -10,7 +10,7 @@ class Graph < Flower::Command
     "Useful graphs!"
   end
 
-  def self.respond(command, message, sender, flower)
-    flower.say GRAPHS.sample
+  def self.respond(message)
+    message.say GRAPHS.sample
   end
 end

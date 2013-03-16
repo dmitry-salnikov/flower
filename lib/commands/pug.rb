@@ -6,8 +6,8 @@ class Pug < Flower::Command
     "Give me a pug plz"
   end
 
-  def self.respond(command, message, sender, flower)
-    flower.say(image)
+  def self.respond(message)
+    message.say(image)
   end
 
   private

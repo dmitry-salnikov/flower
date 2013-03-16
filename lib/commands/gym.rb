@@ -9,9 +9,9 @@ class Gym < SoundCommand
     "PUMP!"
   end
 
-  def self.respond(command, message, sender, flower)
-    if FILES.include? "gym/#{message}.mp3"
-      play_file "gym/#{message}.mp3"
+  def self.respond(message)
+    if FILES.include? "gym/#{message.argument}.mp3"
+      play_file "gym/#{message.argument}.mp3"
     else
       play_file FILES.sample
     end

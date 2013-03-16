@@ -7,8 +7,8 @@ class TvSeries < SoundCommand
     "Theme songs!"
   end
 
-  def self.respond(command, message, sender, flower)
-    case command
+  def self.respond(message)
+    case message.command
     when "airwolf"
       play_file "tv_series/airwolf.m4a"
     when "ateam"

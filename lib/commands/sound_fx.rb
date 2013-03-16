@@ -10,8 +10,8 @@ class SoundFx < SoundCommand
     "Awesome audio fx!"
   end
 
-  def self.respond(command, message, sender, flower)
-    case command
+  def self.respond(message)
+    case message.command
     when "easy"
       play_file "soundfx/easy.mp3"
     when "rimshot"

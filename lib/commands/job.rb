@@ -10,11 +10,11 @@ class Job < SoundCommand
     "They took our jobs!"
   end
 
-  def self.respond(command, message, sender, flower)
+  def self.respond(message)
     play_file FILES.sample
   end
 
-  def self.listen(message, sender, flower)
+  def self.listen(message)
     play_file FILES.sample
   end
 end

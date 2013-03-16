@@ -7,8 +7,8 @@ class Godmorgom < Flower::Command
     'Play "Jag Ger Dig Min morgom" with lyrics'
   end
 
-  def self.respond(command, message, sender, flower)
-    flower.paste(lyric)
+  def self.respond(message)
+    message.paste(lyric)
     SpotifyCommand.play_track(SpotifyCommand.get_track "spotify:track:7nBARurNPIRVcf81uOFz3i")
   end
 

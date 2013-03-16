@@ -9,9 +9,9 @@ class Mix < SoundCommand
     "In the mix, play with the music played by the bot!"
   end
 
-  def self.respond(command, message, sender, flower)
-    if FILES.include? "mix/#{message}.mp3"
-      play_file "mix/#{message}.mp3"
+  def self.respond(message)
+    if FILES.include? "mix/#{message.argument}.mp3"
+      play_file "mix/#{message.argument}.mp3"
     else
       play_file "mix/mix1.mp3"
     end

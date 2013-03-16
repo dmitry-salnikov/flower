@@ -8,12 +8,12 @@ class Jiberish < Flower::Command
     "Generera lite bizniz snack"
   end
 
-  def self.respond(command, message, sender, flower)
-    flower.paste(jiberish)
+  def self.respond(message)
+    message.paste(jiberish)
   end
 
-  def self.listen(message, sender, flower)
-    flower.say(jiberish, :mention => sender[:id])
+  def self.listen(message)
+    message.say(jiberish, :mention => message.user_id)
   end
 
   private

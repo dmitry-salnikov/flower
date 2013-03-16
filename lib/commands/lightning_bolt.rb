@@ -7,12 +7,12 @@ class LightningBolt < SoundCommand
     "Lightning bolt, lightning bolt, lightning bolt, DEATH!"
   end
 
-  def self.respond(command, message, sender, flower)
-    case command
+  def self.respond(message)
+    case message.command
     when "death"
       play_file "lightning_bolt/death.wav"
     when /\**/
-      count = command.scan(/\*/).size.times do |i|
+      count = message.command.scan(/\*/).size.times do |i|
         if i <= 2
           play_file "lightning_bolt/lightning_bolt.wav"
         else

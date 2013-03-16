@@ -24,37 +24,37 @@ class Flower::Command
     end
   end
 
-  def self.delegate_command(command, message, sender, flower)
-    return false if Flower::COMMANDS[command].nil?
+  def self.delegate_command(message)
+    return false if Flower::COMMANDS[message.command].nil?
     begin
-      Flower::COMMANDS[command].respond(command, message, sender, flower)
+      Flower::COMMANDS[message.command].respond(message)
     rescue => error
-      post_error(error, command, message, sender, flower)
       puts error
       puts error.backtrace
+      post_error(error, message.inspect)
     end
   end
 
-  def self.register_stats(command, sender, flower)
-    Flower::Stats.store_leaderboard_stat(sender[:nick], flower)
-    Flower::Stats.store_command_stat(command, sender[:nick])
+  def self.register_stats(message)
+    Flower::Stats.store_leaderboard_stat(message)
+    Flower::Stats.store_command_stat(message)
   end
 
-  def self.trigger_listeners(message, sender, flower)
+  def self.trigger_listeners(message)
     return false if Flower::LISTENERS.empty?
     Flower::LISTENERS.map do |regexp, command|
       begin
-        command.listen(message, sender, flower) if message.match(regexp)
+        command.listen(message) if message.message.match(regexp)
       rescue => error
-        post_error(error, "", message, sender, flower)
         puts error
         puts error.backtrace
+        post_error(error, message)
       end
     end
   end
 
   private
-  def self.post_error(error, command, message, sender, flower)
-    flower.say(":( `#{command}` raised error: #{error}")
+  def self.post_error(error, message)
+    # message.say(":( `#{message.command}` raised error: #{error}")
   end
 end

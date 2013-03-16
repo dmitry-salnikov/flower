@@ -7,12 +7,12 @@ class Sax < SoundCommand
     "Epic sax"
   end
 
-  def self.respond(command, message, sender, flower)
+  def self.respond(message)
     if rand(100) == 1
-      store_stats(sender, :retro)
+      store_stats(message.sender, :retro)
       play_file "sax/retrosaxguy.m4a"
     else
-      store_stats(sender, :original)
+      store_stats(message.sender, :original)
       play_file "sax/epicsaxguy.m4a"
     end
   end

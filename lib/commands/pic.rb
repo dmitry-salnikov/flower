@@ -8,15 +8,14 @@ class Pic < Flower::Command
     "Post a picture from search string"
   end
 
-  def self.respond(command, message, sender, flower)
+  def self.respond(message)
     begin
-      if command == "rpic"
-        image = search_google(message, true)
-        flower.say(image)
+      if message.command == "rpic"
+        image = search_google(message.argument, true)
       else
-        image = IMAGE_CACHE.has_key?(message) ? IMAGE_CACHE[message] : search_google(message)
-        flower.say(image)
+        image = IMAGE_CACHE.has_key?(message.argument) ? IMAGE_CACHE[message.argument] : search_google(message.argument)
       end
+      message.say(image)
     rescue NoMethodError
       flower.say("sorry, no matches")
     end

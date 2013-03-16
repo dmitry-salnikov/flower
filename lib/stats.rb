@@ -3,19 +3,19 @@ require 'redistat'
 class Flower::Stats
   include Redistat::Model
 
-  def self.store_command_stat(command, nick)
-    store("commands/#{nick.downcase}", {command => 1})
+  def self.store_command_stat(message)
+    store("commands/#{message.sender[:nick].downcase}", {message.command => 1}) if message.command
   end
 
-  def self.store_leaderboard_stat(nick, flower = nil)
-    report_change(flower, nick) do
-      store("leaderboard", {nick => 1})
+  def self.store_leaderboard_stat(message)
+    report_change(message) do
+      store("leaderboard", {message.sender[:nick] => 1})
     end
   end
 
   def self.command_stats_for(nick)
     stats = find("commands/#{nick.downcase}", 1000.days.ago, 1.hour.from_now).total.reject{|v| v.blank? }
-    sorted(stats)
+    sort_list(stats)
   end
 
   def self.leaderboard
@@ -29,14 +29,14 @@ class Flower::Stats
 
   private
 
-  def self.report_change(flower, nick, &block)
+  def self.report_change(message, &block)
     before = sorted_leaderboard.map(&:first)
     yield(block)
     after = sorted_leaderboard.map(&:first)
     if before != after
-      passed_user = before[before.index(nick) - 1]
-      new_position = after.index(nick) + 1
-      flower.say("[Leaderboard] #{nick} passed #{passed_user}, and is now number #{new_position}! #{random_insult(passed_user)}") if flower
+      passed_user = before[before.index(message.sender[:nick]) - 1]
+      new_position = after.index(message.sender[:nick]) + 1
+      message.say("[Leaderboard] #{message.sender[:nick]} passed #{passed_user}, and is now number #{new_position}! #{random_insult(passed_user)}") if message.flower
       play_random_sound
     end
   end

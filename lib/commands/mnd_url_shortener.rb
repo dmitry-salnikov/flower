@@ -6,12 +6,12 @@ class MndUrlShortener < Flower::Command
     "Shorten a URL with mnd.to, pass a second param for custom name"
   end
 
-  def self.respond(command, message, sender, flower)
+  def self.respond(message)
     begin
-      if surl(message)['status']
-        flower.say(surl['url']['short'], :mention => sender[:id])
+      if surl(message.argument)['status']
+        message.say(surl['url']['short'], :mention => message.sender[:id])
       else
-        flower.say("It didn't work.\n" + error_messages, :mention => sender[:id])
+        message.say("It didn't work.\n" + error_messages, :mention => message.sender[:id])
       end
       @surl = nil
     rescue => error

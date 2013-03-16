@@ -8,29 +8,29 @@ class Drama < SoundCommand
     "Dun dun DUN!"
   end
 
-  def self.respond(command, message, sender, flower)
-    case command
+  def self.respond(message)
+    case message.command
     when "drama"
-      percent_of_the_time(98) ? dundundun(flower) : killbill
+      percent_of_the_time(98) ? dundundun(message) : killbill
     when "dundundun"
-      dundundun(flower)
+      dundundun(message)
     when "killbill"
       killbill
     when "chipmunk"
-      dundundun(flower, chipmunk: true)
+      dundundun(message, chipmunk: true)
     end
   end
 
-  def self.listen(message, sender, flower)
+  def self.listen(message)
     killbill
   end
 
   private
 
-  def self.dundundun(flower, opts = {})
+  def self.dundundun(message, opts = {})
     chipmunk = opts[:chipmunk] ||= percent_of_the_time(5)
 
-    flower.say dramatic_chipmunk if chipmunk
+    message.say dramatic_chipmunk if chipmunk
     play_file "drama/dundundun.mp3"
   end
 

@@ -7,8 +7,8 @@ class Loop < Flower::Command
     "Search for a loop"
   end
 
-  def self.respond(command, message, sender, flower)
-    flower.say image(message)
+  def self.respond(message)
+    message.say image(message.argument)
   end
 
   def self.image(query)

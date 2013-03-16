@@ -9,7 +9,7 @@ class Boom < SoundCommand
     "And boom!"
   end
 
-  def self.respond(command, message, sender, flower)
+  def self.respond(message)
     play_file FILES.sample
   end
 end

@@ -8,9 +8,9 @@ class Eliza < Flower::Command
     "Analyze this!"
   end
 
-  def self.listen(message, sender, flower)
-    m = message.sub(REGEXP, "").strip
-    flower.say eliza.processInput(m)
+  def self.listen(message)
+    m = message.message.sub(REGEXP, "").strip
+    message.say eliza.processInput(m)
   end
 
   private

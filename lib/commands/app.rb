@@ -5,11 +5,11 @@ class App < Flower::Command
     "Our app"
   end
 
-  def self.respond(command, message, sender, flower)
-    cmd = command == "app" ? message.split(" ").first : command
+  def self.respond(message)
+    cmd = message.command == "app" ? message.argument.split(" ").first : message.command
     case cmd
     when "diff"
-      flower.paste(undeployed)
+      message.paste(undeployed)
     end
   end
 

@@ -7,11 +7,11 @@ class Friday < SoundCommand
     "We, we, we so excited!"
   end
 
-  def self.respond(command, message, sender, flower)
+  def self.respond(message)
     if Time.now.wday == 5
       play_file("friday/friday.mp3")
     else
-      flower.say("Today is not a Rebecca Black day", :mention => sender[:id])
+      message.say("Today is not a Rebecca Black day", :mention => message.user_id)
     end
   end
 end

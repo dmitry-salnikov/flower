@@ -1,13 +1,13 @@
 require 'typhoeus'
 class Flower::Rest
-  def post_message(message, tags = [])
+  def post_message(message, tags = [], flow)
     message = {
       content: message,
       tags: tags || [],
       event: 'message'
     }
 
-    Typhoeus::Request.post(post_url, {params: message})
+    r = Typhoeus::Request.post(post_url(flow), {params: message})
   end
 
   def get_users
@@ -17,11 +17,11 @@ class Flower::Rest
 
   private
 
-  def flow_url
-    "https://#{Flower::Config.api_token}@api.flowdock.com/flows/#{Flower::Config.company}/#{Flower::Config.flow}"
+  def flow_url(flow = Flower::Config.flow)
+    "https://#{Flower::Config.api_token}@api.flowdock.com/flows/#{Flower::Config.company}/#{flow}"
   end
 
-  def post_url
-    "#{flow_url}/messages"
+  def post_url(flow)
+    "#{flow_url(flow)}/messages"
   end
 end

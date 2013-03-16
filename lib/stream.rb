@@ -30,7 +30,8 @@ class Flower::Stream
     return @parser unless @parser.nil?
     @parser = Yajl::Parser.new(:symbolize_keys => true)
     @parser.on_parse_complete = proc do |data|
-      flower.respond_to data if data[:event] =~ /message|comment/ && data[:flow] == "#{Flower::Config.company}:#{Flower::Config.flow}"
+      message = Flower::Message.new(data)
+      flower.respond_to(message) if message.respond?
     end
     @parser
   end
@@ -40,7 +41,13 @@ class Flower::Stream
     {:accept => 'text/event-stream', 'Authorization' => "Basic #{auth}"}
   end
 
+  def flows(seperator = "/")
+    Flower::Config.flows.map do |room|
+      "#{Flower::Config.company}#{seperator}#{room}"
+    end
+  end
+
   def stream_url
-    "https://stream.flowdock.com/flows/#{Flower::Config.company}/#{Flower::Config.flow}"
+    "https://stream.flowdock.com/flows?active=true&filter=#{flows.join(',')}"
   end
 end
