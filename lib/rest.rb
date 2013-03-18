@@ -17,7 +17,7 @@ class Flower::Rest
 
   private
 
-  def flow_url(flow = Flower::Config.flow)
+  def flow_url(flow = Flower::Config.flows.first)
     "https://#{Flower::Config.api_token}@api.flowdock.com/flows/#{Flower::Config.company}/#{flow}"
   end
 
