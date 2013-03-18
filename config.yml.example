@@ -3,7 +3,8 @@
   password: "supersecret"
   company: your_subdomain
   api_token: 'xxx'
-  flow: main
+  flows:
+    - main
   em_port: 6000
   bot_nick: "Bot"
   live_id: "xxxx"
