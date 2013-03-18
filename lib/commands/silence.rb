@@ -7,17 +7,17 @@ class Silence < SoundCommand
     "Enjoy the silence  (for 5 mins)"
   end
 
-  def self.respond(command, message, sender, flower)
+  def self.respond(message)
     unless silenced?
       self.silenced_at = Time.now + 300 # 5 minutes from now
-      flower.say("Enjoy the silence  (for 5 mins)")
+      message.say("Enjoy the silence  (for 5 mins)")
     else
-      say_silenced(flower)
+      say_silenced(message)
     end
   end
 
-  def self.say_silenced(flower)
-    flower.say "Already silenced for another #{seconds_left} seconds."
+  def self.say_silenced(message)
+    message.say "Already silenced for another #{seconds_left} seconds."
   end
 
   def self.seconds_left

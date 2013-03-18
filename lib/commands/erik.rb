@@ -7,8 +7,8 @@ class Erik < Flower::Command
     "Erik punchlines"
   end
 
-  def self.listen(message, sender, flower)
-    flower.say("#{sender[:nick]}, " + line[rand(line.size)], :mention => sender[:id])
+  def self.listen(message)
+    message.say("#{message.sender[:nick]}, " + line[rand(line.size)], :mention => message.user_id)
   end
 
   def self.line

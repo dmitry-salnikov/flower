@@ -7,8 +7,8 @@ class Lunch < Flower::Command
     "Lunch menues, try 'ringos'"
   end
 
-  def self.respond(command, message, sender, flower)
-    flower.paste(fetch_ringos, :mention => sender[:id])
+  def self.respond(message)
+    message.paste(fetch_ringos, :mention => message.user_id)
   end
 
   private

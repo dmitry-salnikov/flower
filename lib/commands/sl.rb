@@ -8,16 +8,16 @@ class SL < Flower::Command
       'SL from Stockholm Södra, use buses/trains as message'
     end
 
-    def respond(command, message, sender, flower)
+    def respond(message)
         transport = "Buses"
         station = 9530
         response = nil
-        if message == "trains"
+        if message.argument == "trains"
           transport = "Trains"
         end
         response = get_station(station)
         items = get_result(response["DPS"][transport].first[1])
-        flower.paste(items, :mention => sender[:id])
+        message.paste(items, :mention => message.user_id)
     end
 
     private

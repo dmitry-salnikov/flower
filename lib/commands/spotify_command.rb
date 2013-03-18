@@ -15,67 +15,67 @@ class SpotifyCommand < Flower::Command
     attr_accessor :playlist_shuffle
   end
 
-  def self.respond(command, message, sender, flower)
-    case command
+  def self.respond(message)
+    case message.command
     when "pause"
       player.pause
-      flower.say("Stopped playing")
+      message.say("Stopped playing")
     when "stam"
-      flower.say("Stam in da house")
+      message.say("Stam in da house")
     when "track"
-      flower.say(get_current_track)
+      message.say(get_current_track)
     when "search"
       response = search_tracks(message)
-      flower.paste(response)
+      message.paste(response)
     when /playlist|album/
-      case message.split(" ").first
+      case message.argument
       when nil
         if current_playlist
-          flower.paste ["Current playlist", current_playlist.name]
+          message.paste ["Current playlist", current_playlist.name]
         else
-          flower.say "No playlist"
+          message.say "No playlist"
         end
       when "shuffle"
-        if mode = message.split(" ").last
+        if mode = message.argument.split(" ").last
           set_playlist_shuffle(mode)
         end
-        flower.say("Playlist shuffle is #{playlist_shuffle} (set to \"on\" or \"off\")")
+        message.say("Playlist shuffle is #{playlist_shuffle} (set to \"on\" or \"off\")")
       when 'default'
         playlist = set_playlist(Flower::Config.default_playlist, Flower::Config.bot_nick)
         self.current_playlist = playlist
-        flower.paste ["Current playlist", current_playlist.name]
+        message.paste ["Current playlist", current_playlist.name]
       else
-        if playlist = set_playlist(message, sender[:nick])
+        if playlist = set_playlist(message.argument, message.sender[:nick])
           self.current_playlist = playlist
-          flower.paste ["Current playlist", current_playlist.name]
+          message.paste ["Current playlist", current_playlist.name]
         end
       end
     when "queue"
-      case message.split(" ").first
+      case message.argument
       when nil
         if QUEUE.empty?
-          flower.say("Queue is empty.")
+          message.say("Queue is empty.")
         else
-          flower.paste([get_current_track, "Next in queue (#{QUEUE.size})", QUEUE[0, 8].map(&:to_s)])
+          message.paste([get_current_track, "Next in queue (#{QUEUE.size})", QUEUE[0, 8].map(&:to_s)])
         end
       else
-        if track = get_track(message, sender[:nick])
+        if track = get_track(message.argument, message.sender[:nick])
           QUEUE << track
-          flower.say "Added to queue (#{QUEUE.size}): #{track}"
+          message.say "Added to queue (#{QUEUE.size}): #{track}"
         end
       end
     when "play"
-      case message.split(" ").first
+      case message.argument
       when nil
         player.play
       when "next"
         play_next
       else
-        if track = get_track(message, sender[:nick])
-          play_track(track, flower)
+        if track = get_track(message, message.sender[:nick])
+          play_track(track, message)
         end
       end
-      flower.say(get_current_track)
+      message.say(get_current_track)
     end
   end
 
@@ -92,14 +92,14 @@ class SpotifyCommand < Flower::Command
 
   private
 
-  def self.play_track(track, flower = nil)
+  def self.play_track(track, message = nil)
     self.current_track = track
     Thread.new do
       post_to_dashboard
       begin
         player.play!(track.pointer)
       rescue Hallon::Error => e
-        flower.say("Flower has error :(   #{e.message}")
+        message.say("Flower has error :(   #{e.message}") if message
       end
       play_next
     end

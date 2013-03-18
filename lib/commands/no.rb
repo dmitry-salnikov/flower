@@ -45,7 +45,7 @@ class Noes < Flower::Command
     "No, not today!"
   end
 
-  def self.respond(command, message, sender, flower)
-    flower.say NOES.sample
+  def self.respond(message)
+    message.say NOES.sample
   end
 end

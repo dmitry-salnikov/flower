@@ -8,8 +8,8 @@ class Soup < Flower::Command
     "Get soup menu for the week"
   end
 
-  def self.respond(command, message, sender, flower)
-    flower.paste(menu)
+  def self.respond(message)
+    message.paste(menu)
   end
 
   def self.menu

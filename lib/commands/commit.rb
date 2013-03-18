@@ -6,7 +6,7 @@ class Commit < Flower::Command
     "Displays a random commit message"
   end
 
-  def self.respond(command, message, sender, flower)
+  def self.respond(message)
     flower.paste commit_message
   end
 

@@ -5,11 +5,11 @@ class Ping < Flower::Command
     "Pong!"
   end
 
-  def self.respond(command, message, sender, flower)
-    if command == "ping"
-      flower.say(PHRASES.shuffle.first, :mention => sender[:id])
+  def self.respond(message)
+    if message.command == "ping"
+      message.say(PHRASES.sample, :mention => message.user_id)
     else
-      flower.say(PHRASES.shuffle.first + " Try `help`.", :mention => sender[:id])
+      message.say(PHRASES.sample + " Try `help`.", :mention => message.user_id)
     end
   end
 

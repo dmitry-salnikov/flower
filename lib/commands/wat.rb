@@ -21,11 +21,11 @@ class Wat < Flower::Command
     "WAT!? – http://www.youtube.com/watch?v=kXEgk1Hdze0"
   end
 
-  def self.respond(command, message, sender, flower)
-    if (1..WATS.size).include?(message.to_i)
-      flower.say WATS[message.to_i - 1]
+  def self.respond(message)
+    if (1..WATS.size).include?(message.argument.to_i)
+      message.say WATS[message.argument.to_i - 1]
     else
-      flower.say WATS.sample
+      message.say WATS.sample
     end
   end
 end

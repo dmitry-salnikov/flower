@@ -8,8 +8,8 @@ class AnimalsBeingDicks < Flower::Command
     "Post a random animals being dicks gif"
   end
 
-  def self.respond(command, message, sender, flower)
-    flower.say(image)
+  def self.respond(message)
+    message.say(image)
   end
 
   def self.image

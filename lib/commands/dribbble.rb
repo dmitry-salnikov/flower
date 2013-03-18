@@ -8,11 +8,11 @@ class Dribbble < Flower::Command
     "Post random dribbble image (!dribbble [username])"
   end
 
-  def self.respond(command, message, sender, flower)
-    if message != ""
-        flower.say(image_from_user(message))
+  def self.respond(message)
+    if message.argument
+        message.say(image_from_user(message.argument))
     else
-        flower.say(image)
+        message.say(image)
     end
   end
 

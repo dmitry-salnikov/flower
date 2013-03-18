@@ -7,7 +7,7 @@ class Inception < SoundCommand
     "BRAAAAMMMM"
   end
 
-  def self.respond(command, message, sender, flower)
+  def self.respond(message)
     play_file("inception/inception.mp3")
   end
 end

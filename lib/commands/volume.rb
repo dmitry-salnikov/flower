@@ -1,15 +1,15 @@
 class Volume < Flower::Command
   respond_to "volume", "vol"
 
-  def self.respond(command, up_or_down, sender, flower)
-    if up_or_down.empty?
-      say_current_vol(flower)
-    else
-      if validate_message(up_or_down)
-        adjust_volume(up_or_down)
+  def self.respond(message)
+    if message.argument
+      if validate_message(message.argument)
+        adjust_volume(message.argument)
       else
-        flower.say("Please use only + or -", :mention => sender[:id])
+        message.say("Please use only + or -", :mention => message.user_id)
       end
+    else
+      say_current_vol(message)
     end
   end
   

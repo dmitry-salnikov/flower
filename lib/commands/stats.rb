@@ -3,21 +3,21 @@ class Stats < Flower::Command
   respond_to "stats", "leaderboard"
   CHARTBEAT_URL = "http://api.chartbeat.com"
 
-  def self.respond(command, message, sender, flower)
-    if command == "leaderboard"
-      flower.paste(leaderboard_stats)
+  def self.respond(message)
+    if message.command == "leaderboard"
+      message.paste(leaderboard_stats)
     else
-      message_array = message.split(" ")
-      case message_array.first
+      arguments = (message.argument || "").split(" ")
+      case arguments.first
       when "online"
-        flower.paste ["Online right now: #{online_right_now}"]
+        message.paste ["Online right now: #{online_right_now}"]
       when "commands"
-        nick = message_array[1] || sender[:nick]
-        flower.paste ["Top 10 for #{nick}"] << command_stats_for(nick)
+        nick = arguments[1] || message.sender[:nick]
+        message.paste ["Top 10 for #{nick}"] << command_stats_for(nick)
       when "leaderboard"
-        flower.paste(leaderboard_stats)
+        message.paste(leaderboard_stats)
       else
-        flower.say("Online right now: #{online_right_now}")
+        message.say("Online right now: #{online_right_now}")
       end
     end
   end

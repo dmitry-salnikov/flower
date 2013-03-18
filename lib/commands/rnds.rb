@@ -8,18 +8,8 @@ class Rnds < Flower::Command
   end
 
 
-  def self.respond(command, message, sender, flower)
-    # Pick a randiom class that inherits from SoundCommand and run it
-    klass = SoundCommand.subclasses
-    r = rand(klass.size)
-    rk = klass.at(r)
-    rk.respond(command, message, sender, flower)
-    #flower.say rk
-  end
-
-  private
-
-  def self.store_stats(sender, type)
-    Flower::Stats.store("rnds/#{sender[:nick].downcase}", {type => 1})
+  def self.respond(message)
+    klass = SoundCommand.subclasses.sample
+    klass.respond(message)
   end
 end

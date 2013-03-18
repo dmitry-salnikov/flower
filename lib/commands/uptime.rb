@@ -3,8 +3,8 @@ class Uptime < Flower::Command
 
   $booted = Time.now
 
-  def self.respond(command, message, sender, flower)
-    flower.say("I have been online for #{uptime}")
+  def self.respond(message)
+    message.say("I have been online for #{uptime}")
   end
 
   def self.description

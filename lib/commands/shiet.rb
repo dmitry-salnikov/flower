@@ -1,7 +1,7 @@
 # encoding: UTF-8
 require_relative 'sound_command'
 class Shiet < SoundCommand
-  respond_to "shiet"
+  respond_to "shiet", "sheit"
 
   FILES = Dir.glob("extras/shiet/*.wav").map{|f| f.gsub("extras/","")}
 
@@ -9,7 +9,7 @@ class Shiet < SoundCommand
     "Shiiiiiiiiiiiiiieeeeeeeeeet!"
   end
 
-  def self.respond(command, message, sender, flower)
+  def self.respond(message)
     play_file FILES.sample
   end
 end

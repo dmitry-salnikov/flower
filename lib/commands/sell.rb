@@ -9,9 +9,9 @@ class Sell < SoundCommand
     "ABC - Always Be Closing! Boiler Room! Alec Baldwin and Ben Affleck at their best!"
   end
 
-  def self.respond(command, message, sender, flower)
-    if FILES.include? "sell/#{message}.mp3"
-      play_file "sell/#{message}.mp3"
+  def self.respond(message)
+    if FILES.include? "sell/#{message.argument}.mp3"
+      play_file "sell/#{message.argument}.mp3"
     else
       play_file FILES.sample
     end

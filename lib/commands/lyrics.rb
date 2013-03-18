@@ -6,12 +6,12 @@ class Lyrics < Flower::Command
 
   URL = "http://search.letssingit.com/cgi-exe/am.cgi?a=search&l=archive&s=<q>"
 
-  def self.respond(command, message, sender, flower)
-    message = get_current_song unless message.present?
-    if lyrics = find_lyrics(message)
-      flower.paste(lyrics)
+  def self.respond(message)
+    current_track = message.argument.present? ? message.argument : get_current_song
+    if lyrics = find_lyrics(current_track)
+      message.paste(lyrics)
     else
-      flower.say("Could not find song lyrics. :(")
+      message.say("Could not find song lyrics. :(")
     end
   end
 

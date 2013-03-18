@@ -8,19 +8,23 @@ class MissedHighfive < Flower::Command
     "Post a random missed highfive gif"
   end
 
-  def self.respond(command, message, sender, flower)
-    mhf = case message.split(' ').first
+  def self.respond(message)
+    mhf = case message.argument
           when 'epic'
             "http://www.xiaohaiblog.com/wp-content/uploads/2012/10/original.gif"
           else
             image
           end
 
-    flower.say(mhf)
+    message.say(mhf)
   end
 
   def self.image
     document = Nokogiri.HTML(Typhoeus::Request.get(URL, :follow_location => true).body)
-    document.at_css(".post img").attribute('src').value
+    if img = document.at_css(".post img")
+      img.attribute('src').value
+    else
+      image
+    end
   end
 end

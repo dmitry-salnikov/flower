@@ -2,12 +2,16 @@ class BangBang < Flower::Command
   listen_to /^!(.+)/i
   respond_to "!"
 
-  def self.listen(message, sender, flower)
-    @@previous = {message: message, sender: sender} unless message =~ /^!!/
+  def self.listen(message)
+    @@previous = message unless message.message =~ /^!!/
   end
 
-  def self.respond(command, message, sender, flower)
-    flower.respond_to({content: @@previous[:message], internal: true, user: sender[:id]})
+  def self.respond(message)
+    new_message = @@previous.dup
+    new_message.sender = message.sender
+    new_message.internal = true
+
+    message.flower.respond_to(new_message)
   end
 
 

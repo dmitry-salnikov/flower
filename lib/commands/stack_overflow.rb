@@ -6,8 +6,8 @@ class StackOverflow < Flower::Command
     "Ask question to Stack Overflow"
   end
 
-  def self.respond(command, message, sender, flower)
-    flower.paste(answer(message))
+  def self.respond(message)
+    message.paste(answer(message.argument))
   end
 
   def self.answer(query)

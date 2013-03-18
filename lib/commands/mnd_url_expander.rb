@@ -6,12 +6,12 @@ class MndUrlExpander < Flower::Command
     "Expand a URL shortened with mnd.to"
   end
 
-  def self.respond(command, message, sender, flower)
+  def self.respond(message)
     begin
-      if surl(message)['status']
-        flower.say("#{surl['url']['original']} (redirects: #{surl['url']['redirects']}, lookups: #{surl['url']['lookups']})", :mention => sender[:id])
+      if surl(message.argument)['status']
+        message.say("#{surl['url']['original']} (redirects: #{surl['url']['redirects']}, lookups: #{surl['url']['lookups']})", :mention => message.sender[:id])
       else
-        flower.say("Didn't work: #{error_messages}", :mention => sender[:id])
+        message.say("Didn't work: #{error_messages}", :mention => message.sender[:id])
       end
       @surl = nil
     rescue => error
