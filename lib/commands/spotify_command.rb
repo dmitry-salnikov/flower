@@ -71,7 +71,7 @@ class SpotifyCommand < Flower::Command
       when "next"
         play_next
       else
-        if track = get_track(message, message.sender[:nick])
+        if track = get_track(message.argument, message.sender[:nick])
           play_track(track, message)
         end
       end
