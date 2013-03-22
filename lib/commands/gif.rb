@@ -1,19 +1,35 @@
+module Google
+  class Search
+    class Image < self
+      TYPES = :face, :photo, :clipart, :lineart, :animated
+    end
+  end
+end
+
 class Gif < Flower::Command
   respond_to "gif"
   require 'open-uri'
 
-  IMAGE_CACHE = {}
-
   def self.description
-    "Post a random gif"
+    "Search for a gif or Post a random gif"
   end
 
   def self.respond(message)
-    message.say(image)
+    if query = message.argument
+      message.say(gif_search)
+    else
+      message.say(random_gif)
+    end
   end
 
-  def self.image
+  def self.random_gif
     url = "http://www.gif.tv/gifs/get.php"
     'http://www.gif.tv/gifs/' + open(url).read + '.gif'
+  end
+
+  def self.gif_search(query)
+    results = Google::Search::Image.new(:query => query, :image_type => :animated).to_a
+    url = results.sample.uri
+    URI.encode url
   end
 end
