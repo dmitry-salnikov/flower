@@ -1,4 +1,11 @@
 require 'google-search'
+module Google
+  class Search
+    class Image < self
+      TYPES = :face, :photo, :clipart, :lineart, :animated
+    end
+  end
+end
 class Pic < Flower::Command
   respond_to "pic", "picture", "image", "rpic"
 

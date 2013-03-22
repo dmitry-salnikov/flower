@@ -1,3 +1,4 @@
+require 'google-search'
 module Google
   class Search
     class Image < self
