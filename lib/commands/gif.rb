@@ -16,7 +16,7 @@ class Gif < Flower::Command
 
   def self.respond(message)
     if query = message.argument
-      message.say(gif_search)
+      message.say(gif_search(query))
     else
       message.say(random_gif)
     end
