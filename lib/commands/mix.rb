@@ -13,7 +13,7 @@ class Mix < SoundCommand
     if FILES.include? "mix/#{message.argument}.mp3"
       play_file "mix/#{message.argument}.mp3"
     else
-      play_file "mix/mix1.mp3"
+      play_file FILES.sample
     end
   end
 end
