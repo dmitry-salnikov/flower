@@ -1,5 +1,5 @@
 # encoding: UTF-8
-class Noes < Flower::Command
+class Snowcat < Flower::Command
   respond_to "snowcat"
 
   def self.description
