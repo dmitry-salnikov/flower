@@ -7,7 +7,7 @@ class Commit < Flower::Command
   end
 
   def self.respond(message)
-    flower.paste commit_message
+    message.paste commit_message
   end
 
   def self.commit_message
