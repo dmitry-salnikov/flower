@@ -1,24 +1,25 @@
 class Flower::Console
-  def self.say(message, mention = nil)
-    return message
-  end
-
-  def self.paste(message, mention = nil)
-    return message.join("\n")
+  def self.post_message(message, tags = [], flow)
+    message
   end
 
   def self.command message
-    if match = Flower.bot_message(message)
-      match = match[1].split(" ")
-      command = match.shift
-      Flower::COMMANDS[command].respond(command, match.join(" "), {id: 0, nick: "flower"}, Flower::Console) if Flower::COMMANDS.has_key?(command)
+    msg = Flower::Message.new({flow: '123'})
+    msg.message = message
+    msg.rest = Flower::Console
+    if msg.bot_message?
+      Flower::COMMANDS[msg.command].respond(msg) if Flower::COMMANDS.has_key?(msg.command)
     end
   end
 
   def self.listen message
+    msg = Flower::Message.new({flow: '123'})
+    msg.message = message
+    msg.rest = Flower::Console
+
     results = []
     Flower::LISTENERS.each do |regexp, command|
-      results << command.listen(message, {id: 0, nick: "flower"}, Flower::Console) if message.match(regexp)
+      results << command.listen(msg) if msg.message.match(regexp)
     end
     results.reject{|r| r.is_a? Hash }
   end

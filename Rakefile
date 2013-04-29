@@ -19,7 +19,10 @@ task :console do
     results = []
     results << Flower::Console.command(message)
     results << Flower::Console.listen(message)
-    results.flatten.compact
+    results.flatten!
+    results.compact!
+    results.pop
+    results
   end
 
   ARGV.clear
