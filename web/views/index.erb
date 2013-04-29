@@ -62,7 +62,7 @@
           <div class="span12 commands">
             <h2>They took our jobs!</h2>
             <% sound_commands.each do |cmd| %>
-              <input type="submit" class="btn btn-large" name="command" value="<%= cmd %>" />
+              <input type="submit" class="btn btn-large btn-<%= %w(default primary info danger success warning inverse).sample %>" name="command" value="<%= cmd %>" />
             <% end %>
           </div>
         </div>
