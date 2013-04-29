@@ -186,6 +186,7 @@ class SpotifyCommand < Flower::Command
       auth_token: Flower::Config.dashboard_auth_token,
       name:       current_track.name,
       artist:     current_track.artist,
+      length:     current_track.pointer.duration.to_i,
       image:      "data:image/jpg;base64," + Base64.encode64(current_track.album.cover.load.data)
     }.to_json) rescue nil
   end
