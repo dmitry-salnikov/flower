@@ -5,6 +5,7 @@ class Flower::Console
 
   def self.command message
     msg = Flower::Message.new({flow: '123'})
+    msg.sender = {nick: 'console'}
     msg.message = message
     msg.rest = Flower::Console
     if msg.bot_message?
