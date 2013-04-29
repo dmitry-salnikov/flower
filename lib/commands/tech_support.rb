@@ -5,12 +5,8 @@ class TechSupport < Flower::Command
   respond_to 'tech', 'techsupport'
 
   def self.respond(message)
-    if message.argument
-      redis.set(week, message.argument.capitalize)
-      message.say "#{message.argument.capitalize} and Li are TechSupport this week"
-    else
-      message.say tech_of_the_week
-    end
+    redis.set(week, message.argument.capitalize) if message.argument
+    message.say tech_of_the_week
   end
 
   def self.description
