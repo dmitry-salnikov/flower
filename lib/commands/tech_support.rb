@@ -26,6 +26,8 @@ class TechSupport < Flower::Command
   def self.tech_of_the_week
     if dev = redis.get(week)
       "#{dev} & Li are TechSupport this week"
+    else
+      "Use `!tech NAME` to set who has TechSupport with Li"
     end
   end
 
