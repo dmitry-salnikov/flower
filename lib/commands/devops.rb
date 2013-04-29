@@ -7,17 +7,18 @@ class DevOps < Flower::Command
   end
 
   def self.respond(message)
-    message.say("#{image}\n#{title}")
+    post = document
+    message.say("#{image(post)}\n#{title(post)}")
   end
 
   private
 
-  def self.title
-    document.at_css('title').text.split("- DevOps").first.strip
+  def self.title(post)
+    post.at_css('title').text.split("- DevOps").first.strip
   end
 
-  def self.image
-    document.at_css("p img").attribute('src').value
+  def self.image(post)
+    post.at_css("p img").attribute('src').value
   end
 
   def self.document
