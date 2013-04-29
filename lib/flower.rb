@@ -50,8 +50,8 @@ class Flower
           Flower::Command.delegate_command(sub_message)
         end
         unless message.from_self? || message.internal
-          Flower::Command.trigger_listeners(message)
-          Flower::Command.register_stats(message)
+          Flower::Command.trigger_listeners(sub_message)
+          Flower::Command.register_stats(sub_message)
         end
       end
     end
