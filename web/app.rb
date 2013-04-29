@@ -9,35 +9,23 @@ get '/' do
 end
 
 post '/sound' do
-  command = params[:command].gsub(/^!/, '')
-  message = params.fetch(:message, "")
+  command = params[:command]
 
-  respond(command, message) if sound_commands.include?(command)
+  msg = Flower::Message.new({})
+  msg.message = command
+
+  respond(msg) if sound_commands.include?(command)
   redirect '/'
 end
 
 private
 
-def respond(command, message)
-  Flower::COMMANDS[command].respond(command, message, sender, flower)
-end
-
-def flower
-  @flower ||= Flower::Web
-end
-
-def sender
-  {id: 0, nick: "flower"}
+def respond(message)
+  Flower::COMMANDS[message.command].respond(message)
 end
 
 def sound_commands
-  @sound_commands ||= Flower::COMMANDS.select {|cmd, klass| SoundCommand.subclasses.include? klass}.keys.sort
-end
-
-class Flower::Web
-  def self.say(message, mention = nil)
-  end
-
-  def self.paste(message, mention = nil)
-  end
+  @sound_commands ||= Flower::COMMANDS.select do |cmd, klass|
+    SoundCommand.subclasses.include? klass
+  end.keys.sort.map {|cmd| "!#{cmd}"}
 end
