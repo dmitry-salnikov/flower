@@ -1,3 +1,5 @@
+require 'yaml'
+
 class Flower::Config
   CONFIG = YAML.load File.read(ENV.fetch("CONFIG") {"config.yml"})
 
