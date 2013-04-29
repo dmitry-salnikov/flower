@@ -7,12 +7,11 @@ class Stats < Flower::Command
     if message.command == "leaderboard"
       message.paste(leaderboard_stats)
     else
-      arguments = (message.argument || "").split(" ")
-      case arguments.first
+      case message.argument
       when "online"
         message.paste ["Online right now: #{online_right_now}"]
       when "commands"
-        nick = arguments[1] || message.sender[:nick]
+        nick = message.sender[:nick]
         message.paste ["Top 10 for #{nick}"] << command_stats_for(nick)
       when "leaderboard"
         message.paste(leaderboard_stats)
