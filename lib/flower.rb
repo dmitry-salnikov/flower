@@ -18,6 +18,7 @@ class Flower
   LISTENERS = {} # We are going to load available monitors in here
 
   Dir.glob("lib/commands/**/*.rb").each do |file|
+    next if ENV['SKIP_SPOTIFY'] && file[/spotify/]
     require File.expand_path(File.join(File.dirname(__FILE__), "..", file))
   end
 
