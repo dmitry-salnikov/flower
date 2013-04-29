@@ -1,3 +1,4 @@
+# encoding: UTF-8
 require 'redistat'
 
 class Flower::Stats
@@ -14,7 +15,9 @@ class Flower::Stats
   end
 
   def self.command_stats_for(nick)
-    stats = find("commands/#{nick.downcase}", 1000.days.ago, 1.hour.from_now).total.reject{|v| v.blank? }
+    stats = find("commands/#{nick.downcase}", 1000.days.ago, 1.hour.from_now).total
+    stats.map! {|x| [x.first.dup.force_encoding("UTF-8"), x.last] }
+    stats.reject!{|v| v.blank? }
     sort_list(stats)
   end
 
