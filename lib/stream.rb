@@ -20,6 +20,7 @@ class Flower::Stream
     source.error do |error|
       puts "** error #{error}"
       puts "sleeping 10 seconds"
+      source.close
       sleep 10
       start
     end
