@@ -13,6 +13,7 @@ class Soup < Flower::Command
   end
 
   def self.menu
+    return "Ärtsoppa, stupid!" if Time.now.wday == 4
     document = Nokogiri.HTML(Typhoeus::Request.get(URL, :follow_location => true).body)
     document.at_css("#mainDiv > .post").css("p").map(&:text)[1..-1].join("\n")
   end
