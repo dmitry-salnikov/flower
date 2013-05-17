@@ -1,6 +1,6 @@
 # encoding: UTF-8
 require_relative 'sound_command'
-class Inception < SoundCommand
+class Dropbomb < SoundCommand
   respond_to "dropbomb"
 
   def self.description
