@@ -19,10 +19,14 @@ class Flower::Stream
 
     source.error do |error|
       puts "** error #{error}"
-      puts "sleeping 10 seconds"
-      source.close
-      sleep 10
-      start
+      puts source.ready_state
+      if source.ready_state == EM::EventSource::CLOSED
+        source.close
+        puts "sleeping 10 seconds"
+        sleep 10
+        source.close
+        start
+      end
     end
 
     source.start
