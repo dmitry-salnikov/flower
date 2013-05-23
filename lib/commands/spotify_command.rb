@@ -28,14 +28,14 @@ class SpotifyCommand < Flower::Command
       response = search_tracks(message)
       message.paste(response)
     when /playlist|album/
-      case message.argument
+      case message.argument.split(" ").first
       when nil
         if current_playlist
           message.paste ["Current playlist", current_playlist.name]
         else
           message.say "No playlist"
         end
-      when "shuffle"
+      when /shuffle|random/
         if mode = message.argument.split(" ").last
           set_playlist_shuffle(mode)
         end
