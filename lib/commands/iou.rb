@@ -14,7 +14,9 @@ class IOU < Flower::Command
       to = message.argument.split(" ").first.downcase
       amount = message.argument.split(" ")[1].to_i
 
-      Debt.new(from: from, to: to, amount: amount).create!
+      debt = Debt.new(from: from, to: to, amount: amount)
+      debt.create!
+      message.paste "Debt to #{to.capitalize} registered for #{amount}, total debt: #{debt.total}"
     end
   end
 end

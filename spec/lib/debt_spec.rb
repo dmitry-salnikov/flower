@@ -18,8 +18,7 @@ describe Debt do
       let(:debt) { described_class.new to: 'batman', from: 'alfred', amount: 1 }
 
       it 'saves the debt with an amount of 1' do
-        debt.should_receive(:previous_amount) { 0 }
-        debt.should_receive(:save_to_database).with(1) { "OK" }
+        debt.should_receive(:save_to_database) { "OK" }
         debt.create!
       end
     end
@@ -28,10 +27,10 @@ describe Debt do
       let(:debt) { described_class.new to: 'batman', from: 'alfred', amount: 1 }
 
       it 'saves the debt with an amount of 2' do
-        debt.should_receive(:previous_amount) { 1 }
-        debt.should_receive(:save_to_database).with(2) { "OK" }
+        debt.should_receive(:save_to_database) { "OK" }
         debt.create!
       end
+
     end
   end
 end

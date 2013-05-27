@@ -3,17 +3,17 @@ require 'redis'
 class Debt
   class ParameterMissingError < StandardError; end
 
-  attr_reader :to, :from, :amount
+  attr_reader :to, :from, :amount, :total
 
   def initialize opts = {}
     @from = opts.fetch(:from) { raise Debt::ParameterMissingError }
     @to = opts.fetch(:to) { raise Debt::ParameterMissingError }
     @amount = opts[:amount]
+    @total = previous_amount + amount
   end
 
   def create!
-    value = previous_amount + amount
-    save_to_database(value)
+    save_to_database
   end
 
   private
@@ -22,8 +22,8 @@ class Debt
     "#{from}-#{to}"
   end
 
-  def save_to_database value
-    redis.set debt_key, value
+  def save_to_database
+    redis.set debt_key, total
   end
 
   def previous_amount
