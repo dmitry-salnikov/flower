@@ -6,19 +6,18 @@ class PokeUrl < Flower::Command
     "keep heroku apps alive"
   end
 
-  def self.respond(command, message, sender, flower)
-    case command
+  def self.respond(msg)
+    case msg.command
     when "poke"
-      flower.say(add_poke(message))
+      msg.say(add_poke(msg.argument).values)
     when "unpoke"
-      flower.say(remove_poke(message))
+      msg.say(remove_poke(msg.argument).values)
     when "pokes"
       url = list_pokes
       if url.empty?
-        flower.say("Pokes no urls")
+        msg.say("Pokes no urls")
       else
-        flower.say("Pokes following urls:")
-        flower.paste(url.join("\n"))
+        msg.paste(["Poking:"] + url)
       end
     end
   end
@@ -26,17 +25,24 @@ class PokeUrl < Flower::Command
   private
 
   def self.add_poke(url)
-    response = Typhoeus::Request.post(Flower::Config.poke_url + "&url=#{url}")
-    response.code == 200 ? response.body : "failed..."
+    response = Typhoeus::Request.post(Flower::Config.poke_url, params: {url: url})
+    response.code == 200 ? JSON.parse(response.body) : "failed..."
   end
 
   def self.remove_poke(url)
-    response = Typhoeus::Request.delete(Flower::Config.poke_url + "&url=#{url}")
-    response.code == 200 ? response.body : "failed..."
+    puts url.inspect
+    response = Typhoeus::Request.delete(Flower::Config.poke_url, params: {url: url})
+    response.code == 200 ? JSON.parse(response.body) : "failed..."
   end
 
   def self.list_pokes
     response = Typhoeus::Request.get(Flower::Config.poke_url)
-    response.code == 200 ? JSON.parse(response.body) : ["hej", "ho"]
+    if response.code == 200
+      JSON.parse(response.body).map do |poke|
+        poke['url']
+      end
+    else
+      "something went wrong"
+    end
   end
 end
