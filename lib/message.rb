@@ -1,5 +1,5 @@
 class Flower::Message
-  attr_reader :data
+  attr_reader :data, :output
   attr_accessor :sender, :flower, :rest, :internal
 
   def initialize(data)
@@ -21,7 +21,11 @@ class Flower::Message
   end
 
   def argument
-    message.split(" ", 2)[1]
+    @argument ||= message.split(" ", 2)[1]
+  end
+
+  def argument=(argument)
+    @argument = argument
   end
 
   def event
@@ -90,6 +94,7 @@ class Flower::Message
 
   def say(reply, options = {})
     reply = reply.respond_to?(:join) ? reply.join("\n") : reply
+    @output = reply
     rest.post_message(reply, parse_tags(options), flow)
   end
 
@@ -97,6 +102,7 @@ class Flower::Message
     reply = reply.join("\n") if reply.respond_to?(:join)
     reply = reply.split("\n").map{ |str| (" " * 4) + str }.join("\n")
     reply = reply.respond_to?(:join) ? reply.join("\n") : reply
+    @output = reply
     rest.post_message(reply, parse_tags(options), flow)
   end
 

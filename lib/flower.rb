@@ -46,9 +46,12 @@ class Flower
       message.flower = self
       message.rest = rest
       Thread.exit if !message.sender # Don't break when the mnd CLI tool is posting to chat
+      output = nil
       message.messages.each do |sub_message|
+        sub_message.argument = output if output.present?
         if sub_message.bot_message?
           Flower::Command.delegate_command(sub_message)
+          output = sub_message.output
         end
         unless message.from_self? || message.internal
           Flower::Command.trigger_listeners(sub_message)
