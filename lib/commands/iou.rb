@@ -12,14 +12,15 @@ class IOU < Flower::Command
     def respond message
       from = message.sender[:nick].downcase
       to = message.argument.split(" ").first.downcase
-      amount = message.argument.split(" ")[1]
-      debt = Debt.new from: from, to: to, amount: amount.to_i
+      value = message.argument.split(" ")[1]
+      debt = Debt.new from: from, to: to, amount: value.to_i
 
-      if to && amount
+      if to && value
         debt.create!
-        message.paste "Debt to #{to.capitalize} registered for #{amount}, total debt: #{debt.total}"
+        message.paste "Debt to #{to.capitalize} registered for #{value}, total debt: #{debt.total}"
       elsif to
         message.paste "You owe #{debt.total} to #{to.capitalize}"
+      elsif value == 'reset'
       end
     end
   end

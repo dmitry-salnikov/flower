@@ -3,13 +3,13 @@ require 'redis'
 class Debt
   class ParameterMissingError < StandardError; end
 
-  attr_reader :to, :from, :amount, :total
+  attr_reader :to, :from, :value, :total
 
   def initialize opts = {}
     @from = opts.fetch(:from) { raise Debt::ParameterMissingError }
     @to = opts.fetch(:to) { raise Debt::ParameterMissingError }
-    @amount = opts[:amount]
-    @total = previous_amount + amount
+    @value = opts[:value]
+    @total = previous_amount + value
   end
 
   def create!
