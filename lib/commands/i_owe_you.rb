@@ -1,5 +1,5 @@
 # encoding: utf-8
-require_relative '../iou/debt'
+require_relative '../iou'
 
 class IOweYou < Flower::Command
   respond_to "iou"

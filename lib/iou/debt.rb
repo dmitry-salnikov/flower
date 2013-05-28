@@ -1,6 +1,4 @@
 require 'redis'
-require_relative 'key'
-require 'pry'
 
 module IOU
   class Debt
