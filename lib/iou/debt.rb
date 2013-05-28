@@ -6,7 +6,7 @@ module IOU
   class Debt
     class ParameterMissingError < StandardError; end
 
-    attr_reader :receiver, :sender, :amount
+    attr_reader :sender, :receiver, :amount
 
     def initialize opts = {}
       @sender = opts.fetch(:sender) { raise Debt::ParameterMissingError }
@@ -33,7 +33,7 @@ module IOU
     end
 
     def key
-      Key.new(sender: sender, receiver: receiver)
+      @key ||= Key.new(sender: sender, receiver: receiver)
     end
 
 

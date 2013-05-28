@@ -14,20 +14,21 @@ describe IOU::Debt do
   end
 
   describe '#create!' do
+
     let(:debt) { described_class.new sender: 'Batman', receiver: 'Alfred', amount: 10 }
 
     context 'no previous amount' do
       it "should create" do
-        debt.should_receive(:save_to_database) { "OK" }
-        debt.should_receive(:previous_amount) { 0 }
+        Redis.any_instance.should_receive(:set).with(debt.send(:key).identifier, -10).and_return "OK"
+        debt.should_receive(:previous_value) { 0 }
         debt.create!
       end
     end
 
     context 'previous amount' do
       it "should create" do
-        debt.should_receive(:save_to_database) { "OK" }
-        debt.should_receive(:previous_amount) { 1 }
+        debt.should_receive(:previous_value) { -10 }
+        Redis.any_instance.should_receive(:set).with(debt.send(:key).identifier, -20).and_return "OK"
         debt.create!
       end
     end
@@ -38,12 +39,12 @@ describe IOU::Debt do
 
     context 'sets a the amount based on the sender and the key' do
       it 'sets a positive amount' do
-        debt.send(:value).should == 10
+        debt.value.should == 10
       end
 
       it 'sets a negative amount' do
         debt = described_class.new sender: 'batman', receiver: 'alfred', amount: 10
-        debt.send(:value).should == -10
+        debt.value.should == -10
       end
     end
   end
