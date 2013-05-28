@@ -2,7 +2,7 @@
 # encoding: UTF-8
 
 class Ipay < Flower::Command
-  respond_to "ipay"
+  respond_to "ipay", "transaction"
 
   def self.description
     "Just a payment proof of concept"
@@ -12,13 +12,24 @@ class Ipay < Flower::Command
     if message.argument.blank?
       message.say Account.new.to_s
     else
-      begin
-        transaction = Transaction.new(message.argument.split(' '))
-        account = Account.new
-        account.append(transaction)
+      account = Account.new
+      if command == 'ipay'
+        begin
+          to_user, amount = message.argument.split(' ', 2)
+          amount = amount.to_i
+          transaction = Transaction.new("#{to_user} #{-amount} #{nick} #{amount}")
+          account.append(transaction)
+        rescue
+          message.say 'Usage: !ipay janne 100'
+        end
+      elsif command == 'transaction'
+        begin
+          transaction = Transaction.new(message.argument.split(' '))
+          account.append(transaction)
+        rescue
+          message.say 'Usage: !transaction janne +100 markus -50 teo -50'
+        end
         message.say account.to_s
-      rescue
-        message.say "Use like 'ipay janne +100 markus -50 teo -50'"
       end
     end
   end
