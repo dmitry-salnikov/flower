@@ -1,5 +1,5 @@
 require 'redis'
-require 'iou/key'
+require_relative 'key'
 require 'pry'
 
 module IOU
@@ -15,21 +15,21 @@ module IOU
     end
 
     def create!
-      save_to_database
+      save_to_database == "OK"
     end
 
     def value
       (key.sender?(sender) ? amount : -amount) + previous_value
     end
 
+    def previous_value
+      redis.get(key.identifier).to_i
+    end
+
     private
 
     def save_to_database
       redis.set key.identifier, value
-    end
-
-    def previous_value
-      redis.get(key.identifier).to_i
     end
 
     def key
