@@ -20,14 +20,14 @@ describe IOU::Debt do
     context 'no previous amount' do
       it "should create" do
         Redis.any_instance.should_receive(:set).with(debt.send(:key).identifier, -10).and_return "OK"
-        debt.should_receive(:previous_value) { 0 }
+        debt.should_receive(:previous_amount) { 0 }
         debt.create!
       end
     end
 
     context 'previous amount' do
       it "should create" do
-        debt.should_receive(:previous_value) { -10 }
+        debt.should_receive(:previous_amount) { -10 }
         Redis.any_instance.should_receive(:set).with(debt.send(:key).identifier, -20).and_return "OK"
         debt.create!
       end

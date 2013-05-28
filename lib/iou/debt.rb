@@ -13,14 +13,14 @@ module IOU
     end
 
     def create!
-      save_to_database == "OK"
+      save_to_database
     end
 
     def value
-      (key.sender?(sender) ? amount : -amount) + previous_value
+      amount_depending_on_sender + previous_amount
     end
 
-    def previous_value
+    def previous_amount
       redis.get(key.identifier).to_i
     end
 
@@ -30,10 +30,13 @@ module IOU
       redis.set key.identifier, value
     end
 
+    def amount_depending_on_sender
+      key.sender?(sender) ? amount : -amount
+    end
+
     def key
       @key ||= Key.new(sender: sender, receiver: receiver)
     end
-
 
     def redis
       @redis ||= Redis.new
