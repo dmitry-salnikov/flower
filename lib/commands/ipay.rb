@@ -13,24 +13,24 @@ class Ipay < Flower::Command
       message.say Account.new.to_s
     else
       account = Account.new
-      if command == 'ipay'
+      if message.command == 'ipay'
         begin
           to_user, amount = message.argument.split(' ', 2)
           amount = amount.to_i
-          transaction = Transaction.new("#{to_user} #{-amount} #{nick} #{amount}")
+          transaction = Transaction.new([to_user, -amount, message.nick, amount])
           account.append(transaction)
         rescue
           message.say 'Usage: !ipay janne 100'
         end
-      elsif command == 'transaction'
+      elsif message.command == 'transaction'
         begin
           transaction = Transaction.new(message.argument.split(' '))
           account.append(transaction)
         rescue
           message.say 'Usage: !transaction janne +100 markus -50 teo -50'
         end
-        message.say account.to_s
       end
+      message.say account.to_s
     end
   end
 end
