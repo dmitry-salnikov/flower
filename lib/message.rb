@@ -40,6 +40,10 @@ class Flower::Message
     sender[:nick] == Flower::Config.bot_nick
   end
 
+  def nick
+    sender[:nick]
+  end
+
   def user_id
     @user ||= data[:user].to_i
   end
