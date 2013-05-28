@@ -9,10 +9,11 @@ class Debt
     @from = opts.fetch(:from) { raise Debt::ParameterMissingError }
     @to = opts.fetch(:to) { raise Debt::ParameterMissingError }
     @value = opts[:value]
-    @total = previous_amount + value
+    @total = (previous_amount - opposite_debt) + value
   end
 
   def create!
+    save_to_database opposite_debt_key, 0
     save_to_database
   end
 
@@ -22,12 +23,20 @@ class Debt
     "#{from}-#{to}"
   end
 
-  def save_to_database
-    redis.set debt_key, total
+  def opposite_debt_key
+    "#{to}-#{from}"
+  end
+
+  def save_to_database key = debt_key, value = total
+    redis.set key, value
   end
 
   def previous_amount
     redis.get(debt_key).to_i
+  end
+
+  def opposite_debt
+    redis.get(opposite_debt_key).to_i
   end
 
   def redis
