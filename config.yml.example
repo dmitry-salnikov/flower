@@ -20,3 +20,5 @@
   tumblr_oauth_token: 'xxxx'
   tumblr_oauth_token_secret: 'xxxx'
   tumblr_url: "tumblr.tumblr.com"
+  github_token: 'xxxx'
+  github_user: 'mynewsdesk'

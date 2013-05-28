@@ -22,6 +22,8 @@ gem 'hallon-openal'
 
 gem 'instagram'
 
+gem 'github_api'
+
 gem 'tumblr_client'
 gem 'sinatra'
 

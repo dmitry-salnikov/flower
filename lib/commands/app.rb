@@ -1,3 +1,4 @@
+require 'github_api'
 class App < Flower::Command
   respond_to "app", "diff"
 
@@ -9,20 +10,32 @@ class App < Flower::Command
     cmd = message.command == "app" ? message.argument.split(" ").first : message.command
     case cmd
     when "diff"
-      message.paste(undeployed)
+      repo = (message.argument || Flower::Config.github_user).split(" ").last
+      message.paste diff(tag(repo), repo)
     end
+  end
+
+  def self.diff(from, repo)
+    diff = github.repos.commits.compare Flower::Config.github_user, repo, from, 'master'
+    ahead = diff.ahead_by
+    commits = diff.commits.map do |commit|
+      commit.commit.message.split("\n", 2).first
+    end
+    ["#{repo} is #{ahead} commits ahead", "Deployed #{parse_time_from_tag(from).strftime("%Y-%m-%d %H:%M")}"] + commits + ["https://github.com/#{Flower::Config.github_user}/#{repo}/compare/#{from}...master"]
   end
 
   private
 
-  def self.reset
-    `cd #{Flower::Config.git_repo_path} && git fetch origin && git reset --hard origin/master`
+  def self.parse_time_from_tag(tag)
+    Time.parse(Time.parse(tag).strftime("%Y-%m-%d %H:%M")+ " UTC").localtime
   end
 
-  def self.undeployed
-    reset
-    tag = `cd #{Flower::Config.git_repo_path} && git tag|grep production|tail -n 1`.strip
-    undeployed = `cd #{Flower::Config.git_repo_path} && git log --oneline #{tag}..HEAD`.split("\n")
-    undeployed + ["","https://github.com/mynewsdesk/mynewsdesk/compare/#{tag}...master"]
+  def self.tag(repo)
+    tags = github.git_data.references.list Flower::Config.github_user, repo, ref: "tags/production/#{Time.now.year}"
+    tags.last.ref[10..-1]
+  end
+
+  def self.github
+    @@github ||= ::Github.new oauth_token: Flower::Config.github_token
   end
 end
