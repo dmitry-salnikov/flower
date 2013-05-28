@@ -16,22 +16,26 @@ module IOU
       save_to_database
     end
 
-    def value
-      amount_depending_on_sender + previous_amount
-    end
-
-    def previous_amount
-      redis.get(key.identifier).to_i
+    def balance
+      amount_depending_on_sender amount_from_database
     end
 
     private
 
     def save_to_database
-      redis.set key.identifier, value
+      redis.set key.identifier, new_balance
     end
 
-    def amount_depending_on_sender
-      key.sender?(sender) ? amount : -amount
+    def new_balance
+      amount_depending_on_sender + balance
+    end
+
+    def amount_from_database
+      redis.get(key.identifier).to_i
+    end
+
+    def amount_depending_on_sender money = amount
+      key.sender?(sender) ? money : -money
     end
 
     def key

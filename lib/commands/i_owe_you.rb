@@ -19,13 +19,13 @@ class IOweYou < Flower::Command
       debt = ::IOU::Debt.new(sender: sender, receiver: receiver, amount: amount.to_i)
       if receiver && amount
         if debt.create!
-          message.paste "Debt to #{receiver.capitalize} registered for #{amount} SEK. Total debt: #{debt.previous_amount} SEK"
+          message.paste "Debt to #{receiver.capitalize} registered for #{amount} SEK. Total debt: #{debt.balance} SEK"
         end
       elsif receiver
-        if debt.previous_amount > 0
-          message.paste "You owe #{debt.previous_amount} SEK to #{receiver.capitalize}"
-        elsif debt.previous_amount < 0
-          message.paste "#{receiver.capitalize} owes you #{-debt.previous_amount} SEK"
+        if debt.balance > 0
+          message.paste "You owe #{debt.balance} SEK to #{receiver.capitalize}"
+        elsif debt.balance < 0
+          message.paste "#{receiver.capitalize} owes you #{-debt.balance} SEK"
         else
           message.paste "No debts between you and #{receiver.capitalize}!"
         end
