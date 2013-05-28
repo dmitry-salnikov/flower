@@ -25,7 +25,7 @@ class IOweYou < Flower::Command
         if debt.previous_amount > 0
           message.paste "You owe #{debt.previous_amount} SEK to #{receiver.capitalize}"
         elsif debt.previous_amount < 0
-          message.paste "#{receiver.capitalize} owes you #{debt.previous_amount} SEK"
+          message.paste "#{receiver.capitalize} owes you #{-debt.previous_amount} SEK"
         else
           message.paste "No debts between you and #{receiver.capitalize}!"
         end
