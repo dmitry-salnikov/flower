@@ -35,7 +35,7 @@ class Stats < Flower::Command
 
   def self.leaderboard_stats
     stats = Flower::Stats.leaderboard
-    response = stats.map { |nick, value, diff| "#{arrow(diff)} #{nick}: #{value}" }
+    stats.map { |nick, value, diff| "#{arrow(diff)} #{nick}: #{value}" }
   end
 
   def self.online_right_now

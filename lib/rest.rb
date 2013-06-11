@@ -7,7 +7,7 @@ class Flower::Rest
       event: 'message'
     }
 
-    r = Typhoeus::Request.post(post_url(flow), {params: message})
+    Typhoeus::Request.post(post_url(flow), {params: message})
   end
 
   def get_users
