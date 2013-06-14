@@ -4,6 +4,8 @@ class Graph < Flower::Command
 
   GRAPHS = %w[
     http://c0.mndcdn.com/assets/redesign/components/partners/graphics/graph.png
+    http://xkcdsw.com/content/img/595.png
+    http://imgs.xkcd.com/comics/ballmer_peak.png
   ]
 
   def self.description
