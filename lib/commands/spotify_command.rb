@@ -95,10 +95,6 @@ class SpotifyCommand < Flower::Command
     end
   end
 
-  def self.seek(seconds)
-    player.seek(seconds)
-  end
-
   def self.description
     "Spotify: \\\"play\\\", \\\"pause\\\", \\\"track\\\", \\\"search\\\", \\\"queue\\\", \\\"playlist\\\", \\\"album\\\""
   end
@@ -116,6 +112,10 @@ class SpotifyCommand < Flower::Command
       end
       play_next
     end
+  end
+
+  def self.seek(seconds)
+    player.seek(seconds)
   end
 
   def self.get_current_track
