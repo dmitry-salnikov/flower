@@ -1,5 +1,5 @@
 class SpotifyCommand < Flower::Command
-  respond_to "play", "pause", "track", "stam", "search", "queue", "playlist", "album"
+  respond_to "play", "pause", "track", "stam", "search", "queue", "playlist", "album", "seek"
   require 'appscript'
   require 'hallon'
   require 'hallon-openal'
@@ -27,6 +27,8 @@ class SpotifyCommand < Flower::Command
     when "search"
       response = search_tracks(message)
       message.paste(response)
+    when "seek"
+      seek(message.argument.split(" ").first.to_i)
     when /playlist|album/
       case message.argument.split(" ").first
       when nil
@@ -91,6 +93,10 @@ class SpotifyCommand < Flower::Command
     if track = (QUEUE.shift || get_next_playlist_track)
       play_track(track)
     end
+  end
+
+  def self.seek(seconds)
+    player.seek(seconds)
   end
 
   def self.description
