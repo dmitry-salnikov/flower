@@ -6,12 +6,16 @@ class Flower::Stats
 
   def self.store_command_stat(message)
     store("commands/#{message.sender[:nick].downcase}", {message.command => 1}) if message.command
+  rescue
+    puts "REDIS ERROR"
   end
 
   def self.store_leaderboard_stat(message)
     report_change(message) do
       store("leaderboard", {message.sender[:nick] => 1})
     end
+  rescue
+    puts "REDIS ERROR"
   end
 
   def self.command_stats_for(nick)
