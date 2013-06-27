@@ -116,6 +116,7 @@ class SpotifyCommand < Flower::Command
 
   def self.seek(seconds)
     player.seek(seconds)
+    post_to_dashboard(seconds)
   end
 
   def self.get_current_track
@@ -194,11 +195,12 @@ class SpotifyCommand < Flower::Command
     end
   end
 
-  def self.post_to_dashboard
+  def self.post_to_dashboard(seek = 0)
     HTTParty.post(Flower::Config.dashboard_widgets_url + "lastfm", body: {
       auth_token: Flower::Config.dashboard_auth_token,
       name:       current_track.name,
       artist:     current_track.artist,
+      start:      seek,
       length:     current_track.pointer.duration.to_i,
       image:      "data:image/jpg;base64," + Base64.encode64(current_track.album.cover.load.data)
     }.to_json) rescue nil
