@@ -101,6 +101,10 @@ class SpotifyCommand < Flower::Command
 
   private
 
+  def self.upcoming_track
+    QUEUE.first
+  end
+
   def self.play_track(track, message = nil)
     self.current_track = track
     Thread.new do
@@ -204,6 +208,17 @@ class SpotifyCommand < Flower::Command
       length:     current_track.pointer.duration.to_i,
       image:      "data:image/jpg;base64," + Base64.encode64(current_track.album.cover.load.data)
     }.to_json) rescue nil
+    post_to_dashboard_upcoming
+  end
+
+  def self.post_to_dashboard_upcoming
+    if upcoming_track.present?
+      HTTParty.post(Flower::Config.dashboard_widgets_url + "lastfm", body: {
+        auth_token: Flower::Config.dashboard_auth_token,
+        upcoming_track_name: upcoming_track.name,
+        upcoming_track_artist: upcoming_track.artist,
+      }.to_json) rescue nil
+    end
   end
 
   init_session
