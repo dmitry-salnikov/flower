@@ -67,11 +67,13 @@ class SpotifyCommand < Flower::Command
         else
           message.say "Queue is empty."
         end
+        post_to_dashboard_upcoming
       else
         if track = get_track(message.argument, message.sender[:nick])
           QUEUE << track
           message.say "Added to queue (#{QUEUE.size}): #{track}"
         end
+        post_to_dashboard_upcoming
       end
     when "play"
       case message.argument
