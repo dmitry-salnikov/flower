@@ -104,7 +104,11 @@ class SpotifyCommand < Flower::Command
   private
 
   def self.upcoming_track
-    QUEUE.first
+    next_up = QUEUE.first
+    if next_up.empty? && !PLAYLIST.empty?
+      next_up = PLAYLIST[playlist_position + 1]
+    end
+    return next_up
   end
 
   def self.play_track(track, message = nil)
