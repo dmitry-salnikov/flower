@@ -152,6 +152,7 @@ class SpotifyCommand < Flower::Command
       list.tracks.each do |track|
         PLAYLIST << track
       end
+      post_to_dashboard_upcoming
       list
     end
   end
