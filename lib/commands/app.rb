@@ -21,7 +21,7 @@ class App < Flower::Command
     commits = diff.commits.map do |commit|
       commit.commit.message.split("\n", 2).first
     end
-    ["#{repo} is #{ahead} commits ahead", "Deployed #{parse_time_from_tag(from).strftime("%Y-%m-%d %H:%M")}"] + commits + ["https://github.com/#{Flower::Config.github_user}/#{repo}/compare/#{from}...master"]
+    ["#{repo} is #{ahead} commits ahead", "Deployed #{parse_time_from_tag(from).strftime("%Y-%m-%d %H:%M")}"] + ["https://github.com/#{Flower::Config.github_user}/#{repo}/compare/#{from}...master"] + commits
   end
 
   private
