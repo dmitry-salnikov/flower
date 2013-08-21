@@ -41,17 +41,6 @@ class SpotifyCommand < Flower::Command
         else
           message.paste([get_current_track, "Next in queue (#{QUEUE.size})", QUEUE[0, 8].map(&:to_s)])
         end
-      when /\.*\:playlist\:|\.*\:album\:/
-        if playlist = set_playlist(message.argument.split(" ").first, message.sender[:nick])
-          self.current_playlist = playlist
-          if message.argument.split(" ").last.match(/shuffle|random/)
-            set_playlist_shuffle("on")
-            message.paste ["Queued:", current_playlist.name, "in random mode"]
-          else
-            set_playlist_shuffle("off")
-            message.paste ["Queued:", current_playlist.name]
-          end
-        end
       when 'clear'
         unless QUEUE.empty?
           QUEUE.reject! { |track| track.requester == message.sender[:nick] }
