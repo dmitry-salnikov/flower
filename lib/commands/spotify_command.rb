@@ -1,5 +1,5 @@
 class SpotifyCommand < Flower::Command
-  respond_to "play", "pause", "track", "stam", "search", "queue", "playlist", "album", "seek"
+  respond_to "play", "pause", "track", "stam", "search", "queue", "seek"
   require 'appscript'
   require 'hallon'
   require 'hallon-openal'
@@ -23,35 +23,16 @@ class SpotifyCommand < Flower::Command
     when "stam"
       message.say("Stam in da house")
     when "track"
-      message.say(get_current_track)
+      if current_playlist && current_playlist.tracks.include?(current_track)
+        message.paste [get_current_track, "Playlist: #{current_playlist.name}"]
+      else
+        message.paste get_current_track
+      end
     when "search"
       response = search_tracks(message)
       message.paste(response)
     when "seek"
       seek(message.argument.split(" ").first.to_i)
-    when /playlist|album/
-      case message.argument.split(" ").first
-      when nil
-        if current_playlist
-          message.paste ["Current playlist", current_playlist.name]
-        else
-          message.say "No playlist"
-        end
-      when /shuffle|random/
-        if mode = message.argument.split(" ").last
-          set_playlist_shuffle(mode)
-        end
-        message.say("Playlist shuffle is #{playlist_shuffle} (set to \"on\" or \"off\")")
-      when 'default'
-        playlist = set_playlist(Flower::Config.default_playlist, Flower::Config.bot_nick)
-        self.current_playlist = playlist
-        message.paste ["Current playlist", current_playlist.name]
-      else
-        if playlist = set_playlist(message.argument, message.sender[:nick])
-          self.current_playlist = playlist
-          message.paste ["Current playlist", current_playlist.name]
-        end
-      end
     when "queue"
       case message.argument
       when nil
@@ -59,6 +40,17 @@ class SpotifyCommand < Flower::Command
           message.say("Queue is empty.")
         else
           message.paste([get_current_track, "Next in queue (#{QUEUE.size})", QUEUE[0, 8].map(&:to_s)])
+        end
+      when /\.*\:playlist\:|\.*\:album\:/
+        if playlist = set_playlist(message.argument.split(" ").first, message.sender[:nick])
+          self.current_playlist = playlist
+          if message.argument.split(" ").last.match(/shuffle|random/)
+            set_playlist_shuffle("on")
+            message.paste ["Queued:", current_playlist.name, "in random mode"]
+          else
+            set_playlist_shuffle("off")
+            message.paste ["Queued:", current_playlist.name]
+          end
         end
       when 'clear'
         unless QUEUE.empty?
@@ -82,8 +74,22 @@ class SpotifyCommand < Flower::Command
       when "next"
         play_next
       else
-        if track = get_track(message.argument, message.sender[:nick])
-          play_track(track, message)
+        if message.argument.match(/\.*\:playlist\:|\.*\:album\:/)
+          if playlist = set_playlist(message.argument.split(" ").first, message.sender[:nick])
+            self.current_playlist = playlist
+            if message.argument.split(" ").last.match(/shuffle|random/)
+              set_playlist_shuffle("on")
+              message.paste [current_playlist.name, "in random mode"]
+            else
+              set_playlist_shuffle("off")
+              message.paste current_playlist.name
+            end
+            play_next
+          end
+        else
+          if track = get_track(message.argument, message.sender[:nick])
+            play_track(track, message)
+          end
         end
       end
       message.say(get_current_track)
@@ -98,7 +104,7 @@ class SpotifyCommand < Flower::Command
   end
 
   def self.description
-    "Spotify: \\\"play\\\", \\\"pause\\\", \\\"seek\\\", \\\"track\\\", \\\"search\\\", \\\"queue\\\", \\\"playlist\\\", \\\"album\\\""
+    "Spotify: \\\"play\\\", \\\"pause\\\", \\\"seek\\\", \\\"track\\\", \\\"search\\\", \\\"queue\\\""
   end
 
   private
