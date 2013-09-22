@@ -1,4 +1,5 @@
 require 'iou/debt'
+require 'iou/key'
 
 describe IOU::Debt do
   describe '#initialize' do
