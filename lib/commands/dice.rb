@@ -15,6 +15,9 @@ class Dice < Flower::Command
   end
 
   def self.respond(message)
-    message.say DICES.sample
+    num = 2
+    num = message.argument.to_i if message.argument =~ /^\d+/
+    num = 2 if num > 6 || num <= 0
+    message.say num.times.map{ DICES.sample }.join(' ')
   end
 end
