@@ -10,14 +10,25 @@ class Dice < Flower::Command
     http://www.random.org/dice/dice6.png
   )
 
+  DEFAULT_COUNT = 1
+  MAX_COUNT = 6
+  MAX_DICE = 6
+
   def self.description
     "Let's play dice!"
   end
 
   def self.respond(message)
-    num = 2
-    num = message.argument.to_i if message.argument =~ /^\d+/
-    num = 2 if num > 6 || num <= 0
-    message.say num.times.map{ DICES.sample }.join(' ')
+    count = DEFAULT_COUNT
+    count = message.argument.to_i if message.argument =~ /^\d+/
+    count = DEFAULT_COUNT if count > MAX_COUNT || count <= 0
+    total = 0
+    results = count.times.map do
+      id = Random.rand(MAX_DICE)
+      total = total + id + 1
+      DICES[id]
+    end
+    results << "#{message.sender[:nick]} played #{count} dice and got #{total}!"
+    message.say results.join ' '
   end
 end
