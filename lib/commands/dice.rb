@@ -2,12 +2,12 @@ class Dice < Flower::Command
   respond_to "dice"
 
   DICES = %w(
-    http://openclipart.org/people/rg1024/dado_1.svg
-    http://openclipart.org/people/rg1024/dado_2.svg
-    http://openclipart.org/people/rg1024/dado_3.svg
-    http://openclipart.org/people/rg1024/dado_4.svg
-    http://openclipart.org/people/rg1024/dado_5.svg
-    http://openclipart.org/people/rg1024/dado_6.svg
+    http://www.random.org/dice/dice1.png
+    http://www.random.org/dice/dice2.png
+    http://www.random.org/dice/dice3.png
+    http://www.random.org/dice/dice4.png
+    http://www.random.org/dice/dice5.png
+    http://www.random.org/dice/dice6.png
   )
 
   def self.description
