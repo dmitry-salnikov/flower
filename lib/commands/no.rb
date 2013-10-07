@@ -40,6 +40,7 @@ class Noes < Flower::Command
     http://1.media.todaysbigthing.cvcdn.com/85/38/bb544e6a9d3d1061044498ef127803cc.gif
     http://loopcam-uploads.s3.amazonaws.com/files/110917/original/loop.gif
     http://i.imgur.com/KCTvlRf.gif
+    http://img.gawkerassets.com/img/190r281wmioyqgif/original.gif
   ]
 
   def self.description
