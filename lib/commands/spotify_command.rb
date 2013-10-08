@@ -202,7 +202,7 @@ class SpotifyCommand < Flower::Command
   end
 
   def self.post_to_dashboard(seek = 0)
-    HTTParty.post(Flower::Config.dashboard_widgets_url + "lastfm", body: {
+    HTTParty.post(Flower::Config.dashboard_widgets_url + "songtitle", body: {
       auth_token: Flower::Config.dashboard_auth_token,
       name:       current_track.name,
       artist:     current_track.artist,
@@ -221,7 +221,7 @@ class SpotifyCommand < Flower::Command
       track_artist = upcoming_track.artist
     end
     if upcoming_track.present?
-      HTTParty.post(Flower::Config.dashboard_widgets_url + "lastfm", body: {
+      HTTParty.post(Flower::Config.dashboard_widgets_url + "songtitle", body: {
         auth_token: Flower::Config.dashboard_auth_token,
         upcoming_track_name: upcoming_track.name,
         upcoming_track_artist: upcoming_track.artist,
