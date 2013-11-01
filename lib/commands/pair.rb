@@ -2,15 +2,14 @@ class Pair < Flower::Command
   respond_to "pair"
 
   EMOTIONS = [
-    "https://peepcode.com/blog/2013/charismatic-duo/img/dinosaur-hands.gif",
-    "https://peepcode.com/blog/2013/charismatic-duo/img/howiprogram.gif",
-    "https://peepcode.com/blog/2013/charismatic-duo/img/howiprogram.gif",
-    "https://peepcode.com/blog/2013/charismatic-duo/img/awyep.gif",
-    "https://peepcode.com/blog/2013/charismatic-duo/img/the-word.gif",
-    "https://peepcode.com/blog/2013/charismatic-duo/img/refute.gif",
-    "https://peepcode.com/blog/2013/charismatic-duo/img/whoawhoa.gif",
-    "https://peepcode.com/blog/2013/charismatic-duo/img/firstiwas.gif",
-    "https://peepcode.com/blog/2013/charismatic-duo/img/look.gif"
+    'http://www.trainsignal.com/blog/wp-content/uploads/peepcode/2013/charismatic-duo/img/dinosaur-hands.gif',
+    'http://www.trainsignal.com/blog/wp-content/uploads/peepcode/2013/charismatic-duo/img/howiprogram.gif',
+    'http://www.trainsignal.com/blog/wp-content/uploads/peepcode/2013/charismatic-duo/img/high-five.gif',
+    'http://www.trainsignal.com/blog/wp-content/uploads/peepcode/2013/charismatic-duo/img/the-word.gif',
+    'http://www.trainsignal.com/blog/wp-content/uploads/peepcode/2013/charismatic-duo/img/refute.gif',
+    'http://www.trainsignal.com/blog/wp-content/uploads/peepcode/2013/charismatic-duo/img/whoawhoa.gif',
+    'http://www.trainsignal.com/blog/wp-content/uploads/peepcode/2013/charismatic-duo/img/firstiwas.gif',
+    'http://www.trainsignal.com/blog/wp-content/uploads/peepcode/2013/charismatic-duo/img/look.gif'
   ]
 
   class << self
