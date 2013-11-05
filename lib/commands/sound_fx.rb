@@ -4,7 +4,7 @@ class SoundFx < SoundCommand
   respond_to "easy", "rimshot", "sad", "yeah", "applause", "bomb",
     "suprise", "snore", "godwillsit", "sting", "pengar", "rik", "fel",
     "khan", "khan?", "tarelugnt", "tadetlugnt", "keke", "judas", "priest",
-    "fascinating", "party", "tihi", "merikuh", "team", "gott", "bigbang"
+    "fascinating", "party", "tihi", "merikuh", "team", "gott", "bigbang", "itsatrap"
 
   def self.description
     "Awesome audio fx!"
@@ -64,6 +64,8 @@ class SoundFx < SoundCommand
        play_file "soundfx/gott.wav"
      when "bigbang"
        play_file "soundfx/Picture-a-Hot-Dog-Bun.mp3"
+     when "itsatrap"
+       play_file "soundfx/itsatrap.mp3"
     end
   end
 end
