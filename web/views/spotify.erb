@@ -77,9 +77,17 @@
                         $(track.artists).each(function(i,item){
                             artists += item.name + " ";
                         });
-                        html += "<li><span class=\"pop\">"+ parseInt(track.popularity * 100,10) +"</span><span>"+ track.name + "</span> ("+ track.album.released +")<br><span>"+ artists +"</span><br><small>Length: "+ track.length +"</small> <a href="+ track.href +">Load</a></li>";
+                        html += "<li><span class=\"pop\">"+ parseInt(track.popularity * 100,10) +"</span><span>"+ track.name + "</span> ("+ track.album.released +")<br><span>"+ artists +"</span><br><small>Length: "+ track.length +"</small> <a href=# data-track="+ track.href +">Load</a></li>";
                     });
                     $("ul#result").html(html);
+                    $("ul#result a").on("click",function(evt){
+                        evt.preventDefault();
+                        //console.log($(this).data("track"));
+                        $.post("/spotify/",{
+                            data:{track: $(this).data("track")}
+                        });
+                    });
+
                 });
             }
             function setFilter(filter){

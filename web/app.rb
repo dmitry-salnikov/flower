@@ -1,4 +1,5 @@
 require 'sinatra'
+require_relative '../lib/flower'
 
 configure do
   set :public_folder, Proc.new { File.join(root, "static") }
