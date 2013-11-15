@@ -24,9 +24,6 @@ gem 'instagram'
 
 gem 'github_api'
 
-gem 'thrift'
-gem 'thin'
-
 gem 'tumblr_client'
 gem 'sinatra'
 
