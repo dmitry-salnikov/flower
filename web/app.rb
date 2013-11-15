@@ -22,6 +22,13 @@ post '/sound' do
   redirect '/'
 end
 
+get '/spotify' do
+  erb :spotify
+end
+
+post '/spotify/:uri' do |uri|
+end
+
 private
 
 def respond(message)
