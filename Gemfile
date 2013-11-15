@@ -9,7 +9,7 @@ gem 'yajl-ruby'
 gem 'pry'
 gem 'typhoeus'
 gem 'httparty'
-gem 'libxml-ruby',  '~> 2.2.2'
+gem 'libxml-ruby'
 
 gem 'google-search'
 
