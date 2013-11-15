@@ -28,6 +28,9 @@ get '/spotify' do
 end
 
 post '/spotify/:uri' do |uri|
+  spotify = Flower::SpotifyCommand
+  spotify.const_get(:QUEUE) << spotify.send(:get_track, uri)
+  spotify.send(:play_next)
 end
 
 private
