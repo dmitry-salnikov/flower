@@ -1,5 +1,5 @@
 /*global jQuery:true, define:true */
-define(function() {
+define(["jquery"],function($) {
     function search(trackName){
         var trackName = encodeURIComponent(trackName);
         $.get("http://ws.spotify.com/search/1/track.json?q="+trackName,function(data){
@@ -28,7 +28,7 @@ define(function() {
         var filterSearch = filter + $("#track").val();
         $("#track").val(filterSearch);
         search(filterSearch);
-    };
+    }
     $(function(){
         $("input[type=text]").on("keyup",function(){
             search($("#track").val());
