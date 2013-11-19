@@ -9,6 +9,18 @@
     </head>
     <body>
         <div id="wrapper">
+            <div id="queue">
+                <h2>Current queue</h2>
+                <% if Flower::SpotifyCommand.queue.empty? %>
+                    <p>No tracks in queue</p>
+                <% end %>
+                <ol>
+                    <% Flower::SpotifyCommand.queue.each do |track| %>
+                        <li><%= track.pretty %></li>
+                    <% end %>
+                </ol>
+
+            </div>
             <input type="text" id="track" value="Swedish House Mafia" placeholder="Search for track">
             <div id="search"><i class="fa fa-search"></i></div>
             <div class="filter">

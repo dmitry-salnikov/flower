@@ -5,6 +5,7 @@ require 'json'
 require 'eventmachine'
 require 'em-http'
 require 'yajl'
+require 'thin'
 
 class Flower
   require File.expand_path(File.join(File.dirname(__FILE__), 'message'))
@@ -13,6 +14,7 @@ class Flower
   require File.expand_path(File.join(File.dirname(__FILE__), 'command'))
   require File.expand_path(File.join(File.dirname(__FILE__), 'config'))
   require File.expand_path(File.join(File.dirname(__FILE__), 'stats'))
+  require File.expand_path(File.join(File.dirname(__FILE__), '..', 'web', 'app'))
 
   COMMANDS = {} # We are going to load available commands in here
   LISTENERS = {} # We are going to load available monitors in here
@@ -35,12 +37,16 @@ class Flower
     EM.run {
       get_users rest.get_users
       stream.start
+      Thin::Server.start WebApp.new(self), '0.0.0.0', 3000
     }
   end
 
   def respond_to(message)
+    require 'pry'
     Thread.new do
-      message.sender = users[message.user_id]
+      # hack to support the web app
+      message.sender = users[message.user_id] || users.detect{|k,v| v[:nick] == message.sender[:nick] }.last
+
       message.flower = self
       message.rest = rest
       Thread.exit if !message.sender # Don't break when the mnd CLI tool is posting to chat

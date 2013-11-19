@@ -1,5 +1,14 @@
 /*global jQuery:true, define:true */
 define(["jquery"],function($) {
+    function queue(){
+        $.get('/spotify/queue').success(function(data){
+            $('#queue ol').html($(data).map(function(){
+                return "<li>" + this + "</li>";
+            }).get());
+        })
+        setTimeout(queue, 5000)
+    };
+
     function search(trackName){
         var trackName = encodeURIComponent(trackName);
         $.get("http://ws.spotify.com/search/1/track.json?q="+trackName,function(data){
@@ -16,9 +25,8 @@ define(["jquery"],function($) {
             $("ul#result").html(html);
             $("ul#result a").on("click",function(evt){
                 evt.preventDefault();
-                //console.log($(this).data("track"));
-                $.post("/spotify/",{
-                    data:{track: $(this).data("track")}
+                $.post("/spotify/queue",{
+                    uri: $(this).data("track")
                 });
             });
 
@@ -37,5 +45,6 @@ define(["jquery"],function($) {
             event.preventDefault();
             setFilter($(this).data("filter"));
         });
+        queue();
     });
 });

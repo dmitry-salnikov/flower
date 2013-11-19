@@ -139,6 +139,14 @@ class SpotifyCommand < Flower::Command
     end
   end
 
+  def self.add_to_queue(query, requester = nil)
+    QUEUE << get_track(query, requester)
+  end
+
+  def self.queue
+    QUEUE
+  end
+
   def self.set_playlist(query, requester)
     if type = query.match(/^spotify:.*(:playlist|album):/)
       list = List.new(type[1], query, requester)
@@ -240,8 +248,12 @@ class SpotifyCommand < Flower::Command
         requester)
     end
 
+    def pretty
+      "#{name} - #{artist} (#{requester})"
+    end
+
     def to_s
-      CGI.escape "#{name} - #{artist} (#{requester})"
+      CGI.escape pretty
     end
   end
 
