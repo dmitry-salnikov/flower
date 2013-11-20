@@ -9,6 +9,10 @@ class WebApp < Sinatra::Base
     super
   end
 
+  def bang(commands)
+    commands.map {|cmd| "!#{cmd}" }
+  end
+
   configure do
     set :public_folder, Proc.new { File.join(root, "static") }
   end
