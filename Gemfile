@@ -25,7 +25,9 @@ gem 'instagram'
 gem 'github_api'
 
 gem 'tumblr_client'
+
 gem 'sinatra'
+gem 'thin'
 
 group :test do
   gem "rspec",   "~> 2.6.0"

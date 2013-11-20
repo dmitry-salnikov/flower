@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
+        <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+        <link rel="stylesheet" href="/css/spotify.css">
+        <script type="text/javascript" data-main="/js/app.js" src="//cdn.jsdelivr.net/requirejs/2.1.9/require.min.js"></script>
+    </head>
+    <body>
+        <div id="wrapper">
+            <div id="search">
+                <h2><i class="fa fa-search"></i> Search track</h2>
+                <input type="text" id="track" value="Swedish House Mafia" placeholder="Search for track">
+                <div class="filter">
+                    Filter: <a href="#" data-filter="year:2013 ">year:</a> <a href="#"data-filter="label:axtone ">label:</a> <a href="#" data-filter="genre:house ">genre:</a>
+                </div>
+                <ul id="result">
+                </ul>
+            </div>
+            <div id="queue">
+                <h2><i class="fa fa-music"></i> Current queue</h2>
+                <% if Flower::SpotifyCommand.queue.empty? %>
+                    <p>No tracks in queue</p>
+                <% end %>
+                <ol>
+                    <% Flower::SpotifyCommand.queue.each do |track| %>
+                        <li><%= track.pretty %></li>
+                    <% end %>
+                </ol>
+
+            </div>
+        </div>
+    </body>
+</html>
