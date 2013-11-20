@@ -9,8 +9,17 @@
     </head>
     <body>
         <div id="wrapper">
+            <div id="search">
+                <h2><i class="fa fa-search"></i> Search track</h2>
+                <input type="text" id="track" value="Swedish House Mafia" placeholder="Search for track">
+                <div class="filter">
+                    Filter: <a href="#" data-filter="year:2013 ">year:</a> <a href="#"data-filter="label:axtone ">label:</a> <a href="#" data-filter="genre:house ">genre:</a>
+                </div>
+                <ul id="result">
+                </ul>
+            </div>
             <div id="queue">
-                <h2>Current queue</h2>
+                <h2><i class="fa fa-music"></i> Current queue</h2>
                 <% if Flower::SpotifyCommand.queue.empty? %>
                     <p>No tracks in queue</p>
                 <% end %>
@@ -21,13 +30,6 @@
                 </ol>
 
             </div>
-            <input type="text" id="track" value="Swedish House Mafia" placeholder="Search for track">
-            <div id="search"><i class="fa fa-search"></i></div>
-            <div class="filter">
-                Filter: <a href="#" data-filter="year:2013 ">year:</a> <a href="#"data-filter="label:axtone ">label:</a> <a href="#" data-filter="genre:house ">genre:</a>
-            </div>
-            <ul id="result">
-            </ul>
         </div>
     </body>
 </html>

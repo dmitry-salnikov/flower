@@ -6,7 +6,7 @@ define(["jquery"],function($) {
     function queue(){
         $.get("/spotify/queue").success(function(data){
             $("#queue ol").html($(data).map(function(){
-                return "<li>" + this + "</li>";
+                return "<li><span>" + this + "</span></li>";
             }).get());
         });
         queue_timer = setTimeout(function(){
