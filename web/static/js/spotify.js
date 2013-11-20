@@ -1,13 +1,17 @@
-/*global jQuery:true, define:true */
+/*global define:true */
 define(["jquery"],function($) {
+    "use strict";
+    var queue_timer = null;
+    
     function queue(){
-        $.get('/spotify/queue').success(function(data){
-            $('#queue ol').html($(data).map(function(){
+        $.get("/spotify/queue").success(function(data){
+            $("#queue ol").html($(data).map(function(){
                 return "<li>" + this + "</li>";
             }).get());
-        })
-        setTimeout(queue, 5000)
-    };
+        });
+        queue_timer = setTimeout(function(){
+            queue();}, 5000);
+    }
 
     function search(trackName){
         var trackName = encodeURIComponent(trackName);
@@ -27,6 +31,9 @@ define(["jquery"],function($) {
                 evt.preventDefault();
                 $.post("/spotify/queue",{
                     uri: $(this).data("track")
+                })
+                .done(function(){
+                    queue();
                 });
             });
 
