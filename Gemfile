@@ -35,3 +35,5 @@ end
 platforms :ruby_18 do
   gem "json",    "~> 1.5.4"
 end
+
+gem 'activesupport'
