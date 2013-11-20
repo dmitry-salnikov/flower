@@ -49,13 +49,7 @@ class Flower::Stream
     {:accept => 'text/event-stream', 'Authorization' => "Basic #{auth}"}
   end
 
-  def flows(seperator = "/")
-    Flower::Config.flows.map do |room|
-      "#{Flower::Config.company}#{seperator}#{room}"
-    end
-  end
-
   def stream_url
-    "https://stream.flowdock.com/flows?active=true&filter=#{flows.join(',')}"
+    "https://stream.flowdock.com/flows?active=true&filter=#{Flower::Config.flows.join(',')}"
   end
 end

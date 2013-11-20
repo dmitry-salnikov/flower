@@ -35,14 +35,13 @@ class Flower
 
   def boot!
     EM.run {
-      get_users rest.get_users
+      get_users
       stream.start
       Thin::Server.start WebApp.new(self), '0.0.0.0', 3000
     }
   end
 
   def respond_to(message)
-    require 'pry'
     Thread.new do
       # hack to support the web app
       message.sender = users[message.user_id] || users.detect{|k,v| v[:nick] == message.sender[:nick] }.last
@@ -65,8 +64,10 @@ class Flower
     end
   end
 
-  def get_users(users_json)
-    users_json.each do |user|
+  private
+
+  def get_users
+    rest.get_users.each do |user|
       self.users[user["id"]] = {:id => user["id"], :nick => user["nick"]}
     end
   end
