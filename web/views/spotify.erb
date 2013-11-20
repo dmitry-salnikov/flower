@@ -11,7 +11,7 @@
         <div id="wrapper">
             <div id="search">
                 <h2><i class="fa fa-search"></i> Search track</h2>
-                <input type="text" id="track" value="Swedish House Mafia" placeholder="Search for track">
+                <input type="text" id="track" value="year:2013 " placeholder="Search for track...">
                 <div class="filter">
                     Filter: <a href="#" data-filter="year:2013 ">year:</a> <a href="#"data-filter="label:axtone ">label:</a> <a href="#" data-filter="genre:house ">genre:</a>
                 </div>
@@ -20,15 +20,11 @@
             </div>
             <div id="queue">
                 <h2><i class="fa fa-music"></i> Current queue</h2>
-                <% if Flower::SpotifyCommand.queue.empty? %>
-                    <p>No tracks in queue</p>
-                <% end %>
                 <ol>
                     <% Flower::SpotifyCommand.queue.each do |track| %>
                         <li><%= track.pretty %></li>
                     <% end %>
                 </ol>
-
             </div>
         </div>
     </body>

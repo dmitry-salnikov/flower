@@ -24,7 +24,7 @@ define(["jquery"],function($) {
                 $(track.artists).each(function(i,item){
                     artists += item.name + " ";
                 });
-                html += "<li><span class=\"pop\">"+ parseInt(track.popularity * 100,10) +"</span><i class=\"fa fa-music\"></i> <span>"+ track.name + "</span> ("+ track.album.released +")<br><span>"+ artists +"</span><br><small>Length: "+ track.length +"</small> <a href=# data-track="+ track.href +">Load</a></li>";
+                html += "<li><span class=\"pop\"><i class=\"fa fa-music\"></i> "+ parseInt(track.popularity * 100,10) +"</span><div class=\"track-info\"><span>"+ track.name + "</span> - <span>"+ artists +"</span> ("+ track.album.released +")<br><small>Length: "+ track.length +"</small> <a href=# data-track="+ track.href +"><br><i class=\"fa fa-plus\"></i>Load</a></div></li>";
             });
             $("ul#result").html(html);
             $("ul#result a").on("click",function(evt){
@@ -52,6 +52,7 @@ define(["jquery"],function($) {
             event.preventDefault();
             setFilter($(this).data("filter"));
         });
+        search($("#track").val());
         queue();
     });
 });
