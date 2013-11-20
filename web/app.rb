@@ -55,7 +55,6 @@ class WebApp < Sinatra::Base
     end.keys
   end
 
-
   def sound_commands_by_popularity
     sound_commands.sort_by {|cmd| -stats[cmd].to_i }
   end
