@@ -7,7 +7,7 @@ class Flower::Message
   end
 
   def flow
-    @flow ||= data[:flow].split(":").last
+    @flow ||= data[:flow].split(":")
   end
 
   def content

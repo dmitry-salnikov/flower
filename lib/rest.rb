@@ -35,8 +35,16 @@ class Flower::Rest
     end
   end
 
+  def get_flow_from_message(message)
+    if message.flow.size > 1
+      flows.detect{|f| f["parameterized_name"] == message.flow.last && f["organization"]["parameterized_name"] == message.flow.first }
+    else
+      flow = flows.detect{|f| f['id'] == message.flow.first }
+    end
+  end
+
   def post_url(message)
-    flow = flows.detect{|f| f['id'] == message.flow }
+    flow = get_flow_from_message(message)
     url = "#{flow_url(flow)}/messages"
     url << "/#{message.reply_to}/comments" if message.reply_to
     url
