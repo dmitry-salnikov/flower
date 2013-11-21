@@ -33,7 +33,11 @@ class Flower::Message
   end
 
   def respond?
-    event =~ /message|comment/ && Flower::Config.flows.include?(flow)
+    event =~ /message|comment/
+  end
+
+  def comment?
+    event == 'comment'
   end
 
   def from_self?
@@ -96,10 +100,22 @@ class Flower::Message
     end
   end
 
+  def reply_to
+    if comment?
+      data[:tags].each do |tag|
+        if match = tag.match(/influx:(\d*)/)
+          return match[1]
+        end
+      end
+    else
+      data[:id]
+    end
+  end
+
   def say(reply, options = {})
     reply = reply.respond_to?(:join) ? reply.join("\n") : reply
     @output = reply
-    rest.post_message(reply, parse_tags(options), flow)
+    rest.post_message(reply, parse_tags(options), self)
   end
 
   def paste(reply, options = {})
@@ -107,7 +123,7 @@ class Flower::Message
     reply = reply.split("\n").map{ |str| (" " * 4) + str }.join("\n")
     reply = reply.respond_to?(:join) ? reply.join("\n") : reply
     @output = reply
-    rest.post_message(reply, parse_tags(options), flow)
+    rest.post_message(reply, parse_tags(options), self)
   end
 
   def parse_tags(options)
