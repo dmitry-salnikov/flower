@@ -62,7 +62,7 @@ class Burger < SoundCommand
     constants = self.constants
     your_burger = Array.new.tap do |burger|
       constants.each do |type|
-        burger << "# #{type.to_s.titleize}\n#{self.const_get(type).sample}"
+        burger << "#{type.to_s.titleize.singularize}: #{self.const_get(type).sample}"
       end
     end
 
