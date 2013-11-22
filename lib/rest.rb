@@ -5,10 +5,10 @@ class Flower::Rest
     params = {
       content: msg,
       tags: tags || [],
-      event: 'message'
+      event: message.reply_to ? 'comment' : 'message'
     }
-
-    Typhoeus::Request.post(post_url(message), {params: params})
+    response = Typhoeus::Request.post(post_url(message), {params: params})
+    puts "error: #{response.inspect}" unless response.success?
   end
 
   def get_users
