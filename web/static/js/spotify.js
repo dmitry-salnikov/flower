@@ -1,5 +1,5 @@
 /*global define:true */
-define(["jquery"],function($) {
+define(["jquery","moment"],function($) {
     "use strict";
     var queue_timer = null;
 
@@ -24,7 +24,7 @@ define(["jquery"],function($) {
                 $(track.artists).each(function(i,item){
                     artists += item.name + " ";
                 });
-                html += "<li><span class=\"pop\"><i class=\"fa fa-music\"></i> "+ parseInt(track.popularity * 100,10) +"</span><div class=\"track-info\"><span>"+ track.name + "</span> - <span>"+ artists +"</span> ("+ track.album.released +")<br><small>Length: "+ track.length +"</small> <a href=# data-track="+ track.href +"><br><i class=\"fa fa-plus\"></i>Queue</a></div></li>";
+                html += "<li><span class=\"pop\"><i class=\"fa fa-music\"></i> "+ parseInt(track.popularity * 100,10) +"</span><div class=\"track-info\"><span>"+ track.name + "</span> - <span>"+ artists +"</span><br>"+ track.album.name +" ("+ track.album.released +")<br><strong>"+ moment().hours(0).minutes(0).seconds(track.length).format("mm:ss") +"</strong> <a href=# data-track="+ track.href +"><br><i class=\"fa fa-plus\"></i>Queue</a></div></li>";
             });
             $("ul#result").html(html);
             $("ul#result a").on("click",function(evt){
