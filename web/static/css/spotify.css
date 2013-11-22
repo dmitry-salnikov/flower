@@ -5,12 +5,12 @@ body{
     color:#222;
 }
 #wrapper{
-    max-width: 90%;
-    padding:0% 5% 5%;
+    width: 98%;
+    padding:0%;
     margin: 0 auto;
 }
 #search, #queue{
-    padding: 2%;
+    padding: 0 0 2% 0;
 }
 #search{
     float:left;
@@ -82,15 +82,9 @@ ul{
     padding:0;
 }
 ol{
-    border: 1px solid #ccc;
     list-style-position: inside;
     margin:0px 0 0 0;
     padding:0;
-    background:#f1f1f1;
-}
-ol li{
-    padding:15px;
-    border-bottom: 1px solid #ccc;
 }
 ol li:last-child{
     border-bottom: none;
