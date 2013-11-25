@@ -39,6 +39,10 @@ define(["jquery","moment"],function($) {
 
         });
     }
+    function player(action){
+        $.post("/spotify/player/"+action);
+    }
+
     function setFilter(filter){
         var filterSearch = filter + $("#track").val();
         $("#track").val(filterSearch);
@@ -47,6 +51,10 @@ define(["jquery","moment"],function($) {
     $(function(){
         $("input[type=text]").on("keyup",function(){
             search($("#track").val());
+        });
+        $("a[data-player]").on("click",function(){
+            event.preventDefault();
+            player($(this).data("player"));
         });
         $("a[data-filter]").on("click",function(){
             event.preventDefault();

@@ -3,14 +3,38 @@ body{
     font-size: 15px;
     line-height: 1.5rem;
     color:#222;
+    margin: 0;
 }
 #wrapper{
     width: 98%;
     padding:0%;
     margin: 0 auto;
 }
+#player{
+    position: fixed;
+    padding: 1%;
+    background:#2bba78;
+    width: 100%;
+    color:#fff;
+    font-weight: 100;
+}
+#player i{
+    font-size: 20px;
+}
+#player a{
+    color:rgba(255,255,255,0.8);
+    margin-right: 15px;
+}
+#player a:hover{
+    color:rgba(255,255,255,1);
+}
+
+#player .track{
+
+}
+
 #search, #queue{
-    padding: 0 0 2% 0;
+    padding: 4% 0 2% 0;
 }
 #search{
     float:left;
