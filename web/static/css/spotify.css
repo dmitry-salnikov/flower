@@ -22,11 +22,11 @@ body{
     font-size: 20px;
 }
 #player a{
-    color:rgba(255,255,255,0.8);
+    color:rgba(255,255,255,1);
     margin-right: 15px;
 }
 #player a:hover{
-    color:rgba(255,255,255,1);
+    color:rgba(255,255,255,0.8);
 }
 
 #player .track{
