@@ -47,6 +47,21 @@ class WebApp < Sinatra::Base
     Flower::SpotifyCommand.queue.map(&:pretty).to_json
   end
 
+  post '/spotify/player/play' do
+    Flower::SpotifyCommand.play
+    ""
+  end
+
+  post '/spotify/player/pause' do
+    Flower::SpotifyCommand.pause
+    ""
+  end
+
+  post '/spotify/player/next' do
+    Flower::SpotifyCommand.play_next
+    ""
+  end
+
   get "/*" do
     # Catch all (favicon etc) to aviod the filling up the log
   end

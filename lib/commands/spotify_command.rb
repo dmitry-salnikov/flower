@@ -92,6 +92,14 @@ class SpotifyCommand < Flower::Command
     end
   end
 
+  def self.play
+    player.play
+  end
+
+  def self.pause
+    player.pause
+  end
+
   def self.description
     "Spotify: \\\"play\\\", \\\"pause\\\", \\\"seek\\\", \\\"track\\\", \\\"search\\\", \\\"queue\\\""
   end
