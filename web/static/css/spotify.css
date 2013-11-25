@@ -44,6 +44,12 @@ body{
     float: right;
     width: 36%;
 }
+@media (max-width: 700px) {
+    #search, #queue{
+        width: 94%;
+        padding:5% 3% 0%;
+    }
+}
 a{
     font-weight: 400;
     text-decoration: none;
