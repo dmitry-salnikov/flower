@@ -29,6 +29,7 @@ define(["jquery","moment"],function($) {
             $("ul#result").html(html);
             $("ul#result a").on("click",function(evt){
                 evt.preventDefault();
+                $(this).parents("li").remove();
                 $.post("/spotify/queue",{
                     uri: $(this).data("track")
                 })
