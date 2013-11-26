@@ -18,7 +18,7 @@ define(["jquery","moment"],function($) {
         $.get("/spotify/track").success(function(data){
             if(data){
                 console.log(data.track);
-                $("#track").text(data.track);
+                $("#track").text(data.track.name);
             }
         })
         track_timer = setTimeout(function(){
