@@ -37,6 +37,11 @@ class WebApp < Sinatra::Base
     erb :spotify
   end
 
+  get '/spotify/track' do
+    content_type :json
+    #track:" Jumangee - Original Mix - Wayne & Woods (web)"}
+  end
+
   post '/spotify/queue' do
     Flower::SpotifyCommand.add_to_queue params[:uri], 'web'
     ""

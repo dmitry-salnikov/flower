@@ -1,7 +1,8 @@
 /*global define:true */
 define(["jquery","moment"],function($) {
     "use strict";
-    var queue_timer = null;
+    var queue_timer = null,
+        track_timer = null;
 
     function queue(){
         $.get("/spotify/queue").success(function(data){
@@ -11,6 +12,17 @@ define(["jquery","moment"],function($) {
         });
         queue_timer = setTimeout(function(){
             queue();}, 5000);
+    }
+
+    function currentTrack(){
+        $.get("/spotify/track").success(function(data){
+            if(data){
+                console.log(data.track);
+                $("#track").text(data.track);
+            }
+        })
+        track_timer = setTimeout(function(){
+            currentTrack();}, 5000);
     }
 
     function search(trackName){
@@ -62,6 +74,7 @@ define(["jquery","moment"],function($) {
             setFilter($(this).data("filter"));
         });
         search($("#track").val());
+        currentTrack();
         queue();
     });
 });
