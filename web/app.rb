@@ -39,7 +39,7 @@ class WebApp < Sinatra::Base
 
   get '/spotify/track' do
     content_type :json
-    #track:" Jumangee - Original Mix - Wayne & Woods (web)"}
+    { track: SpotifyCommand.current_track.pretty }.to_json
   end
 
   post '/spotify/queue' do

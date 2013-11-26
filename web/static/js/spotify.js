@@ -16,13 +16,14 @@ define(["jquery","moment"],function($) {
 
     function currentTrack(){
         $.get("/spotify/track").success(function(data){
-            if(data){
-                console.log(data.track);
-                $("#track").text(data.track.name);
+            if(!$.isEmptyObject(data)){
+                $("#track-info").text(data.track);
+            }else{
+                $("#track-info").text("");
             }
         })
         track_timer = setTimeout(function(){
-            currentTrack();}, 5000);
+            currentTrack();}, 2000);
     }
 
     function search(trackName){
