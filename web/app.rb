@@ -39,7 +39,7 @@ class WebApp < Sinatra::Base
 
   get '/spotify/track' do
     content_type :json
-    { track: SpotifyCommand.current_track.pretty }.to_json
+    { track: SpotifyCommand.current_track.try(:pretty) }.to_json
   end
 
   post '/spotify/queue' do
