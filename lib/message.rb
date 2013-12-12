@@ -115,6 +115,7 @@ class Flower::Message
   def say(reply, options = {})
     reply = reply.respond_to?(:join) ? reply.join("\n") : reply
     @output = reply
+    reply.gsub!('+','%2B')
     rest.post_message(reply, parse_tags(options), self)
   end
 
