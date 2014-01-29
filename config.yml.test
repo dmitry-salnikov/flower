@@ -1,0 +1,24 @@
+---
+  email: "dev+flower@mynewsdesk.com"
+  password: "tpi2Dh2r"
+  company: mynewsdesk
+  api_token: '18996d5faa19c6013c70cabfdcaf3e71'
+  flows:
+    - bot-debug-room
+  em_port: 6000
+  bot_nick: "Bot"
+  live_id: "8F2285BC4C3351C997BE97DCBAAC449E79B5947A"
+  poke_url: "http://dashboard.mynewsdesk.com/ping_urls?api_key=39646563"
+  pivotal_username: "cool@mail.com"
+  pivotal_password: "secret"
+  instagram_id: xxx
+  instagram_secret: xxx
+  mnd_to_key: 'af6e5b40c7b7bc84ed6e2e828c40ec5091744ec9dfff9579d6d3dc8b052d0627'
+  spotify_appkey: spotify_appkey.key
+  spotify_username: "teoljungberg"
+  spotify_password: "tytEyydjrrg2sana"
+  tumblr_consumer_key: "xxxx"
+  tumblr_consumer_secret: "xxxx"
+  tumblr_oauth_token: 'xxxx'
+  tumblr_oauth_token_secret: 'xxxx'
+  tumblr_url: "tumblr.tumblr.com"
