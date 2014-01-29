@@ -1,10 +1,9 @@
 ---
   email: "user@domain.com"
   password: "supersecret"
-  company: your_subdomain
   api_token: 'xxx'
   flows:
-    - main
+    - your_company/your_flow
   em_port: 6000
   bot_nick: "Bot"
   live_id: "xxxx"
