@@ -14,7 +14,16 @@ Flower was made to be easy to extend with your own commands.
 2. Download/clone the repository
 3. Copy and rename `config.yml.example` to `config.yml`, and fill it with your settings
 4. Run the bot in the background: `rake run &`
-5. Mention your Bot in the chat to command it
+5. Write "!job" and smile!
+
+All commands are prefixed with `!`
+Run:
+
+```bash
+$ git grep 'respond_to'
+```
+
+to see which commands you can use
 
 ### Writing my own commands
 
