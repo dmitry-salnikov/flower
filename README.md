@@ -42,7 +42,7 @@ This is easy. Simply create a class like this in lib/commands that inherits Flow
       end
     end
 
-`MyCommand.repsond` will be invoked when a message prefix matches what you `respond_to`. Arguments passed are:
+`MyCommand.respond` will be invoked when a message prefix matches what you `respond_to`. Arguments passed are:
 
 * command - The matched command
 * message - The entire message
