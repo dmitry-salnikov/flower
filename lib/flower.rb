@@ -34,11 +34,15 @@ class Flower
   end
 
   def boot!
-    EM.run {
+    EM.schedule do
+      trap("INT") { EM.stop }
+    end
+
+    EM.run do
       get_users
       stream.start
       Thin::Server.start WebApp.new(self), '0.0.0.0', 3000
-    }
+    end
   end
 
   def respond_to(message)
