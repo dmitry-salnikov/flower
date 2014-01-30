@@ -33,7 +33,3 @@ task :console do
   ARGV.clear
   IRB.start
 end
-
-Signal.trap(0) do
-  @flower.say("I'm leaving (and/or crashing)... Goodbye!")
-end
