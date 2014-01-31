@@ -1,7 +1,7 @@
 require 'nokogiri'
 class Jonny < Flower::Command
   respond_to "jonny", "tfd", "javve"
-  listen_to /.* (jonny|tfd|javve)(\s|$|\.).*/i
+  listen_to /.* (tfd|javve)(\s|$|\.).*/i
   URL = "http://thatswhatjonnysaid.com/random"
 
   def self.description
