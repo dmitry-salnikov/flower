@@ -9,15 +9,15 @@ class Jonny < Flower::Command
   end
 
   def self.listen(message)
-    message.say("#{quote} #thatswhatjonnysaid", :mention => message.user_id)
+    message.say(quote, :mention => message.user_id)
   end
 
   def self.respond(message)
-    message.say("#{quote} #thatswhatjonnysaid")
+    message.say(quote)
   end
 
   def self.quote
     document = Nokogiri.HTML(Typhoeus::Request.get(URL, :follow_location => true).body)
-    document.at_css(".thequote").text
+    "#{document.at_css(".thequote").text}\n- #{document.at_css(".source").text} #thatswhatjonnysaid"
   end
 end
