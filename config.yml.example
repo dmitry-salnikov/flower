@@ -22,3 +22,5 @@
   tumblr_url: "tumblr.tumblr.com"
   github_token: 'xxxx'
   github_user: 'mynewsdesk'
+  say_what_again_api_key: ""
+  say_what_again_quotes_url: ""
