@@ -1,7 +1,7 @@
 require 'typhoeus'
 require 'json'
-require 'ostruct'
-require 'say_what_again/http'
+require_relative 'http'
+require_relative 'collection'
 
 module SayWhatAgain
   class Api
@@ -12,8 +12,8 @@ module SayWhatAgain
     attr_reader :url, :params
 
     def quotes
-      response = JSON.parse http.get.body
-      response["quotes"].map {|quote| OpenStruct.new quote }
+      response = http.get(params: params).body
+      JSON.parse(response)["quotes"].map {|quote| Collection.new quote }
     end
 
     def create
