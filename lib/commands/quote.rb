@@ -6,16 +6,17 @@ class Quote < Flower::Command
   def self.description
     <<-DOC
     Posts a quote to our beloved quote bank
-      Usage: !quote I destroyed a site - Jonny"
+      Usage: !quote I destroyed a site - Jonny, Jonny's biggest mistake"
       Usage: !quote, # to receive a random quote"
     DOC
   end
 
   def self.respond(message)
     if message.argument
-      body, quotee = message.argument.split(?-).map &:strip
-      response     = api(
-        body: body, quotee: quotee
+      body, rest      = message.argument.split(?-).map &:strip
+      quotee, context = message.argument.split(?,).map &:strip
+      response        = api(
+        body: body, quotee: quotee, context: context
       ).create
     else
       message.paste api.quotes.sample.to_s
