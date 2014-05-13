@@ -38,6 +38,8 @@ class WebApp < Sinatra::Base
   end
 
   get '/spotify/track' do
+    headers 'Access-Control-Allow-Origin' => 'http://localhost:9000',
+            'Access-Control-Allow-Methods' => ['GET']
     content_type :json
     { track: SpotifyCommand.current_track.try(:pretty) }.to_json
   end
