@@ -43,13 +43,15 @@ class WebApp < Sinatra::Base
   end
 
   post '/spotify/queue' do
-    headers 'Access-Control-Allow-Origin' => '*',
-            'Access-Control-Allow-Methods' => ['OPTIONS', 'GET', 'POST']
+    headers 'Access-Control-Allow-Origin' => 'http://localhost:9000',
+            'Access-Control-Allow-Methods' => ['POST']
     Flower::SpotifyCommand.add_to_queue params[:uri], 'web'
     ""
   end
 
   get '/spotify/queue' do
+    headers 'Access-Control-Allow-Origin' => 'http://localhost:9000',
+            'Access-Control-Allow-Methods' => ['GET']
     content_type :json
     Flower::SpotifyCommand.queue.map(&:pretty).to_json
   end
