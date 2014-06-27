@@ -33,6 +33,16 @@ class WebApp < Sinatra::Base
     redirect '/'
   end
 
+  get '/volume' do
+    content_type :json
+    {volume: Volume.current_volume}.to_json
+  end
+
+  post '/volume' do
+    Volume.set_volume params[:volume]
+    ""
+  end
+
   get '/spotify' do
     erb :spotify
   end

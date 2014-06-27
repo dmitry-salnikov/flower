@@ -12,12 +12,21 @@ class Volume < Flower::Command
       say_current_vol(message)
     end
   end
-  
+
   def self.description
     "+'s or -'s. The more the merrier."
   end
 
+  def self.current_volume
+    `osascript -e 'get output volume of (get volume settings)'`.strip.to_i
+  end
+
+  def self.set_volume(volume)
+    system("osascript -e 'set volume output volume #{volume}'")
+  end
+
   private
+
   def self.validate_message(up_or_down)
     up_or_down =~ /^[\+]+$/ or up_or_down =~ /^[\-]+$/
   end
@@ -31,11 +40,7 @@ class Volume < Flower::Command
     end
     new_volume = 0 if new_volume < 0
     new_volume = 100 if new_volume > 100
-    system("osascript -e 'set volume output volume #{new_volume}'")
-  end
-
-  def self.current_volume
-    `osascript -e 'get output volume of (get volume settings)'`.strip.to_i
+    set_volume(new_volume)
   end
 
   def self.say_current_vol(flower)
