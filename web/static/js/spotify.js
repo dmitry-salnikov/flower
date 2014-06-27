@@ -1,8 +1,9 @@
 /*global define:true */
-define(["jquery","moment"],function($) {
+define(["jquery","moment", "knob"],function($) {
     "use strict";
-    var queue_timer = null,
-        track_timer = null;
+    var queue_timer  = null,
+        track_timer  = null,
+        volume_timer = null;
 
     function queue(){
         $.get("/spotify/queue").success(function(data){
@@ -12,6 +13,17 @@ define(["jquery","moment"],function($) {
         });
         queue_timer = setTimeout(function(){
             queue();}, 5000);
+    }
+
+    function currentVolume(){
+        $.get("/volume").success(function(data){
+            var knob = $('.volume');
+            if (knob.val() != data.volume) {
+                knob.val(data.volume).trigger('change');
+            };
+        });
+        volume_timer = setTimeout(function(){
+            currentVolume();}, 5000);
     }
 
     function currentTrack(){
@@ -77,5 +89,13 @@ define(["jquery","moment"],function($) {
         search($("#track").val());
         currentTrack();
         queue();
+        currentVolume();
+        $(".volume").knob({
+            "release": function(volume){
+                $.post("/volume",{
+                    volume: volume
+                })
+            }
+        });
     });
 });
