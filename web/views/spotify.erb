@@ -42,7 +42,7 @@
                 <input type="text" value="0" class="volume" data-fgColor="#2bba78" data-angleOffset="-125" data-angleArc="250">
                 <h2><i class="fa fa-music"></i> Current queue</h2>
                 <ol>
-                    <% Flower::Spotbot.queue.each do |track| %>
+                    <% Spotbot.queue.each do |track| %>
                         <li><%= track %></li>
                     <% end %>
                 </ol>
