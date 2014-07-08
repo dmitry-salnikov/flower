@@ -9,7 +9,7 @@ define(["jquery","moment", "knob"],function($) {
     function queue(){
         $.get(url + "/queue/tracks").success(function(data){
             $("#queue ol").html($(data).map(function(){
-                return "<li><span>" + this + "</span></li>";
+                return "<li><span>" + titleFromJSON(this) + "</span></li>";
             }).get());
         });
         queue_timer = setTimeout(function(){
@@ -30,7 +30,7 @@ define(["jquery","moment", "knob"],function($) {
     function currentTrack(){
         $.get(url + "/player/track").success(function(data){
             if(!$.isEmptyObject(data) && data.title){
-                $("#track-info").text(data.artists.join(", ") + " – " + data.title);
+                $("#track-info").text(titleFromJSON(data));
             }else{
                 $("#track-info").text("");
             }
@@ -78,7 +78,14 @@ define(["jquery","moment", "knob"],function($) {
         $("#track").val(filterSearch);
         search(filterSearch);
     }
+
+    function titleFromJSON(json){
+        return json.artists.join(", ") + " – " + json.title
+    }
+
     $(function(){
+        url = $('body').data('url')
+        queue();
         $("input[type=text]").on("keyup",function(){
             search($("#track").val());
         });
@@ -92,9 +99,7 @@ define(["jquery","moment", "knob"],function($) {
         });
         search($("#track").val());
         currentTrack();
-        queue();
         currentVolume();
-        url = $('body').data('url')
         $(".volume").knob({
             "release": function(volume){
                 $.post("/volume",{
