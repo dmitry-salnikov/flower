@@ -3,10 +3,11 @@ define(["jquery","moment", "knob"],function($) {
     "use strict";
     var queue_timer  = null,
         track_timer  = null,
-        volume_timer = null;
+        volume_timer = null,
+        url          = null;
 
     function queue(){
-        $.get("/spotify/queue").success(function(data){
+        $.get(url + "/queue/tracks").success(function(data){
             $("#queue ol").html($(data).map(function(){
                 return "<li><span>" + this + "</span></li>";
             }).get());
@@ -27,9 +28,9 @@ define(["jquery","moment", "knob"],function($) {
     }
 
     function currentTrack(){
-        $.get("/spotify/track").success(function(data){
-            if(!$.isEmptyObject(data)){
-                $("#track-info").text(data.track);
+        $.get(url + "/player/track").success(function(data){
+            if(!$.isEmptyObject(data) && data.title){
+                $("#track-info").text(data.artists.join(", ") + " – " + data.title);
             }else{
                 $("#track-info").text("");
             }
@@ -66,7 +67,10 @@ define(["jquery","moment", "knob"],function($) {
         });
     }
     function player(action){
-        $.post("/spotify/player/"+action);
+        $.ajax({
+            url: url + "/player/"+action,
+            type: 'PUT'
+        });
     }
 
     function setFilter(filter){
@@ -90,6 +94,7 @@ define(["jquery","moment", "knob"],function($) {
         currentTrack();
         queue();
         currentVolume();
+        url = $('body').data('url')
         $(".volume").knob({
             "release": function(volume){
                 $.post("/volume",{

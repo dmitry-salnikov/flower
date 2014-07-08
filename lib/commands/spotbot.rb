@@ -76,7 +76,7 @@ class Spotbot < Flower::Command
   private
 
   def self.connection
-    @connection ||= Faraday.new(:url => 'http://localhost:3030') do |conn|
+    @connection ||= Faraday.new(:url => Flower::Config.spotbot_url) do |conn|
       conn.request :url_encoded
       conn.response :json, :content_type => /\bjson$/
       conn.adapter  Faraday.default_adapter  # make requests with Net::HTTP
