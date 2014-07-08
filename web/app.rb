@@ -51,13 +51,13 @@ class WebApp < Sinatra::Base
     headers 'Access-Control-Allow-Origin' => 'http://localhost:9000',
             'Access-Control-Allow-Methods' => ['GET']
     content_type :json
-    { track: Flower::Spotbot.current_track }.to_json
+    { track: Spotbot.current_track }.to_json
   end
 
   post '/spotify/queue' do
     headers 'Access-Control-Allow-Origin' => 'http://localhost:9000',
             'Access-Control-Allow-Methods' => ['POST']
-    Flower::Spotbot.queue_track params[:uri]
+    Spotbot.queue_track params[:uri]
     ""
   end
 
@@ -65,21 +65,21 @@ class WebApp < Sinatra::Base
     headers 'Access-Control-Allow-Origin' => 'http://localhost:9000',
             'Access-Control-Allow-Methods' => ['GET']
     content_type :json
-    Flower::Spotbot.queue.to_json
+    Spotbot.queue.to_json
   end
 
   post '/spotify/player/play' do
-    Flower::Spotbot.play
+    Spotbot.play
     ""
   end
 
   post '/spotify/player/pause' do
-    Flower::Spotbot.pause
+    Spotbot.pause
     ""
   end
 
   post '/spotify/player/next' do
-    Flower::Spotbot.play_next
+    Spotbot.play_next
     ""
   end
 
