@@ -1,6 +1,5 @@
 source 'https://rubygems.org'
 gem "rake",         "~> 0.9.2"
-gem "rb-appscript", "~> 0.6.1"
 gem 'nokogiri',     "~> 1.5.0"
 
 gem 'em-eventsource'
@@ -16,9 +15,6 @@ gem 'google-search'
 gem 'redistat'
 
 gem 'scout_api'
-
-gem 'hallon'
-gem 'hallon-openal'
 
 gem 'instagram'
 
@@ -39,3 +35,5 @@ platforms :ruby_18 do
 end
 
 gem 'activesupport'
+
+gem 'faraday_middleware'

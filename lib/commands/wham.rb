@@ -9,10 +9,9 @@ class Wham < Flower::Command
 
   def self.respond(message)
     if message.command == "WHAM"
-      track = SpotifyCommand.get_track WHAM_URI, "Billskog"
-      SpotifyCommand.play_track(track)
+      Spotbot.play_track(WHAM_URI)
     else
-      SpotifyCommand.add_to_queue WHAM_URI, 'Billskog'
+      Spotbot.queue_track WHAM_URI
     end
     message.say("Hell yeah!")
   end
