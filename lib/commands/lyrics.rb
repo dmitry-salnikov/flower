@@ -25,8 +25,6 @@ class Lyrics < Flower::Command
   end
 
   def self.get_current_song
-    if SpotifyCommand.current_track
-      "#{SpotifyCommand.current_track.artist} #{SpotifyCommand.current_track.name}"
-    end
+    Spotbot.current_track
   end
 end
