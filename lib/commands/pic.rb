@@ -24,7 +24,7 @@ class Pic < Flower::Command
       end
       message.say(image)
     rescue NoMethodError
-      flower.say("sorry, no matches")
+      message.say("sorry, no matches")
     end
   end
 
