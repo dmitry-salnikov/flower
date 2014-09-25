@@ -32,7 +32,7 @@ class Spotbot < Flower::Command
       else
         if message.argument.match(/\.*\:playlist\:|\.*\:album\:/)
           playlist = connection.post('playlist', uri: message.argument).body
-          message.say(playlist)
+          message.say("Playing from playlist #{playlist["playlist"]}")
         else
           play_track message.argument
         end
