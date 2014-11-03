@@ -13,7 +13,6 @@ class Flower
   require File.expand_path(File.join(File.dirname(__FILE__), 'rest'))
   require File.expand_path(File.join(File.dirname(__FILE__), 'command'))
   require File.expand_path(File.join(File.dirname(__FILE__), 'config'))
-  require File.expand_path(File.join(File.dirname(__FILE__), 'stats'))
   require File.expand_path(File.join(File.dirname(__FILE__), '..', 'web', 'app'))
 
   COMMANDS = {} # We are going to load available commands in here
@@ -62,7 +61,6 @@ class Flower
         end
         unless message.from_self? || message.internal
           Flower::Command.trigger_listeners(sub_message)
-          Flower::Command.register_stats(sub_message)
         end
       end
     end
