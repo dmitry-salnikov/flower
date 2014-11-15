@@ -94,14 +94,4 @@ class WebApp < Sinatra::Base
       SoundCommand.subclasses.include? klass
     end.keys
   end
-
-  def sound_commands_by_popularity
-    sound_commands.sort_by {|cmd| -stats[cmd].to_i }
-  end
-
-  def stats
-    @stats ||= Flower::Stats.find("commands", 1000.days.ago, 1.hour.from_now).total.select do |cmd, total|
-      sound_commands.include?(cmd)
-    end
-  end
 end

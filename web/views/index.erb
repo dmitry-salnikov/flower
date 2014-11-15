@@ -27,7 +27,7 @@
         <div class="row">
           <div class="span12 commands">
             <h2>They took our jobs!</h2>
-            <% bang(sound_commands_by_popularity).each do |cmd| %>
+            <% bang(sound_commands).each do |cmd| %>
               <input type="submit" class="btn btn-large btn-<%= %w(default primary info danger success warning inverse).sample %>" name="command" value="<%= cmd %>" />
             <% end %>
           </div>
