@@ -35,11 +35,6 @@ class Flower::Command
     end
   end
 
-  def self.register_stats(message)
-    Flower::Stats.store_leaderboard_stat(message)
-    Flower::Stats.store_command_stat(message)
-  end
-
   def self.trigger_listeners(message)
     return false if Flower::LISTENERS.empty?
     Flower::LISTENERS.map do |regexp, command|
