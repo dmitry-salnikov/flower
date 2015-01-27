@@ -22,3 +22,6 @@
   tumblr_url: "tumblr.tumblr.com"
   github_token: 'xxxx'
   github_user: 'mynewsdesk'
+  semaphore:
+    hash_id: 'yyyy'
+    auth_token: 'yyyy'
