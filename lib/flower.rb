@@ -11,7 +11,6 @@ class Flower
   require_relative 'config'
   require_relative 'service'
   require_relative 'command'
-  require_relative 'stats'
   require_relative '../web/app'
 
   COMMANDS  = {} # We are going to load available commands in here

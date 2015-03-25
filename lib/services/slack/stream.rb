@@ -26,7 +26,9 @@ class Flower::Services::Slack
     private
 
     def stream_url
-      SlackRTM.get_url(token: api_token)
+      req = Typhoeus::Request.post("https://slack.com/api/rtm.start", body: URI.encode_www_form(token: api_token))
+      body = JSON.parse req.body
+      URI(body['url'])
     end
   end
 end
