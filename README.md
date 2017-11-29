@@ -1,4 +1,4 @@
-# No longer used so archiving this
+# Archived since it's no longer used
 
 # Flower
 
